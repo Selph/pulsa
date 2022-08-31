@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 // This is team member Abel
 // This is team member Gylfi
-
+// This is team member Daníel
 @SpringBootApplication
 public class HugboVerkefniApplication {
 
