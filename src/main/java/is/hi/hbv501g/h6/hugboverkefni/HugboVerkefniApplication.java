@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 // This is team member Abel
 // This is team member Gylfi
-
+// This is team member Daníel
 @SpringBootApplication
 @RestController
 public class HugboVerkefniApplication {
