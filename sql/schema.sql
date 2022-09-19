@@ -35,7 +35,6 @@ CREATE TABLE IF NOT EXISTS replies (
     creator serial not null,
     created TIMESTAMP with time zone not null default current_timestamp,
     updated TIMESTAMP with time zone not null default current_timestamp,
-        foreign key(replies) references replies(id),
         foreign key(creator) references users(id)
 );
 
@@ -43,7 +42,7 @@ INSERT INTO replies (post,vote,voted,replies,creator) VALUES (
                                                               'Sammála þessu!',
                                                               0,
                                                               '{}',
-                                                              [],
+                                                              array[]::integer[],
                                                               1
                                                              );
 
@@ -54,16 +53,15 @@ CREATE TABLE IF NOT EXISTS posts
     post    varchar(2048)            not null check (post <> ''),
     vote    int                      not null,
     voted   jsonb                    not null,
-    replies serial[]                 not null,
+    replies integer[]                not null,
     image   character varying(800),
     audio   character varying(800),
     sub     serial                   not null,
     creator serial                   not null,
     created TIMESTAMP with time zone not null default current_timestamp,
     updated TIMESTAMP with time zone not null default current_timestamp,
-    foreign key (sub) references subs (id),
-    foreign key (replies) references replies (id),
-    foreign key (creator) references users (id)
+        foreign key (sub) references subs (id),
+        foreign key (creator) references users (id)
 );
 
 INSERT INTO posts (title,post,vote,voted,replies,sub,creator) VALUES (
@@ -71,7 +69,7 @@ INSERT INTO posts (title,post,vote,voted,replies,sub,creator) VALUES (
                                                                       'Mér finnst að vegan kjöt ætti að heita gjöt.',
                                                                       0,
                                                                       '{}',
-                                                                      [1],
+                                                                      ARRAY [1],
                                                                       2,
                                                                       1
                                                                      );
