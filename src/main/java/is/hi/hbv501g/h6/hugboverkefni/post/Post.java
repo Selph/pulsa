@@ -5,11 +5,10 @@ import is.hi.hbv501g.h6.hugboverkefni.user.User;
 public class Post extends Message {
     private String title;
 
-    public Post createPost(String title, Content content, User user) {
+    public Post(String title, Content content, User user) {
         this.title = title;
-        this.setUser(user);
         this.setContent(content);
-        return this;
+        this.setUser(user);
     }
 
     public String getTitle() {
