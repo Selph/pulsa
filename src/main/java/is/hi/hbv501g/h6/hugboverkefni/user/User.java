@@ -1,12 +1,13 @@
 package is.hi.hbv501g.h6.hugboverkefni.user;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
+@Embeddable
 public class User {
     @Id
     @SequenceGenerator(
@@ -18,26 +19,35 @@ public class User {
             strategy = GenerationType.SEQUENCE,
             generator = "user_sequence"
     )
-    private Long id;
+    private Long user_id;
     private String userName;
     private String realName;
     private String avatar;
     private String email;
 
-    @Type(type = "int-array")
-    @Column(columnDefinition = "integer[]")
-    private int[] subs;
+    @ElementCollection
+    private List<Integer> subs = new ArrayList<Integer>();
     private LocalDate created;
 
     public User() {
     }
 
-    public Long getId() {
-        return id;
+    public User(Long user_id, String userName, String realName, String avatar, String email, List<Integer> subs, LocalDate created) {
+        this.user_id = user_id;
+        this.userName = userName;
+        this.realName = realName;
+        this.avatar = avatar;
+        this.email = email;
+        this.subs = subs;
+        this.created = created;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long id) {
+        this.user_id = id;
     }
 
     public String getUserName() {
