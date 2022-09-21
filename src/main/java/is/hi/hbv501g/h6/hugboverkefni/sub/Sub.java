@@ -1,19 +1,13 @@
 package is.hi.hbv501g.h6.hugboverkefni.sub;
 
-import com.vladmihalcea.hibernate.type.array.IntArrayType;
-import com.vladmihalcea.hibernate.type.json.JsonType;
-import is.hi.hbv501g.h6.hugboverkefni.superClasses.Message;
 import is.hi.hbv501g.h6.hugboverkefni.user.User;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
-@TypeDef(name = "json", typeClass = JsonType.class)
-@TypeDef(name = "int-array", typeClass = IntArrayType.class)
 public class Sub {
     @Id
     @SequenceGenerator(
@@ -26,22 +20,27 @@ public class Sub {
             generator = "sub_sequence"
     )
 
-    private Long id;
+    private Long subId;
     private String name;
-    @Type(type = "json")
-    @Column(columnDefinition = "jsonb")
-    private ArrayList<User> followers;
+
+    private String slug;
+    @ElementCollection
+    private List<User> followers = new ArrayList<>();
     private Integer followerCount;
 
     public Sub() {
     }
 
+    public Sub(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
-        return id;
+        return subId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.subId = id;
     }
 
     public String getName() {
@@ -52,11 +51,11 @@ public class Sub {
         this.name = name;
     }
 
-    public ArrayList<User> getFollowers() {
+    public List<User> getFollowers() {
         return followers;
     }
 
-    public void setFollowers(ArrayList<User> followers) {
+    public void setFollowers(List<User> followers) {
         this.followers = followers;
     }
 
@@ -66,5 +65,21 @@ public class Sub {
 
     public void setFollowerCount(Integer followerCount) {
         this.followerCount = followerCount;
+    }
+
+    public Long getSubId() {
+        return subId;
+    }
+
+    public void setSubId(Long subId) {
+        this.subId = subId;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 }
