@@ -1,4 +1,4 @@
-package is.hi.hbv501g.h6.hugboverkefni.superClasses;
+package is.hi.hbv501g.h6.hugboverkefni.util;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,7 +16,7 @@ public class Content {
             strategy = GenerationType.SEQUENCE,
             generator = "content_sequence"
     )
-    private Long id;
+    private Long content_id;
     private String text;
     private String image;
     private String audio;
@@ -26,10 +26,11 @@ public class Content {
     public Content() {
     }
 
-    public Content(String text, String image, String audio) {
+    public Content(String text, String image, String audio, LocalDate date) {
         this.text = text;
         this.image = image;
         this.audio = audio;
+        this.created = date;
     }
 
     public String getText() {
@@ -56,12 +57,12 @@ public class Content {
         this.audio = audio;
     }
 
-    public Long getId() {
-        return id;
+    public Long getContent_id() {
+        return content_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setContent_id(Long id) {
+        this.content_id = id;
     }
 
     public LocalDate getCreated() {

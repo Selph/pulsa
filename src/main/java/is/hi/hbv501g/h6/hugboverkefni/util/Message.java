@@ -1,38 +1,30 @@
-package is.hi.hbv501g.h6.hugboverkefni.superClasses;
+package is.hi.hbv501g.h6.hugboverkefni.util;
 
-import com.vladmihalcea.hibernate.type.array.IntArrayType;
-import com.vladmihalcea.hibernate.type.json.JsonType;
-import is.hi.hbv501g.h6.hugboverkefni.superClasses.Content;
 import is.hi.hbv501g.h6.hugboverkefni.user.User;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.json.JSONObject;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @MappedSuperclass
-@TypeDef(name = "json", typeClass = JsonType.class)
-@TypeDef(name = "int-array", typeClass = IntArrayType.class)
 public abstract class Message {
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "content_id")
     private Content content;
-    @ManyToOne
-    @JoinColumn(name = "creator_user_id")
+    @ManyToOne(cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "user_id")
     private User creator;
 
+    @Transient
     private Integer vote;
 
-    @Type(type = "json")
-    @Column(columnDefinition = "jsonb")
-    private JSONObject voted;
+    @ElementCollection
+    private List<Voter> voted = new ArrayList<>();
 
-    @Type(type = "int-array")
-    @Column(columnDefinition = "integer[]")
-    private int[] replies;
+    @ElementCollection
+    private List<Integer> replies = new ArrayList<>();
 
     private LocalDate created;
 
@@ -44,11 +36,11 @@ public abstract class Message {
         this.content = content;
     }
 
-    public int[] getReplies() {
+    public List<Integer> getReplies() {
         return replies;
     }
 
-    public void setReplies(int[] replies) {
+    public void setReplies(List<Integer> replies) {
         this.replies = replies;
     }
 
@@ -61,18 +53,25 @@ public abstract class Message {
     }
 
     public Integer getVote() {
-        return vote;
+        int votes = 0;
+        while (this.getVoted().iterator().hasNext())
+            if (this.getVoted().iterator().next().isVote()) {
+                votes++;
+            } else {
+                votes--;
+            }
+        return votes;
     }
 
     public void setVote(Integer vote) {
         this.vote = vote;
     }
 
-    public JSONObject getVoted() {
+    public List<Voter> getVoted() {
         return voted;
     }
 
-    public void setVoted(JSONObject voted) {
+    public void setVoted(List<Voter> voted) {
         this.voted = voted;
     }
 
