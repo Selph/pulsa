@@ -1,10 +1,13 @@
 package is.hi.hbv501g.h6.hugboverkefni.post;
 
-import is.hi.hbv501g.h6.hugboverkefni.superClasses.Content;
-import is.hi.hbv501g.h6.hugboverkefni.superClasses.Message;
+import is.hi.hbv501g.h6.hugboverkefni.util.Content;
+import is.hi.hbv501g.h6.hugboverkefni.util.Message;
 import is.hi.hbv501g.h6.hugboverkefni.user.User;
+import is.hi.hbv501g.h6.hugboverkefni.util.Voter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table
@@ -19,13 +22,27 @@ public class Post extends Message {
             strategy = GenerationType.SEQUENCE,
             generator = "post_sequence"
     )
-    private Long id;
+    private Long postId;
     private String title;
 
     private Integer sub;
 
-    public Post() {
+    public Post() {}
 
+    public Post(String title,
+                Integer sub,
+                Content content,
+                User creator,
+                List<Voter> voted,
+                List<Integer> replies,
+                LocalDate created) {
+        this.title = title;
+        this.sub = sub;
+        this.setContent(content);
+        this.setCreator(creator);
+        this.setVoted(voted);
+        this.setReplies(replies);
+        this.setCreated(created);
     }
 
     public String getTitle() {
@@ -36,12 +53,12 @@ public class Post extends Message {
         this.title = title;
     }
 
-    public Long getId() {
-        return id;
+    public Long getPostId() {
+        return postId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPostId(Long id) {
+        this.postId = id;
     }
 
     public Integer getSub() {
