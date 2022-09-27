@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Post Genesis</title>
+</head>
+<body>
+
+<form action="#" th:action="@{/newPost}"  method="post">
+  <label for="title">Title</label>
+  <input type="text" field="*{title}" name="title" id="title" placeholder="Title">
+  <label for="text">Text</label>
+  <input type="text" field="*{text}" name="text" id="text" placeholder="Whats on your mind">
+
+
+  <input type="submit" value="Create new post">
+</form>
+
+</body>
+</html>

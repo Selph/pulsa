@@ -13,9 +13,6 @@ public class HugboVerkefniApplication {
         SpringApplication.run(HugboVerkefniApplication.class, args);
     }
 
-    @GetMapping
-    public String Hello() {
-        return "Hello World";
-    }
+
 
 }
