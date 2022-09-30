@@ -63,7 +63,7 @@ public class HomeController {
     public String postPage(@PathVariable("id") long id, Model model) {
         Optional<Post> post = postService.findPostById(id);
         if(!post.isPresent()) return "postNotFound";
-        model.addAttribute("post", post);
+        model.addAttribute("post", post.get());
         return "postPage";
     }
 }
