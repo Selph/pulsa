@@ -25,12 +25,12 @@ public class Post extends Message {
     private Long postId;
     private String title;
 
-    private Integer sub;
+    private Long sub;
 
     public Post() {}
 
     public Post(String title,
-                Integer sub,
+                Long sub,
                 Content content,
                 User creator,
                 List<Voter> voted,
@@ -61,11 +61,11 @@ public class Post extends Message {
         this.postId = id;
     }
 
-    public Integer getSub() {
+    public Long getSub() {
         return sub;
     }
 
-    public void setSub(Integer sub) {
+    public void setSub(Long sub) {
         this.sub = sub;
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PostService {
@@ -39,5 +40,9 @@ public class PostService {
             throw new IllegalStateException("post with id " + postId + " does not exist");
         }
         postRepository.deleteById(postId);
+    }
+
+    public Optional<Post> findPostById(Long postId) {
+        return postRepository.findById(postId);
     }
 }

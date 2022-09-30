@@ -22,7 +22,7 @@ public class PostConfig {
             User user = new User(1L, "gervinotandi1", "gervimadur", "mynd.jpg", "net@fa.ng", new ArrayList<Integer>(), date);
             Post Jonathan = new Post(
                     "Test titill",
-                    1,
+                    (long)1,
                     content,
                     user,
                     new ArrayList<Voter>(),
