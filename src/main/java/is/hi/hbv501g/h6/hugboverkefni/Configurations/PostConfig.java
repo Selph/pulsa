@@ -21,7 +21,7 @@ public class PostConfig {
             Sub sub = new Sub("Test");
             LocalDateTime date = LocalDateTime.now();
             Content content = new Content("Hallo Heimur", "mynd.jpg", "hljod.wav");
-            User user = new User(1L, "gervinotandi1", "gervimadur", "mynd.jpg", "net@fa.ng", new ArrayList<Sub>(), date);
+            User user = new User(1L, "gervinotandi1", "gervimadur", "mynd.jpg", "net@fa.ng", new ArrayList<Sub>());
             Post Jonathan = new Post(
                     "Test titill",
                     sub,
