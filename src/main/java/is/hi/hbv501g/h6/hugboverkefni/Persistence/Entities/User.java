@@ -34,15 +34,15 @@ public class User {
     public User() {
     }
 
-    public User(Long user_id, String userName, String realName, String avatar, String email, List<Sub> subs, LocalDateTime created) {
+    public User(Long user_id, String userName, String realName, String avatar, String email, List<Sub> subs) {
         this.user_id = user_id;
         this.userName = userName;
         this.realName = realName;
         this.avatar = avatar;
         this.email = email;
         this.subs = subs;
-        this.created = created;
         this.setCreated();
+        this.setUpdated();
     }
 
     public Long getUser_id() {

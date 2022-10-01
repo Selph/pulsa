@@ -17,9 +17,8 @@ public class ReplyConfig {
     @Bean
     CommandLineRunner commandLineReplyRunner(ReplyRepository replyRepository, UserRepository userRepository) {
         return args -> {
-            LocalDateTime date = LocalDateTime.now();
             Content content = new Content("Fyrsta comment", "mynd.jpg", "hljod.wav");
-            User user = new User(1L, "gervinotandi2", "gervikona", "mynd.jpg", "net@fa.ng", new ArrayList<Sub>(), date);
+            User user = new User(1L, "gervinotandi2", "gervikona", "mynd.jpg", "net@fa.ng", new ArrayList<Sub>());
             Reply Joseph = new Reply(
                     content,
                     user,
