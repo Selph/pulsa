@@ -32,9 +32,10 @@ public class ReplyService {
         replyRepository.save(reply);
     }
 
-    public Optional<Reply> findReplyById(Reply reply) {
-        return replyRepository.findById(reply.getReplyId());
+    public Optional<Reply> findReplyById(Long id) {
+        return replyRepository.findById(id);
     }
+
 
     public void deleteReply(Reply reply) {
         boolean exists = replyRepository.existsById(reply.getReplyId());

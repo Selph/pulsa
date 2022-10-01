@@ -54,15 +54,11 @@ public class PostController {
         if(!post.isPresent()) return "postNotFound";
 
         List<Reply> postReplies = post.get().getReplies();
-        List<Reply> allReplies = new ArrayList<Reply>();
-        postReplies.forEach(item -> {
-            Optional<Reply> reply = replyService.findReplyById(item);
-            if(reply.isPresent()) allReplies.add(reply.get());
-        });
 
         model.addAttribute("post", post.get());
-        model.addAttribute("allReplies", allReplies);
+        model.addAttribute("postReplies", postReplies);
         model.addAttribute("reply", new Reply());
+
         return "postPage";
     }
 }

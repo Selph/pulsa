@@ -40,4 +40,19 @@ public class ReplyController {
         postService.addNewPost(post.get());
         return "redirect:/post/" + post.get().getPostId();
     }
+
+    @RequestMapping(value = "/post/{postId}/{id}", method = RequestMethod.POST)
+    public String nestedReply(@PathVariable("id") long id, @PathVariable("postId") long postId, Reply reply, Content content, BindingResult result, Model model) {
+        Optional<Reply> prevReply = replyService.findReplyById(id);
+
+        if(!prevReply.isPresent()) return "postNotFound";
+
+        reply.setContent(content);
+        replyService.addNewReply(reply);
+
+        prevReply.get().addReply(reply);
+        replyService.addNewReply(prevReply.get());
+
+        return "redirect:/post/" + postId;
+    }
 }
