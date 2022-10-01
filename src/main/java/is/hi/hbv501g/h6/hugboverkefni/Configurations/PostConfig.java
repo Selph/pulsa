@@ -1,9 +1,8 @@
-package is.hi.hbv501g.h6.hugboverkefni.post;
+package is.hi.hbv501g.h6.hugboverkefni.Configurations;
 
-import is.hi.hbv501g.h6.hugboverkefni.user.UserRepository;
-import is.hi.hbv501g.h6.hugboverkefni.util.Content;
-import is.hi.hbv501g.h6.hugboverkefni.user.User;
-import is.hi.hbv501g.h6.hugboverkefni.util.Voter;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.*;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.PostRepository;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +25,7 @@ public class PostConfig {
                     content,
                     user,
                     new ArrayList<Voter>(),
-                    new ArrayList<Long>(),
+                    new ArrayList<Reply>(),
                     date
             );
             userRepository.save(user);

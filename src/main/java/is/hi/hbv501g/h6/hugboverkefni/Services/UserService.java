@@ -1,12 +1,14 @@
-package is.hi.hbv501g.h6.hugboverkefni.user;
+package is.hi.hbv501g.h6.hugboverkefni.Services;
 
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Service
 public class UserService {
 
     private final UserRepository userRepository;

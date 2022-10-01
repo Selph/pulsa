@@ -1,4 +1,4 @@
-package is.hi.hbv501g.h6.hugboverkefni.util;
+package is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;

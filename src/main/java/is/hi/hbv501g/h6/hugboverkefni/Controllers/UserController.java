@@ -1,5 +1,7 @@
-package is.hi.hbv501g.h6.hugboverkefni.user;
+package is.hi.hbv501g.h6.hugboverkefni.Controllers;
 
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
+import is.hi.hbv501g.h6.hugboverkefni.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

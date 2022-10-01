@@ -1,6 +1,4 @@
-package is.hi.hbv501g.h6.hugboverkefni.sub;
-
-import is.hi.hbv501g.h6.hugboverkefni.user.User;
+package is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities;
 
 import javax.persistence.*;
 import java.util.ArrayList;

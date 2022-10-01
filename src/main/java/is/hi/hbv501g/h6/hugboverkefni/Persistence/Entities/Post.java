@@ -1,9 +1,6 @@
-package is.hi.hbv501g.h6.hugboverkefni.post;
+package is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities;
 
-import is.hi.hbv501g.h6.hugboverkefni.util.Content;
-import is.hi.hbv501g.h6.hugboverkefni.util.Message;
-import is.hi.hbv501g.h6.hugboverkefni.user.User;
-import is.hi.hbv501g.h6.hugboverkefni.util.Voter;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.MappedSuperclass.Message;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -34,7 +31,7 @@ public class Post extends Message {
                 Content content,
                 User creator,
                 List<Voter> voted,
-                List<Long> replies,
+                List<Reply> replies,
                 LocalDate created) {
         this.title = title;
         this.sub = sub;

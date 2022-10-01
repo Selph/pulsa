@@ -1,6 +1,9 @@
-package is.hi.hbv501g.h6.hugboverkefni.util;
+package is.hi.hbv501g.h6.hugboverkefni.Persistence.MappedSuperclass;
 
-import is.hi.hbv501g.h6.hugboverkefni.user.User;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Content;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Reply;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Voter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -21,10 +24,12 @@ public abstract class Message {
     private Integer vote;
 
     @ElementCollection
+    @JoinColumn(name = "id")
     private List<Voter> voted = new ArrayList<>();
 
     @ElementCollection
-    private List<Long> replies = new ArrayList<>();
+    @JoinColumn(name = "replyId")
+    private List<Reply> replies = new ArrayList<>();
 
     private LocalDate created;
 
@@ -36,15 +41,15 @@ public abstract class Message {
         this.content = content;
     }
 
-    public List<Long> getReplies() {
+    public List<Reply> getReplies() {
         return replies;
     }
 
-    public void setReplies(List<Long> replies) {
+    public void setReplies(List<Reply> replies) {
         this.replies = replies;
     }
 
-    public void addReply(Long replyId) { this.replies.add(replyId); }
+    public void addReply(Reply reply) { this.replies.add(reply); }
     public User getCreator() {
         return creator;
     }

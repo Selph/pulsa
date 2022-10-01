@@ -1,13 +1,13 @@
-package is.hi.hbv501g.h6.hugboverkefni.sub;
+package is.hi.hbv501g.h6.hugboverkefni.Services;
 
-import is.hi.hbv501g.h6.hugboverkefni.user.User;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Sub;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.SubRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
-@Component
+@Service
 public class SubService {
 
     private final SubRepository subRepository;

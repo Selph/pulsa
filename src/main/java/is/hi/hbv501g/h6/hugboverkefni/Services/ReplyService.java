@@ -1,12 +1,14 @@
-package is.hi.hbv501g.h6.hugboverkefni.reply;
+package is.hi.hbv501g.h6.hugboverkefni.Services;
 
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Reply;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.ReplyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Service
 public class ReplyService {
 
     private final ReplyRepository replyRepository;
@@ -30,15 +32,15 @@ public class ReplyService {
         replyRepository.save(reply);
     }
 
-    public Optional<Reply> findReplyById(Long id) {
-        return replyRepository.findById(id);
+    public Optional<Reply> findReplyById(Reply reply) {
+        return replyRepository.findById(reply.getReplyId());
     }
 
-    public void deleteReply(Long replyId) {
-        boolean exists = replyRepository.existsById(replyId);
+    public void deleteReply(Reply reply) {
+        boolean exists = replyRepository.existsById(reply.getReplyId());
         if (!exists) {
-            throw new IllegalStateException("reply with id " + replyId + " does not exist");
+            throw new IllegalStateException("reply with id " + reply.getReplyId() + " does not exist");
         }
-        replyRepository.deleteById(replyId);
+        replyRepository.deleteById(reply.getReplyId());
     }
 }

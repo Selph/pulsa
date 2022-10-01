@@ -1,9 +1,6 @@
-package is.hi.hbv501g.h6.hugboverkefni.reply;
+package is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities;
 
-import is.hi.hbv501g.h6.hugboverkefni.util.Content;
-import is.hi.hbv501g.h6.hugboverkefni.util.Message;
-import is.hi.hbv501g.h6.hugboverkefni.user.User;
-import is.hi.hbv501g.h6.hugboverkefni.util.Voter;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.MappedSuperclass.Message;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Table
+@Embeddable
 public class Reply extends Message {
     @Id
     @SequenceGenerator(
@@ -23,7 +21,7 @@ public class Reply extends Message {
             generator = "reply_sequence"
     )
     private Long replyId;
-    public Reply(Content content, User user, List<Voter> voted, List<Long> replies, LocalDate date) {
+    public Reply(Content content, User user, List<Voter> voted, List<Reply> replies, LocalDate date) {
         this.setContent(content);
         this.setCreator(user);
         this.setVoted(voted);
@@ -36,7 +34,7 @@ public class Reply extends Message {
     }
 
     public Long getReplyId() {
-        return replyId;
+        return this.replyId;
     }
 
     public void setReplyId(Long replyId) {

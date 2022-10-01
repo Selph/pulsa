@@ -1,13 +1,12 @@
 package is.hi.hbv501g.h6.hugboverkefni.Controllers;
 
-import is.hi.hbv501g.h6.hugboverkefni.post.Post;
-import is.hi.hbv501g.h6.hugboverkefni.post.PostService;
-import is.hi.hbv501g.h6.hugboverkefni.reply.Reply;
-import is.hi.hbv501g.h6.hugboverkefni.reply.ReplyService;
-import is.hi.hbv501g.h6.hugboverkefni.user.User;
-import is.hi.hbv501g.h6.hugboverkefni.user.UserService;
-import is.hi.hbv501g.h6.hugboverkefni.util.Content;
-import is.hi.hbv501g.h6.hugboverkefni.util.Voter;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Post;
+import is.hi.hbv501g.h6.hugboverkefni.Services.PostService;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Reply;
+import is.hi.hbv501g.h6.hugboverkefni.Services.ReplyService;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
+import is.hi.hbv501g.h6.hugboverkefni.Services.UserService;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Content;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,19 +15,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class HomeController {
+public class MainController {
     private PostService postService;
     private UserService userService;
     private ReplyService replyService;
     @Autowired
-    public HomeController(PostService postService, UserService userService, ReplyService replyService){
+    public MainController(PostService postService, UserService userService, ReplyService replyService){
         this.postService = postService;
         this.userService = userService;
         this.replyService = replyService;
@@ -63,7 +61,7 @@ public class HomeController {
         Optional<Post> post = postService.findPostById(id);
         if(!post.isPresent()) return "postNotFound";
 
-        List<Long> postReplies = post.get().getReplies();
+        List<Reply> postReplies = post.get().getReplies();
         List<Reply> allReplies = new ArrayList<Reply>();
         postReplies.forEach(item -> {
             Optional<Reply> reply = replyService.findReplyById(item);
@@ -82,7 +80,7 @@ public class HomeController {
         if(!post.isPresent()) return "postNotFound";
         reply.setContent(content);
         replyService.addNewReply(reply);
-        post.get().addReply(reply.getReplyId());
+        post.get().addReply(reply);
         postService.addNewPost(post.get());
         return "redirect:/post/" + post.get().getPostId();
     }

@@ -1,9 +1,11 @@
-package is.hi.hbv501g.h6.hugboverkefni.reply;
+package is.hi.hbv501g.h6.hugboverkefni.Configurations;
 
-import is.hi.hbv501g.h6.hugboverkefni.user.UserRepository;
-import is.hi.hbv501g.h6.hugboverkefni.util.Content;
-import is.hi.hbv501g.h6.hugboverkefni.user.User;
-import is.hi.hbv501g.h6.hugboverkefni.util.Voter;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Reply;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.ReplyRepository;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.UserRepository;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Content;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Voter;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +26,7 @@ public class ReplyConfig {
                     content,
                     user,
                     new ArrayList<Voter>(),
-                    new ArrayList<Long>(),
+                    new ArrayList<Reply>(),
                     date
             );
             userRepository.save(user);

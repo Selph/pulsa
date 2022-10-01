@@ -1,5 +1,7 @@
-package is.hi.hbv501g.h6.hugboverkefni.sub;
+package is.hi.hbv501g.h6.hugboverkefni.Configurations;
 
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Sub;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.SubRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
