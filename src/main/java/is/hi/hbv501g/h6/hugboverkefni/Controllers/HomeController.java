@@ -51,14 +51,10 @@ public class HomeController {
 
     @RequestMapping(value = "/newPost", method = RequestMethod.POST)
     public String newPostPOST(Content c, Post p, BindingResult result, Model model){
-        System.out.println(c.getImage());
-        System.out.println(c.getText());
-        System.out.println(c.getAudio());
         User user = userService.getUsers().get(0);
         c.setCreated(LocalDate.now());
         p.setContent(c);
         postService.addNewPost(p);
-        System.out.println(p.getPostId());
         return "redirect:/post/" + p.getPostId();
     }
 
@@ -66,16 +62,14 @@ public class HomeController {
     public String postPage(@PathVariable("id") long id, Model model) {
         Optional<Post> post = postService.findPostById(id);
         if(!post.isPresent()) return "postNotFound";
+
         List<Long> postReplies = post.get().getReplies();
-        System.out.println("Items in post replies: " + postReplies.size());
         List<Reply> allReplies = new ArrayList<Reply>();
         postReplies.forEach(item -> {
-            System.out.println("ITEM IS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " + item);
             Optional<Reply> reply = replyService.findReplyById(item);
             if(reply.isPresent()) allReplies.add(reply.get());
-            System.out.println(reply.get().getContent().getText());
-            System.out.println("REPLY ID: " + reply.get().getReplyId());
         });
+
         model.addAttribute("post", post.get());
         model.addAttribute("allReplies", allReplies);
         model.addAttribute("reply", new Reply());
