@@ -24,11 +24,9 @@ public abstract class Message {
     private Integer vote;
 
     @ElementCollection
-    @JoinColumn(name = "id")
     private List<Voter> voted = new ArrayList<>();
 
     @ElementCollection
-    @JoinColumn(name = "replyId")
     private List<Reply> replies = new ArrayList<>();
 
     private LocalDate created;

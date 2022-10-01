@@ -40,48 +40,4 @@ public class MainController {
 
         return "frontPage";
     }
-
-    @RequestMapping(value = "/newPost", method = RequestMethod.GET)
-    public String newPostGET(Post post){
-
-        return "newPost";
-    }
-
-    @RequestMapping(value = "/newPost", method = RequestMethod.POST)
-    public String newPostPOST(Content c, Post p, BindingResult result, Model model){
-        User user = userService.getUsers().get(0);
-        c.setCreated(LocalDate.now());
-        p.setContent(c);
-        postService.addNewPost(p);
-        return "redirect:/post/" + p.getPostId();
-    }
-
-    @RequestMapping(value = "/post/{id}", method = RequestMethod.GET)
-    public String postPage(@PathVariable("id") long id, Model model) {
-        Optional<Post> post = postService.findPostById(id);
-        if(!post.isPresent()) return "postNotFound";
-
-        List<Reply> postReplies = post.get().getReplies();
-        List<Reply> allReplies = new ArrayList<Reply>();
-        postReplies.forEach(item -> {
-            Optional<Reply> reply = replyService.findReplyById(item);
-            if(reply.isPresent()) allReplies.add(reply.get());
-        });
-
-        model.addAttribute("post", post.get());
-        model.addAttribute("allReplies", allReplies);
-        model.addAttribute("reply", new Reply());
-        return "postPage";
-    }
-
-    @RequestMapping(value = "/post/{id}", method = RequestMethod.POST)
-    public String replyPost(@PathVariable("id") long id, Reply reply, Content content, BindingResult result, Model model) {
-        Optional<Post> post = postService.findPostById(id);
-        if(!post.isPresent()) return "postNotFound";
-        reply.setContent(content);
-        replyService.addNewReply(reply);
-        post.get().addReply(reply);
-        postService.addNewPost(post.get());
-        return "redirect:/post/" + post.get().getPostId();
-    }
 }
