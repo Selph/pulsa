@@ -28,19 +28,34 @@ public class User {
 
     @ElementCollection
     private List<Sub> subs = new ArrayList<Sub>();
+
+    @ElementCollection
+    private List<Post> posts = new ArrayList<Post>();
+
+    @ElementCollection
+    private List<Reply> replies = new ArrayList<Reply>();
     private LocalDateTime created;
     private LocalDateTime updated;
 
     public User() {
     }
 
-    public User(Long user_id, String userName, String realName, String avatar, String email, List<Sub> subs) {
+    public User(Long user_id,
+                String userName,
+                String realName,
+                String avatar,
+                String email,
+                List<Sub> subs,
+                List<Post> posts,
+                List<Reply> replies) {
         this.user_id = user_id;
         this.userName = userName;
         this.realName = realName;
         this.avatar = avatar;
         this.email = email;
         this.subs = subs;
+        this.posts = posts;
+        this.replies = replies;
         this.setCreated();
         this.setUpdated();
     }
@@ -101,11 +116,35 @@ public class User {
         this.subs = subs;
     }
 
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public List<Reply> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<Reply> replies) {
+        this.replies = replies;
+    }
+
     public LocalDateTime getUpdated() {
         return updated;
     }
 
     public void setUpdated() {
         this.updated = LocalDateTime.now();
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public void setUpdated(LocalDateTime updated) {
+        this.updated = updated;
     }
 }

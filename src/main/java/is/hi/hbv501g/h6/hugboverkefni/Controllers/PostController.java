@@ -1,10 +1,10 @@
 package is.hi.hbv501g.h6.hugboverkefni.Controllers;
 
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.*;
-import is.hi.hbv501g.h6.hugboverkefni.Services.PostService;
-import is.hi.hbv501g.h6.hugboverkefni.Services.ReplyService;
-import is.hi.hbv501g.h6.hugboverkefni.Services.SubService;
-import is.hi.hbv501g.h6.hugboverkefni.Services.UserService;
+import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.PostServiceImplementation;
+import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.ReplyServiceImplementation;
+import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.SubServiceImplementation;
+import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,21 +13,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class PostController {
-    private PostService postService;
-    private UserService userService;
-    private ReplyService replyService;
-    private SubService subService;
+    private PostServiceImplementation postService;
+    private UserServiceImplementation userService;
+    private ReplyServiceImplementation replyService;
+    private SubServiceImplementation subService;
 
     @Autowired
-    public PostController(PostService postService, UserService userService, ReplyService replyService, SubService subService){
+    public PostController(PostServiceImplementation postService,
+                          UserServiceImplementation userService,
+                          ReplyServiceImplementation replyService,
+                          SubServiceImplementation subService){
         this.postService = postService;
         this.userService = userService;
         this.replyService = replyService;
@@ -56,15 +57,30 @@ public class PostController {
 
     @RequestMapping(value = "/post/{id}", method = RequestMethod.GET)
     public String postPage(@PathVariable("id") long id, Model model) {
-        Optional<Post> post = postService.findPostById(id);
+        Optional<Post> post = postService.getPostById(id);
         if(!post.isPresent()) return "postNotFound";
 
         List<Reply> postReplies = post.get().getReplies();
+        List<Reply> allReplies = new ArrayList<Reply>();
+        postReplies.forEach(item -> {
+            Optional<Reply> reply = replyService.getReplyById(item.getReplyId());
+            if(reply.isPresent()) allReplies.add(reply.get());
+        });
 
         model.addAttribute("post", post.get());
-        model.addAttribute("postReplies", postReplies);
+        model.addAttribute("allReplies", allReplies);
         model.addAttribute("reply", new Reply());
-
         return "postPage";
+    }
+
+    @RequestMapping(value = "/post/{id}", method = RequestMethod.POST)
+    public String replyPost(@PathVariable("id") long id, Reply reply, Content content, BindingResult result, Model model) {
+        Optional<Post> post = postService.getPostById(id);
+        if(!post.isPresent()) return "postNotFound";
+        reply.setContent(content);
+        replyService.addNewReply(reply);
+        post.get().addReply(reply);
+        postService.addNewPost(post.get());
+        return "redirect:/post/" + post.get().getPostId();
     }
 }
