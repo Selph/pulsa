@@ -34,7 +34,7 @@ public class Post extends Message {
                 Content content,
                 User creator,
                 List<Voter> voted,
-                List<Integer> replies,
+                List<Long> replies,
                 LocalDate created) {
         this.title = title;
         this.sub = sub;

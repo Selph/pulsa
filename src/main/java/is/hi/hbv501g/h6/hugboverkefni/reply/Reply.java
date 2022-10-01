@@ -22,8 +22,8 @@ public class Reply extends Message {
             strategy = GenerationType.SEQUENCE,
             generator = "reply_sequence"
     )
-    private Integer replyId;
-    public Reply(Content content, User user, List<Voter> voted, List<Integer> replies, LocalDate date) {
+    private Long replyId;
+    public Reply(Content content, User user, List<Voter> voted, List<Long> replies, LocalDate date) {
         this.setContent(content);
         this.setCreator(user);
         this.setVoted(voted);
@@ -33,5 +33,13 @@ public class Reply extends Message {
     }
 
     public Reply() {
+    }
+
+    public Long getReplyId() {
+        return replyId;
+    }
+
+    public void setReplyId(Long replyId) {
+        this.replyId = replyId;
     }
 }

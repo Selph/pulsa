@@ -24,7 +24,7 @@ public abstract class Message {
     private List<Voter> voted = new ArrayList<>();
 
     @ElementCollection
-    private List<Integer> replies = new ArrayList<>();
+    private List<Long> replies = new ArrayList<>();
 
     private LocalDate created;
 
@@ -36,14 +36,15 @@ public abstract class Message {
         this.content = content;
     }
 
-    public List<Integer> getReplies() {
+    public List<Long> getReplies() {
         return replies;
     }
 
-    public void setReplies(List<Integer> replies) {
+    public void setReplies(List<Long> replies) {
         this.replies = replies;
     }
 
+    public void addReply(Long replyId) { this.replies.add(replyId); }
     public User getCreator() {
         return creator;
     }

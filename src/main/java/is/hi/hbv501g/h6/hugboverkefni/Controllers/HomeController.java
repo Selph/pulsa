@@ -2,6 +2,8 @@ package is.hi.hbv501g.h6.hugboverkefni.Controllers;
 
 import is.hi.hbv501g.h6.hugboverkefni.post.Post;
 import is.hi.hbv501g.h6.hugboverkefni.post.PostService;
+import is.hi.hbv501g.h6.hugboverkefni.reply.Reply;
+import is.hi.hbv501g.h6.hugboverkefni.reply.ReplyService;
 import is.hi.hbv501g.h6.hugboverkefni.user.User;
 import is.hi.hbv501g.h6.hugboverkefni.user.UserService;
 import is.hi.hbv501g.h6.hugboverkefni.util.Content;
@@ -24,10 +26,12 @@ import java.util.Optional;
 public class HomeController {
     private PostService postService;
     private UserService userService;
+    private ReplyService replyService;
     @Autowired
-    public HomeController(PostService postService, UserService userService){
+    public HomeController(PostService postService, UserService userService, ReplyService replyService){
         this.postService = postService;
         this.userService = userService;
+        this.replyService = replyService;
     }
 
     @RequestMapping("/")
@@ -55,7 +59,6 @@ public class HomeController {
         p.setContent(c);
         postService.addNewPost(p);
         System.out.println(p.getPostId());
-        System.out.println(p.getSub());
         return "redirect:/post/" + p.getPostId();
     }
 
@@ -63,7 +66,30 @@ public class HomeController {
     public String postPage(@PathVariable("id") long id, Model model) {
         Optional<Post> post = postService.findPostById(id);
         if(!post.isPresent()) return "postNotFound";
+        List<Long> postReplies = post.get().getReplies();
+        System.out.println("Items in post replies: " + postReplies.size());
+        List<Reply> allReplies = new ArrayList<Reply>();
+        postReplies.forEach(item -> {
+            System.out.println("ITEM IS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " + item);
+            Optional<Reply> reply = replyService.findReplyById(item);
+            if(reply.isPresent()) allReplies.add(reply.get());
+            System.out.println(reply.get().getContent().getText());
+            System.out.println("REPLY ID: " + reply.get().getReplyId());
+        });
         model.addAttribute("post", post.get());
+        model.addAttribute("allReplies", allReplies);
+        model.addAttribute("reply", new Reply());
         return "postPage";
+    }
+
+    @RequestMapping(value = "/post/{id}", method = RequestMethod.POST)
+    public String replyPost(@PathVariable("id") long id, Reply reply, Content content, BindingResult result, Model model) {
+        Optional<Post> post = postService.findPostById(id);
+        if(!post.isPresent()) return "postNotFound";
+        reply.setContent(content);
+        replyService.addNewReply(reply);
+        post.get().addReply(reply.getReplyId());
+        postService.addNewPost(post.get());
+        return "redirect:/post/" + post.get().getPostId();
     }
 }

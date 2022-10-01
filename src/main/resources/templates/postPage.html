@@ -8,6 +8,34 @@
 		<div th:object="${post}">
 			<h1 th:text="*{title}"></h1>
 			<h3 th:text="*{content.text}"></h3>
+			<p th:text="${post.postId}"></p>
 		</div>
+		<div th:switch="${allReplies}">
+			<ul th:case="*">
+				<li th:each="allReply : ${allReplies}">
+					<p th:text="${allReply.content.text}"></p>
+				</li>
+			</ul>
+		</div>
+		<form action="#" th:action="@{/post/} + ${post.postId}" th:object="${reply}" method="post">
+			<div th:object="${content}">
+				<input
+					type="text"
+					field="*{text}"
+					name="text"
+					id="text"
+					placeholder="Whats on your mind">
+				
+				<label for="text">Audio file</label>
+				<input
+					type="file"
+					field="*{audio}"
+					name="audio"
+					id="audio"
+					accept="audio/*"
+				>
+			</div>
+			<input type="submit" value="Add comment">
+		</form>
 	</body>
 </html>

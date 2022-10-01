@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ReplyService {
@@ -27,6 +28,10 @@ public class ReplyService {
             throw new IllegalStateException("Reply has to have text, image or audio");
         }
         replyRepository.save(reply);
+    }
+
+    public Optional<Reply> findReplyById(Long id) {
+        return replyRepository.findById(id);
     }
 
     public void deleteReply(Long replyId) {

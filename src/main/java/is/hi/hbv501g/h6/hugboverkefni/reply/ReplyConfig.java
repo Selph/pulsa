@@ -24,7 +24,7 @@ public class ReplyConfig {
                     content,
                     user,
                     new ArrayList<Voter>(),
-                    new ArrayList<Integer>(),
+                    new ArrayList<Long>(),
                     date
             );
             userRepository.save(user);
