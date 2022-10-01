@@ -4,6 +4,7 @@ import is.hi.hbv501g.h6.hugboverkefni.Persistence.MappedSuperclass.Message;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -22,24 +23,26 @@ public class Post extends Message {
     private Long postId;
     private String title;
 
-    private Long sub;
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "sub_id")
+    private Sub sub;
 
     public Post() {}
 
     public Post(String title,
-                Long sub,
+                Sub sub,
                 Content content,
                 User creator,
                 List<Voter> voted,
-                List<Reply> replies,
-                LocalDate created) {
+                List<Reply> replies) {
         this.title = title;
         this.sub = sub;
         this.setContent(content);
         this.setCreator(creator);
         this.setVoted(voted);
         this.setReplies(replies);
-        this.setCreated(created);
+        this.setCreated();
+        this.setUpdated();
     }
 
     public String getTitle() {
@@ -58,11 +61,11 @@ public class Post extends Message {
         this.postId = id;
     }
 
-    public Long getSub() {
+    public Sub getSub() {
         return sub;
     }
 
-    public void setSub(Long sub) {
+    public void setSub(Sub sub) {
         this.sub = sub;
     }
 }

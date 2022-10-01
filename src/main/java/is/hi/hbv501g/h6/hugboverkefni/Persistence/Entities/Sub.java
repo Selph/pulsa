@@ -18,7 +18,7 @@ public class Sub {
             generator = "sub_sequence"
     )
 
-    private Long subId;
+    private Long sub_id;
     private String name;
 
     private String slug;
@@ -34,11 +34,11 @@ public class Sub {
     }
 
     public Long getId() {
-        return subId;
+        return sub_id;
     }
 
     public void setId(Long id) {
-        this.subId = id;
+        this.sub_id = id;
     }
 
     public String getName() {
@@ -65,12 +65,12 @@ public class Sub {
         this.followerCount = followerCount;
     }
 
-    public Long getSubId() {
-        return subId;
+    public Long getSub_id() {
+        return sub_id;
     }
 
-    public void setSubId(Long subId) {
-        this.subId = subId;
+    public void setSub_id(Long subId) {
+        this.sub_id = subId;
     }
 
     public String getSlug() {

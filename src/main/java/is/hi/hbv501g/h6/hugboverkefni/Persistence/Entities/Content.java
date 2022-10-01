@@ -2,6 +2,7 @@ package is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -21,16 +22,18 @@ public class Content {
     private String image;
     private String audio;
 
-    private LocalDate created;
+    private LocalDateTime created;
+    private LocalDateTime updated;
 
     public Content() {
     }
 
-    public Content(String text, String image, String audio, LocalDate date) {
+    public Content(String text, String image, String audio) {
         this.text = text;
         this.image = image;
         this.audio = audio;
-        this.created = date;
+        this.setCreated();
+        this.setUpdated();
     }
 
     public String getText() {
@@ -65,11 +68,19 @@ public class Content {
         this.content_id = id;
     }
 
-    public LocalDate getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDate created) {
-        this.created = created;
+    public void setCreated() {
+        this.created = LocalDateTime.now();
+    }
+
+    public LocalDateTime getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated() {
+        this.updated = LocalDateTime.now();
     }
 }

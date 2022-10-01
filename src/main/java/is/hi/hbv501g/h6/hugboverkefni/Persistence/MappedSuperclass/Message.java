@@ -7,7 +7,9 @@ import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Voter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @MappedSuperclass
@@ -29,7 +31,9 @@ public abstract class Message {
     @ElementCollection
     private List<Reply> replies = new ArrayList<>();
 
-    private LocalDate created;
+    private LocalDateTime created;
+
+    private LocalDateTime updated;
 
     public Content getContent() {
         return content;
@@ -79,11 +83,19 @@ public abstract class Message {
         this.voted = voted;
     }
 
-    public LocalDate getCreated() {
-        return created;
+    public LocalDateTime getCreated() {
+        return LocalDateTime.now();
     }
 
-    public void setCreated(LocalDate created) {
-        this.created = created;
+    public void setCreated() {
+        this.created = LocalDateTime.now();
+    }
+
+    public LocalDateTime getUpdated() {
+        return LocalDateTime.now();
+    }
+
+    public void setUpdated() {
+        this.updated = LocalDateTime.now();
     }
 }

@@ -9,6 +9,7 @@
 			<h1 th:text="*{title}"></h1>
 			<h3 th:text="*{content.text}"></h3>
 			<p th:text="${post.postId}"></p>
+			<p th:text="${post.created}"></p>
 		</div>
 		<div th:switch="${allReplies}">
 			<ul th:case="*">

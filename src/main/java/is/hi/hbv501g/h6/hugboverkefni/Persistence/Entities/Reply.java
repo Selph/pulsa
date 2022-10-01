@@ -4,6 +4,7 @@ import is.hi.hbv501g.h6.hugboverkefni.Persistence.MappedSuperclass.Message;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -21,12 +22,13 @@ public class Reply extends Message {
             generator = "reply_sequence"
     )
     private Long replyId;
-    public Reply(Content content, User user, List<Voter> voted, List<Reply> replies, LocalDate date) {
+    public Reply(Content content, User user, List<Voter> voted, List<Reply> replies) {
         this.setContent(content);
         this.setCreator(user);
         this.setVoted(voted);
         this.setReplies(replies);
-        this.setCreated(date);
+        this.setCreated();
+        this.setUpdated();
 
     }
 

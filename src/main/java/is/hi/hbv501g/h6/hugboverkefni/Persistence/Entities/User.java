@@ -2,6 +2,7 @@ package is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,13 +27,14 @@ public class User {
     private String email;
 
     @ElementCollection
-    private List<Integer> subs = new ArrayList<Integer>();
-    private LocalDate created;
+    private List<Sub> subs = new ArrayList<Sub>();
+    private LocalDateTime created;
+    private LocalDateTime updated;
 
     public User() {
     }
 
-    public User(Long user_id, String userName, String realName, String avatar, String email, List<Integer> subs, LocalDate created) {
+    public User(Long user_id, String userName, String realName, String avatar, String email, List<Sub> subs, LocalDateTime created) {
         this.user_id = user_id;
         this.userName = userName;
         this.realName = realName;
@@ -40,6 +42,7 @@ public class User {
         this.email = email;
         this.subs = subs;
         this.created = created;
+        this.setCreated();
     }
 
     public Long getUser_id() {
@@ -82,11 +85,27 @@ public class User {
         this.email = email;
     }
 
-    public LocalDate getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDate created) {
-        this.created = created;
+    public void setCreated() {
+        this.created = LocalDateTime.now();
+    }
+
+    public List<Sub> getSubs() {
+        return subs;
+    }
+
+    public void setSubs(List<Sub> subs) {
+        this.subs = subs;
+    }
+
+    public LocalDateTime getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated() {
+        this.updated = LocalDateTime.now();
     }
 }
