@@ -3,8 +3,6 @@ package is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.MappedSuperclass.Message;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity

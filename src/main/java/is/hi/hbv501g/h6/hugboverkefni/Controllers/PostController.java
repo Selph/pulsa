@@ -83,4 +83,5 @@ public class PostController {
         postService.addNewPost(post.get());
         return "redirect:/post/" + post.get().getPostId();
     }
+
 }
