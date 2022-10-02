@@ -60,15 +60,8 @@ public class PostController {
         Optional<Post> post = postService.getPostById(id);
         if(!post.isPresent()) return "postNotFound";
 
-        List<Reply> postReplies = post.get().getReplies();
-        List<Reply> allReplies = new ArrayList<Reply>();
-        postReplies.forEach(item -> {
-            Optional<Reply> reply = replyService.getReplyById(item.getReplyId());
-            if(reply.isPresent()) allReplies.add(reply.get());
-        });
-
         model.addAttribute("post", post.get());
-        model.addAttribute("allReplies", allReplies);
+        model.addAttribute("postReplies", post.get().getReplies());
         model.addAttribute("reply", new Reply());
         return "postPage";
     }
@@ -77,11 +70,25 @@ public class PostController {
     public String replyPost(@PathVariable("id") long id, Reply reply, Content content, BindingResult result, Model model) {
         Optional<Post> post = postService.getPostById(id);
         if(!post.isPresent()) return "postNotFound";
+
         reply.setContent(content);
         replyService.addNewReply(reply);
         post.get().addReply(reply);
         postService.addNewPost(post.get());
+
         return "redirect:/post/" + post.get().getPostId();
     }
 
+    @RequestMapping(value = "/post/{postId}/{id}", method = RequestMethod.POST)
+    public String replyReply(@PathVariable("postId") long postId, @PathVariable("id") long id, Reply reply, Content content, BindingResult result, Model model) {
+        Optional<Reply> prevReply = replyService.getReplyById(id);
+        if(!prevReply.isPresent()) return "postNotFound";
+
+        reply.setContent(content);
+        replyService.addNewReply(reply);
+        prevReply.get().addReply(reply);
+        replyService.addNewReply(prevReply.get());
+
+        return "redirect:/post/" + postId;
+    }
 }
