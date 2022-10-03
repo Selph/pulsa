@@ -67,7 +67,7 @@
 				</li>
 			</ul>
 		</div>
-		<form enctype="multipart/form-data" action="#" th:action="@{/post/} + ${post.postId}" method="post">
+		<form enctype="multipart/form-data" action="#" th:action="@{/post/} + ${post.postId}" th:object="${content}" method="post">
 			<div>
 				<input
 					type="text"
@@ -75,15 +75,24 @@
 					name="text"
 					id="text"
 					placeholder="What's on your mind?">
-
+				
 				<label for="image">Image file</label>
 				<input
-						type="file"
+						type="text"
 						field="*{image}"
 						name="image"
 						id="image"
 						accept="image/*">
 				
+				<input
+					type="text"
+					th:field="*{audio}"
+					th:value="*{audio}"
+					onchange="test(this)"
+					name="audio"
+					id="audio"
+					hidden>
+
 				<label for="audio">Audio file</label>
 				<input type="button" onclick="recordAudio(this)" value="Record">
 				<script>
@@ -103,6 +112,7 @@
 									
 									mediaRecorder.onstop = async (e) => {
 										let audioPlayer = document.getElementById('player');
+										
 
 										const blob = new Blob(chunks, {type: "audio/ogg; codecs=opus"});
 										var dataUrl = await new Promise(r => {
@@ -113,6 +123,9 @@
 										chunks = [];
 										const audioUrl = window.URL.createObjectURL(blob);
 										audioPlayer.src = audioUrl;
+										audio.value = dataUrl;
+										console.log(dataUrl);
+										
 									}
 									
 									mediaRecorder.start();
@@ -141,8 +154,8 @@
 					type="file"
 					onchange="play(this)"
 					field="*{audio}"
-					name="audio"
-					id="audio"
+					name="audioFile"
+					id="audioFile"
 					accept="audio/*"
 					capture>
 				<script>

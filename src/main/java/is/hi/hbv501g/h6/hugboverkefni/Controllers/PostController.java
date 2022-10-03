@@ -74,21 +74,25 @@ public class PostController {
         model.addAttribute("post", post.get());
         model.addAttribute("postReplies", post.get().getReplies());
         model.addAttribute("reply", new Reply());
+        model.addAttribute("content", new Content());
         return "postPage";
     }
 
     @RequestMapping(value = "/post/{id}", method = RequestMethod.POST)
-    public String replyPost(@PathVariable("id") long id, String text, MultipartFile image, MultipartFile audio, Model model) {
+    public String replyPost(@PathVariable("id") long id, String text, Content content, MultipartFile image, MultipartFile audio, Model model) {
         Optional<Post> post = postService.getPostById(id);
         if(!post.isPresent()) return "postNotFound";
 
-        String imgUrl = "";
-        String audioUrl = "";
-        if (!image.isEmpty()) imgUrl = cloudinaryService.uploadImage(image);
-        if (!audio.isEmpty()) audioUrl = cloudinaryService.uploadAudio(audio);
-        Content c = new Content(text, imgUrl, audioUrl);
+        if(content.getAudio() != null) System.out.println(content.getAudio());
+
+        content.setAudio("temp");
+        // String imgUrl = "";
+        // String audioUrl = "";
+        // if (!image.isEmpty()) imgUrl = cloudinaryService.uploadImage(image);
+        // if (!audio.isEmpty()) audioUrl = cloudinaryService.uploadAudio(audio);
+        // Content c = new Content(text, imgUrl, audioUrl);
         User user = userService.getUsers().get(0);
-        Reply r = new Reply(c, user, new ArrayList<Voter>(), new ArrayList<Reply>());
+        Reply r = new Reply(content, user, new ArrayList<Voter>(), new ArrayList<Reply>());
         replyService.addNewReply(r);
         post.get().addReply(r);
         postService.addNewPost(post.get());
