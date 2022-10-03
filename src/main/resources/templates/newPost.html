@@ -6,10 +6,10 @@
 </head>
 <body>
 
-<form action="#" th:action="@{/newPost}" th:object="${post}"  method="post">
+<form action="#" th:action="@{/newPost}"  method="post" enctype="multipart/form-data">
   <label for="title">Title</label>
   <input type="text" field="*{title}" name="title" id="title" placeholder="Title">
-  <div th:object="${content}">
+  <div>
 		<label for="text">Text</label>
 		<input
 			type="text"
@@ -26,14 +26,13 @@
 			id="image"
 			accept="image/*">
 		
-		<label for="text">Audio file</label>
+		<label for="audio">Audio file</label>
 		<input
 			type="file"
 			field="*{audio}"
 			name="audio"
 			id="audio"
-			accept="audio/*"
-		>
+			accept="audio/*">
   </div>
   
   <input type="submit" value="Create new post">

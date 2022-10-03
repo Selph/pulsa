@@ -1,6 +1,7 @@
 package is.hi.hbv501g.h6.hugboverkefni.Controllers;
 
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.*;
+import is.hi.hbv501g.h6.hugboverkefni.Services.CloudinaryService;
 import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.PostServiceImplementation;
 import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.ReplyServiceImplementation;
 import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.SubServiceImplementation;
@@ -12,9 +13,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -23,16 +25,19 @@ public class PostController {
     private UserServiceImplementation userService;
     private ReplyServiceImplementation replyService;
     private SubServiceImplementation subService;
+    private CloudinaryService cloudinaryService;
 
     @Autowired
     public PostController(PostServiceImplementation postService,
                           UserServiceImplementation userService,
                           ReplyServiceImplementation replyService,
-                          SubServiceImplementation subService){
+                          SubServiceImplementation subService,
+                          CloudinaryService cloudinaryService){
         this.postService = postService;
         this.userService = userService;
         this.replyService = replyService;
         this.subService = subService;
+        this.cloudinaryService = cloudinaryService;
     }
 
     @RequestMapping(value = "/newPost", method = RequestMethod.GET)
@@ -42,10 +47,15 @@ public class PostController {
     }
 
     @RequestMapping(value = "/newPost", method = RequestMethod.POST)
-    public String newPostPOST(Content c, Post p, BindingResult result, Model model){
+    public String newPostPOST(String title, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, Model model){
+        String imgUrl = "";
+        String audioUrl = "";
+        if (!image.isEmpty()) imgUrl = cloudinaryService.uploadImage(image);
+        if (!audio.isEmpty()) audioUrl = cloudinaryService.uploadAudio(audio);
+        Content c = new Content(text, imgUrl, audioUrl);
         User user = userService.getUsers().get(0);
         Sub sub = subService.getSubs().get(0);
-        Post newPost = new Post(p.getTitle(),
+        Post newPost = new Post(title,
                                 sub,
                                 c,
                                 user,

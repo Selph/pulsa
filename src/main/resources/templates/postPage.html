@@ -6,9 +6,11 @@
 	</head>
 	<body>
 		<div th:object="${post}">
+			<p th:text="${post.postId}"></p>
 			<h1 th:text="*{title}"></h1>
 			<h3 th:text="*{content.text}"></h3>
-			<p th:text="${post.postId}"></p>
+			<img th:src="*{content.image}"/>
+			<audio th:src="*{content.audio}"/>
 			<p th:text="${post.created}"></p>
 		</div>
 		<div th:switch="${postReplies}">
@@ -19,6 +21,12 @@
 						<ul th:case="*">
 							<li th:each="reply : ${postReply.replies}">
 								<p th:text="${reply.content.text}"></p>
+								<img th:src="${reply.content.image}"/>
+								<audio controls>
+									<source th:src="@{${post.content.audio}}" type="audi/mpeg">
+									<source th:src="@{${post.content.audio}}" type="audi/ogg">
+									<source th:src="@{${post.content.audio}}" type="audi/wav">
+								</audio>
 							</li>
 						</ul>
 					</div>

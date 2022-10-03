@@ -20,7 +20,7 @@ public class PostConfig {
         return args -> {
             Sub sub = new Sub("Test");
             LocalDateTime date = LocalDateTime.now();
-            Content content = new Content("Hallo Heimur", "mynd.jpg", "hljod.wav");
+            Content content = new Content("Hallo Heimur", "http://res.cloudinary.com/dc6h0nrwk/image/upload/v1664770603/q1h9kuthpcgqpkgz8c8r.png", "http://res.cloudinary.com/dc6h0nrwk/video/upload/v1664772263/ltaf63f4ococlisbqtfo.mp3");
             User user = new User(1L,
                     "gervinotandi1",
                     "gervimadur",
