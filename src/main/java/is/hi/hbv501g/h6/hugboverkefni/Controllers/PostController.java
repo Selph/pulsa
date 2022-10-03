@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -77,26 +78,38 @@ public class PostController {
     }
 
     @RequestMapping(value = "/post/{id}", method = RequestMethod.POST)
-    public String replyPost(@PathVariable("id") long id, Reply reply, Content content, BindingResult result, Model model) {
+    public String replyPost(@PathVariable("id") long id, String text, MultipartFile image, MultipartFile audio, Model model) {
         Optional<Post> post = postService.getPostById(id);
         if(!post.isPresent()) return "postNotFound";
 
-        reply.setContent(content);
-        replyService.addNewReply(reply);
-        post.get().addReply(reply);
+        String imgUrl = "";
+        String audioUrl = "";
+        if (!image.isEmpty()) imgUrl = cloudinaryService.uploadImage(image);
+        if (!audio.isEmpty()) audioUrl = cloudinaryService.uploadAudio(audio);
+        Content c = new Content(text, imgUrl, audioUrl);
+        User user = userService.getUsers().get(0);
+        Reply r = new Reply(c, user, new ArrayList<Voter>(), new ArrayList<Reply>());
+        replyService.addNewReply(r);
+        post.get().addReply(r);
         postService.addNewPost(post.get());
 
         return "redirect:/post/" + post.get().getPostId();
     }
 
     @RequestMapping(value = "/post/{postId}/{id}", method = RequestMethod.POST)
-    public String replyReply(@PathVariable("postId") long postId, @PathVariable("id") long id, Reply reply, Content content, BindingResult result, Model model) {
+    public String replyReply(@PathVariable("postId") long postId, @PathVariable("id") long id, String text, MultipartFile image, MultipartFile audio, Model model) {
         Optional<Reply> prevReply = replyService.getReplyById(id);
         if(!prevReply.isPresent()) return "postNotFound";
 
-        reply.setContent(content);
-        replyService.addNewReply(reply);
-        prevReply.get().addReply(reply);
+        String imgUrl = "";
+        String audioUrl = "";
+        if (!image.isEmpty()) imgUrl = cloudinaryService.uploadImage(image);
+        if (!audio.isEmpty()) audioUrl = cloudinaryService.uploadAudio(audio);
+        Content c = new Content(text, imgUrl, audioUrl);
+        User user = userService.getUsers().get(0);
+        Reply r = new Reply(c, user, new ArrayList<Voter>(), new ArrayList<Reply>());
+        replyService.addNewReply(r);
+        prevReply.get().addReply(r);
         replyService.addNewReply(prevReply.get());
 
         return "redirect:/post/" + postId;

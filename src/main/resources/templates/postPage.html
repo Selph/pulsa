@@ -10,36 +10,51 @@
 			<h1 th:text="*{title}"></h1>
 			<h3 th:text="*{content.text}"></h3>
 			<img th:src="*{content.image}"/>
-			<audio th:src="*{content.audio}"/>
+			<audio controls>
+				<source th:src="*{content.audio}" type="audio/mpeg">
+				Your browser does not support the audio element.
+			</audio>
 			<p th:text="${post.created}"></p>
 		</div>
 		<div th:switch="${postReplies}">
 			<ul th:case="*">
 				<li th:each="postReply : ${postReplies}">
 					<p th:text="${postReply.content.text}"></p>
+					<img th:src="${postReply.content.image}"/>
+					<audio controls>
+						<source th:src="${postReply.content.audio}" type="audio/mpeg">
+						Your browser does not support the audio element.
+					</audio>
 					<div th:switch="${postReply.replies}">
 						<ul th:case="*">
 							<li th:each="reply : ${postReply.replies}">
 								<p th:text="${reply.content.text}"></p>
 								<img th:src="${reply.content.image}"/>
 								<audio controls>
-									<source th:src="@{${post.content.audio}}" type="audi/mpeg">
-									<source th:src="@{${post.content.audio}}" type="audi/ogg">
-									<source th:src="@{${post.content.audio}}" type="audi/wav">
+									<source th:src="*{reply.content.audio}" type="audio/mpeg">
+									Your browser does not support the audio element.
 								</audio>
 							</li>
 						</ul>
 					</div>
-					<form action="#" th:action="@{/post/} + ${post.postId} + @{/} + ${postReply.replyId}" th:object="${reply}" method="post">
-						<div th:object="${content}">
+					<form action="#" th:action="@{/post/} + ${post.postId} + @{/} + ${postReply.replyId}" method="post" enctype="multipart/form-data">
+						<div>
 							<input
 								type="text"
 								field="*{text}"
 								name="text"
 								id="replyText"
 								placeholder="What's on your mind?">
+
+							<label for="image">Image file</label>
+							<input
+									type="file"
+									field="*{image}"
+									name="image"
+									id="replyImage"
+									accept="image/*">
 							
-							<label for="text">Audio file</label>
+							<label for="audio">Audio file</label>
 							<input
 								type="file"
 								field="*{audio}"
@@ -52,16 +67,24 @@
 				</li>
 			</ul>
 		</div>
-		<form enctype="multipart/form-data" action="#" th:action="@{/post/} + ${post.postId}" th:object="${reply}" method="post">
-			<div th:object="${content}">
+		<form enctype="multipart/form-data" action="#" th:action="@{/post/} + ${post.postId}" method="post">
+			<div>
 				<input
 					type="text"
 					field="*{text}"
 					name="text"
 					id="text"
 					placeholder="What's on your mind?">
+
+				<label for="image">Image file</label>
+				<input
+						type="file"
+						field="*{image}"
+						name="image"
+						id="image"
+						accept="image/*">
 				
-				<label for="text">Audio file</label>
+				<label for="audio">Audio file</label>
 				<input type="button" onclick="recordAudio(this)" value="Record">
 				<script>
 					let record = false;
