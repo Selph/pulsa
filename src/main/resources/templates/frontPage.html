@@ -10,10 +10,20 @@
     <li th:each="post : ${posts}" >
         <a th:href="@{'/post/' + ${post.postId}}"> <p th:text="${post.title}"></p></a>
         <img th:src="@{${post.content.image}}"/>
-        <audio controls>
-            <source th:src="@{${post.content.audio}}" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
+        <div th:if="${post.content.audio != ''}">
+            <audio controls>
+                <source th:src="@{${post.content.audio}}" type="audio/mpeg">
+                <source th:src="@{${post.content.audio}}" type="audio/ogg">
+                <source th:src="@{${post.content.audio}}" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        <div th:if="${post.content.recording != ''}">
+            <audio controls>
+                <source th:src="@{${post.content.recording}}" type="audio/ogg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
     </li>
 </ul>
 <p><a href="/newPost">Create New Post</a></p>

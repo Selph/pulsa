@@ -62,6 +62,16 @@ public class CloudinaryService {
         }
     }
 
+    public String uploadRecording(String recording) {
+        try {
+            Map uploadResult = cloudinary.uploader().upload(recording, ObjectUtils.asMap("resource_type", "video"));
+            return  uploadResult.get("url").toString();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
         File convFile = new File(file.getOriginalFilename());
         FileOutputStream fos = new FileOutputStream(convFile);
@@ -69,5 +79,4 @@ public class CloudinaryService {
         fos.close();
         return convFile;
     }
-
 }

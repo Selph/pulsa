@@ -10,10 +10,21 @@
 			<h1 th:text="*{title}"></h1>
 			<h3 th:text="*{content.text}"></h3>
 			<img th:src="*{content.image}"/>
-			<audio controls>
-				<source th:src="*{content.audio}" type="audio/mpeg">
-				Your browser does not support the audio element.
-			</audio>
+			<div th:if="*{content.audio != ''}">
+				<audio controls>
+					<source th:src="@{*{content.audio}}" type="audio/mpeg">
+					<source th:src="@{*{content.audio}}" type="audio/ogg">
+					<source th:src="@{*{content.audio}}" type="audio/wav">
+					Your browser does not support the audio element.
+				</audio>
+			</div>
+			<div th:if="${content.recording != ''}">
+				<audio controls>
+					<source th:src="@{*{content.recording}}" type="audio/ogg">
+					<source th:src="@{*{content.recording}}" type="audio/wav">
+					Your browser does not support the audio element.
+				</audio>
+			</div>
 			<p th:text="${post.created}"></p>
 		</div>
 		<div th:switch="${postReplies}">
@@ -21,19 +32,41 @@
 				<li th:each="postReply : ${postReplies}">
 					<p th:text="${postReply.content.text}"></p>
 					<img th:src="${postReply.content.image}"/>
-					<audio controls>
-						<source th:src="${postReply.content.audio}" type="audio/mpeg">
-						Your browser does not support the audio element.
-					</audio>
+					<div th:if="${postReply.content.audio != ''}">
+						<audio controls>
+							<source th:src="@{${postReply.content.audio}}" type="audio/mpeg">
+							<source th:src="@{${postReply.content.audio}}" type="audio/ogg">
+							<source th:src="@{${postReply.content.audio}}" type="audio/wav">
+							Your browser does not support the audio element.
+						</audio>
+					</div>
+					<div th:if="${postReply.content.recording != ''}">
+						<audio controls>
+							<source th:src="@{${postReply.content.recording}}" type="audio/ogg">
+							<source th:src="@{${postReply.content.recording}}" type="audio/wav">
+							Your browser does not support the audio element.
+						</audio>
+					</div>
 					<div th:switch="${postReply.replies}">
 						<ul th:case="*">
 							<li th:each="reply : ${postReply.replies}">
 								<p th:text="${reply.content.text}"></p>
 								<img th:src="${reply.content.image}"/>
-								<audio controls>
-									<source th:src="*{reply.content.audio}" type="audio/mpeg">
-									Your browser does not support the audio element.
-								</audio>
+								<div th:if="${reply.content.audio != ''}">
+									<audio controls>
+										<source th:src="@{${reply.content.audio}}" type="audio/mpeg">
+										<source th:src="@{${reply.content.audio}}" type="audio/ogg">
+										<source th:src="@{${reply.content.audio}}" type="audio/wav">
+										Your browser does not support the audio element.
+									</audio>
+								</div>
+								<div th:if="${reply.content.recording != ''}">
+									<audio controls>
+										<source th:src="@{${reply.content.recording}}" type="audio/ogg">
+										<source th:src="@{${reply.content.recording}}" type="audio/wav">
+										Your browser does not support the audio element.
+									</audio>
+								</div>
 							</li>
 						</ul>
 					</div>
@@ -53,21 +86,33 @@
 									name="image"
 									id="replyImage"
 									accept="image/*">
-							
-							<label for="audio">Audio file</label>
+
 							<input
-								type="file"
-								field="*{audio}"
-								name="audio"
-								id="replyAudio"
-								accept="audio/*">
+									type="text"
+									field="*{recording}"
+									value="recording"
+									onchange="test(this)"
+									name="recording"
+									id="replyRecording"
+									hidden>
+
+							<label for="audio">Audio file</label>
+							<input type="button" onclick="recordAudio(this, 'replyRecording')" value="Record">
+							<input
+									type="file"
+									onchange="play(this)"
+									value="*{audio}"
+									name="audio"
+									id="replyAudio"
+									accept="audio/*"
+									capture>
 						</div>
 						<input type="submit" value="Add comment">
 					</form>
 				</li>
 			</ul>
 		</div>
-		<form enctype="multipart/form-data" action="#" th:action="@{/post/} + ${post.postId}" th:object="${content}" method="post">
+		<form enctype="multipart/form-data" action="#" th:action="@{/post/} + ${post.postId}" method="post">
 			<div>
 				<input
 					type="text"
@@ -78,29 +123,29 @@
 				
 				<label for="image">Image file</label>
 				<input
-						type="text"
-						field="*{image}"
-						name="image"
-						id="image"
-						accept="image/*">
+					type="file"
+					field="*{image}"
+					name="image"
+					id="image"
+					accept="image/*">
 				
 				<input
 					type="text"
-					th:field="*{audio}"
-					th:value="*{audio}"
+					field="*{recording}"
+					value="recording"
 					onchange="test(this)"
-					name="audio"
-					id="audio"
+					name="recording"
+					id="recording"
 					hidden>
 
 				<label for="audio">Audio file</label>
-				<input type="button" onclick="recordAudio(this)" value="Record">
+				<input type="button" onclick="recordAudio(this, 'recording')" value="Record">
 				<script>
 					let record = false;
 					let mediaRecorder;
 					let chunks = [];
 					
-					function recordAudio(el) {
+					function recordAudio(el, reply) {
 						if(!record) {
 							navigator.mediaDevices.getUserMedia({audio: true, video: false})
 								.then((stream) => {
@@ -114,7 +159,7 @@
 										let audioPlayer = document.getElementById('player');
 										
 
-										const blob = new Blob(chunks, {type: "audio/ogg; codecs=opus"});
+										const blob = new Blob(chunks, {type: "audio/ogg"});
 										var dataUrl = await new Promise(r => {
 											let a = new FileReader();
 											a.onload = r;
@@ -123,8 +168,8 @@
 										chunks = [];
 										const audioUrl = window.URL.createObjectURL(blob);
 										audioPlayer.src = audioUrl;
-										audio.value = dataUrl;
-										console.log(dataUrl);
+										let recording = document.getElementById(reply);
+										recording.value = dataUrl;
 										
 									}
 									
@@ -153,15 +198,15 @@
 				<input
 					type="file"
 					onchange="play(this)"
-					field="*{audio}"
-					name="audioFile"
-					id="audioFile"
+					value="*{audio}"
+					name="audio"
+					id="audio"
 					accept="audio/*"
 					capture>
 				<script>
 					function play(el) {
 						let player = document.getElementById('player');
-						
+
 						if(!el.files.length) return;
 						const audioUrl = URL.createObjectURL(el.files[0]);
 						player.src = audioUrl;

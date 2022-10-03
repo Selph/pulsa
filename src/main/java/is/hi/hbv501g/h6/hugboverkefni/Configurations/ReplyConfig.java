@@ -15,7 +15,7 @@ public class ReplyConfig {
     @Bean
     CommandLineRunner commandLineReplyRunner(ReplyRepository replyRepository, UserRepository userRepository) {
         return args -> {
-            Content content = new Content("Fyrsta comment", "mynd.jpg", "hljod.wav");
+            Content content = new Content("Fyrsta comment", "mynd.jpg", "hljod.wav", "upptaka.wav");
             User user = new User(1L,
                     "gervinotandi2",
                     "gervikona",

@@ -48,12 +48,14 @@ public class PostController {
     }
 
     @RequestMapping(value = "/newPost", method = RequestMethod.POST)
-    public String newPostPOST(String title, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, Model model){
+    public String newPostPOST(String title, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model){
         String imgUrl = "";
         String audioUrl = "";
+        String recordingUrl = "";
         if (!image.isEmpty()) imgUrl = cloudinaryService.uploadImage(image);
         if (!audio.isEmpty()) audioUrl = cloudinaryService.uploadAudio(audio);
-        Content c = new Content(text, imgUrl, audioUrl);
+        if (recording.length() != 9) recordingUrl = cloudinaryService.uploadRecording(recording);
+        Content c = new Content(text, imgUrl, audioUrl, recordingUrl);
         User user = userService.getUsers().get(0);
         Sub sub = subService.getSubs().get(0);
         Post newPost = new Post(title,
@@ -79,20 +81,20 @@ public class PostController {
     }
 
     @RequestMapping(value = "/post/{id}", method = RequestMethod.POST)
-    public String replyPost(@PathVariable("id") long id, String text, Content content, MultipartFile image, MultipartFile audio, Model model) {
+    public String replyPost(@PathVariable("id") long id, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model) {
         Optional<Post> post = postService.getPostById(id);
         if(!post.isPresent()) return "postNotFound";
 
-        if(content.getAudio() != null) System.out.println(content.getAudio());
-
-        content.setAudio("temp");
-        // String imgUrl = "";
-        // String audioUrl = "";
-        // if (!image.isEmpty()) imgUrl = cloudinaryService.uploadImage(image);
-        // if (!audio.isEmpty()) audioUrl = cloudinaryService.uploadAudio(audio);
-        // Content c = new Content(text, imgUrl, audioUrl);
+        String imgUrl = "";
+        String audioUrl = "";
+        String recordingUrl = "";
+        System.out.println(recording.length());
+        if (!image.isEmpty()) imgUrl = cloudinaryService.uploadImage(image);
+        if (!audio.isEmpty()) audioUrl = cloudinaryService.uploadAudio(audio);
+        if (recording.length() != 9) recordingUrl = cloudinaryService.uploadRecording(recording);
+        Content c = new Content(text, imgUrl, audioUrl, recordingUrl);
         User user = userService.getUsers().get(0);
-        Reply r = new Reply(content, user, new ArrayList<Voter>(), new ArrayList<Reply>());
+        Reply r = new Reply(c, user, new ArrayList<Voter>(), new ArrayList<Reply>());
         replyService.addNewReply(r);
         post.get().addReply(r);
         postService.addNewPost(post.get());
@@ -101,15 +103,17 @@ public class PostController {
     }
 
     @RequestMapping(value = "/post/{postId}/{id}", method = RequestMethod.POST)
-    public String replyReply(@PathVariable("postId") long postId, @PathVariable("id") long id, String text, MultipartFile image, MultipartFile audio, Model model) {
+    public String replyReply(@PathVariable("postId") long postId, @PathVariable("id") long id, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio,@RequestParam("recording") String recording, Model model) {
         Optional<Reply> prevReply = replyService.getReplyById(id);
         if(!prevReply.isPresent()) return "postNotFound";
 
         String imgUrl = "";
         String audioUrl = "";
+        String recordingUrl = "";
         if (!image.isEmpty()) imgUrl = cloudinaryService.uploadImage(image);
         if (!audio.isEmpty()) audioUrl = cloudinaryService.uploadAudio(audio);
-        Content c = new Content(text, imgUrl, audioUrl);
+        if (recording.length() != 9) recordingUrl = cloudinaryService.uploadRecording(recording);
+        Content c = new Content(text, imgUrl, audioUrl, recordingUrl);
         User user = userService.getUsers().get(0);
         Reply r = new Reply(c, user, new ArrayList<Voter>(), new ArrayList<Reply>());
         replyService.addNewReply(r);

@@ -21,6 +21,7 @@ public class Content {
     private String text;
     private String image;
     private String audio;
+    private String recording;
 
     private LocalDateTime created;
     private LocalDateTime updated;
@@ -28,10 +29,11 @@ public class Content {
     public Content() {
     }
 
-    public Content(String text, String image, String audio) {
+    public Content(String text, String image, String audio, String recording) {
         this.text = text;
         this.image = image;
         this.audio = audio;
+        this.recording = recording;
         this.setCreated();
         this.setUpdated();
     }
@@ -82,5 +84,13 @@ public class Content {
 
     public void setUpdated() {
         this.updated = LocalDateTime.now();
+    }
+
+    public String getRecording() {
+        return recording;
+    }
+
+    public void setRecording(String recording) {
+        this.recording = recording;
     }
 }
