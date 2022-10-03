@@ -101,10 +101,15 @@
 										chunks.push(e.data);
 									}
 									
-									mediaRecorder.onstop = (e) => {
+									mediaRecorder.onstop = async (e) => {
 										let audioPlayer = document.getElementById('player');
-										
+
 										const blob = new Blob(chunks, {type: "audio/ogg; codecs=opus"});
+										var dataUrl = await new Promise(r => {
+											let a = new FileReader();
+											a.onload = r;
+											a.readAsDataURL(blob)
+										}).then(e => e.target.result);
 										chunks = [];
 										const audioUrl = window.URL.createObjectURL(blob);
 										audioPlayer.src = audioUrl;
