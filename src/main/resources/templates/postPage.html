@@ -19,26 +19,32 @@
 						<ul th:case="*">
 							<li th:each="reply : ${postReply.replies}">
 								<p th:text="${reply.content.text}"></p>
+								<div th:switch="${reply.replies}">
+									<ul th:case="*">
+										<li th:each="reply : ${reply.replies}">
+											<p th:text="${reply.content.text}"></p>
+										</li>
+									</ul>
+								</div>
+								<form action="#" th:action="@{/post/} + ${post.postId} + @{/} + ${reply.replyId}" th:object="${content}" method="post">
+									<input
+										type="text"
+										th:field="*{text}"
+										name="text"
+										id="nestedReplyText"
+										placeholder="What's on your mind?">
+									<input type="submit" value="Add comment">
+								</form>
 							</li>
 						</ul>
 					</div>
-					<form action="#" th:action="@{/post/} + ${post.postId} + @{/} + ${postReply.replyId}" th:object="${reply}" method="post">
-						<div th:object="${content}">
-							<input
-								type="text"
-								field="*{text}"
-								name="text"
-								id="replyText"
-								placeholder="What's on your mind?">
-							
-							<label for="text">Audio file</label>
-							<input
-								type="file"
-								field="*{audio}"
-								name="audio"
-								id="replyAudio"
-								accept="audio/*">
-						</div>
+					<form action="#" th:action="@{/post/} + ${post.postId} + @{/} + ${postReply.replyId}" th:object="${content}" method="post">
+						<input
+							type="text"
+							th:field="*{text}"
+							name="text"
+							id="replyText"
+							placeholder="What's on your mind?">
 						<input type="submit" value="Add comment">
 					</form>
 				</li>
@@ -63,7 +69,6 @@
 				type="text"
 				th:field="*{audio}"
 				th:value="*{audio}"
-				onchange="test(this)"
 				name="audio"
 				id="audio"
 				hidden>
