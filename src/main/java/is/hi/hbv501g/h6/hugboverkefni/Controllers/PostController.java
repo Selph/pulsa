@@ -63,6 +63,7 @@ public class PostController {
         model.addAttribute("post", post.get());
         model.addAttribute("postReplies", post.get().getReplies());
         model.addAttribute("reply", new Reply());
+        model.addAttribute("content", new Content());
         return "postPage";
     }
 
@@ -71,8 +72,13 @@ public class PostController {
         Optional<Post> post = postService.getPostById(id);
         if(!post.isPresent()) return "postNotFound";
 
+        if(content.getText() != null) System.out.println(content.getText());
+        if(content.getImage() != null) System.out.println(content.getImage());
+        if(content.getAudio() != null) System.out.println(content.getAudio());
+
         reply.setContent(content);
         replyService.addNewReply(reply);
+        System.out.println(reply);
         post.get().addReply(reply);
         postService.addNewPost(post.get());
 

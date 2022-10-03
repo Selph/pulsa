@@ -44,82 +44,96 @@
 				</li>
 			</ul>
 		</div>
-		<form enctype="multipart/form-data" action="#" th:action="@{/post/} + ${post.postId}" th:object="${reply}" method="post">
-			<div th:object="${content}">
-				<input
-					type="text"
-					field="*{text}"
-					name="text"
-					id="text"
-					placeholder="What's on your mind?">
+		<form action="#" th:action="@{/post/} + ${post.postId}" th:object="${content}" method="post">
+			<input
+				type="text"
+				th:field="*{text}"
+				name="text"
+				id="text"
+				placeholder="What's on your mind?">
+			
+			<input
+				type="text",
+				th:field="*{image}"
+				name="image"
+				id="image"
+				hidden>
+			
+			<input
+				type="text"
+				th:field="*{audio}"
+				th:value="*{audio}"
+				onchange="test(this)"
+				name="audio"
+				id="audio"
+				hidden>
+			
+			<label for="text">Audio file</label>
+			<input type="button" onclick="recordAudio(this)" value="Record">
+			<script>
+				let record = false;
+				let mediaRecorder;
+				let chunks = [];
 				
-				<label for="text">Audio file</label>
-				<input type="button" onclick="recordAudio(this)" value="Record">
-				<script>
-					let record = false;
-					let mediaRecorder;
-					let chunks = [];
+				function recordAudio(el) {
+					if(!record) {
+						navigator.mediaDevices.getUserMedia({audio: true, video: false})
+							.then((stream) => {
+								mediaRecorder = new MediaRecorder(stream);
+								
+								mediaRecorder.ondataavailable = (e) => {
+									chunks.push(e.data);
+								}
+								
+								mediaRecorder.onstop = (e) => {
+									let audioPlayer = document.getElementById('player');
+									let audioText = document.getElementById('audio');
+									const blob = new Blob(chunks, {type: "audio/ogg; codecs=opus"});
+									chunks = [];
+									const audioUrl = window.URL.createObjectURL(blob);
+									audioPlayer.src = audioUrl;
+									audioText.value = audioUrl;
+								}
+								
+								mediaRecorder.start();
+								record = !record;
+								changeButtonValue(el);
+							})
+							.catch((err) => {console.log(err);});
+					} else {
+						mediaRecorder.stop();
+						record = !record;
+						changeButtonValue(el)
+					}
+				}
+				
+				function changeButtonValue(el) {
+					if(el.getAttribute("value") === "Record") {
+						el.setAttribute("value", "Stop");
+					} else {
+						el.setAttribute("value", "Record");
+					}
+				}
+			</script>
+			<input
+				type="file"
+				onchange="play(this)"
+				name="audioFile"
+				id="audioFile"
+				accept="audio/*"
+				capture>
+			<script>
+				function play(el) {
+					let player = document.getElementById('player');
+					let audioText = document.getElementById('audio')
 					
-					function recordAudio(el) {
-						if(!record) {
-							navigator.mediaDevices.getUserMedia({audio: true, video: false})
-								.then((stream) => {
-									mediaRecorder = new MediaRecorder(stream);
-									
-									mediaRecorder.ondataavailable = (e) => {
-										chunks.push(e.data);
-									}
-									
-									mediaRecorder.onstop = (e) => {
-										let audioPlayer = document.getElementById('player');
-										
-										const blob = new Blob(chunks, {type: "audio/ogg; codecs=opus"});
-										chunks = [];
-										const audioUrl = window.URL.createObjectURL(blob);
-										audioPlayer.src = audioUrl;
-									}
-									
-									mediaRecorder.start();
-									record = !record;
-									changeButtonValue(el);
-								})
-								.catch((err) => {
-								console.log(err);
-							});
-						} else {
-							mediaRecorder.stop();
-							record = !record;
-							changeButtonValue(el)
-						}
-					}
-					
-					function changeButtonValue(el) {
-						if(el.getAttribute("value") === "Record") {
-							el.setAttribute("value", "Stop");
-						} else {
-							el.setAttribute("value", "Record");
-						}
-					}
-				</script>
-				<input
-					type="file"
-					onchange="play(this)"
-					field="*{audio}"
-					name="audio"
-					id="audio"
-					accept="audio/*"
-					capture>
-				<script>
-					function play(el) {
-						let player = document.getElementById('player');
-						
-						if(!el.files.length) return;
-						const audioUrl = URL.createObjectURL(el.files[0]);
-						player.src = audioUrl;
-					}
-				</script>
-				<audio id="player" controls></audio>
-			</div>
+					if(!el.files.length) return;
+					const audioUrl = URL.createObjectURL(el.files[0]);
+					player.src = audioUrl;
+					audioText.value = audioUrl;
+				}
+			</script>
+			<audio id="player" controls></audio>
 			<input type="submit" value="Add comment">
 		</form>
 	</body>
