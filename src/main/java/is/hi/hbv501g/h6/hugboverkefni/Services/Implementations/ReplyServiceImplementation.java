@@ -37,9 +37,10 @@ public class ReplyServiceImplementation implements ReplyService {
     public Reply addNewReply(Reply reply) {
         if (reply.getContent().getText().isEmpty() &&
                 reply.getContent().getImage().isEmpty() &&
-                reply.getContent().getAudio().isEmpty())
+                reply.getContent().getAudio().isEmpty() &&
+                reply.getContent().getRecording().isEmpty())
         {
-            throw new IllegalStateException("Reply has to have text, image or audio");
+            throw new IllegalStateException("Reply has to have text, image, audio or recording");
         }
         return replyRepository.save(reply);
     }

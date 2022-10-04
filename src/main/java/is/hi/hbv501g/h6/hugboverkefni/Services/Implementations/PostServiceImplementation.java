@@ -52,9 +52,10 @@ public class PostServiceImplementation implements PostService {
         }
         if (post.getContent().getText().isEmpty() &&
                 post.getContent().getImage().isEmpty() &&
-                post.getContent().getAudio().isEmpty())
+                post.getContent().getAudio().isEmpty() &&
+                post.getContent().getRecording().isEmpty())
         {
-            throw new IllegalStateException("Post has to have text, image or audio");
+            throw new IllegalStateException("Post has to have text, image, audio or recording");
         }
         return postRepository.save(post);
     }
