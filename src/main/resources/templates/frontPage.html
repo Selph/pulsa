@@ -21,6 +21,7 @@
         <div th:if="${post.content.recording != ''}">
             <audio controls>
                 <source th:src="@{${post.content.recording}}" type="audio/ogg">
+                <source th:src="@{${post.content.recording}}" type="audio/wav">
                 Your browser does not support the audio element.
             </audio>
         </div>

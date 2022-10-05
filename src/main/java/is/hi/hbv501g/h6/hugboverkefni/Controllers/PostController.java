@@ -85,16 +85,7 @@ public class PostController {
         Optional<Post> post = postService.getPostById(id);
         if(!post.isPresent()) return "postNotFound";
 
-        String imgUrl = "";
-        String audioUrl = "";
-        String recordingUrl = "";
-        System.out.println(recording.length());
-        if (!image.isEmpty()) imgUrl = cloudinaryService.uploadImage(image);
-        if (!audio.isEmpty()) audioUrl = cloudinaryService.uploadAudio(audio);
-        if (recording.length() != 9) recordingUrl = cloudinaryService.uploadRecording(recording);
-        Content c = new Content(text, imgUrl, audioUrl, recordingUrl);
-        User user = userService.getUsers().get(0);
-        Reply r = new Reply(c, user, new ArrayList<Voter>(), new ArrayList<Reply>());
+        Reply r = createReply(text, image, audio, recording);
         replyService.addNewReply(r);
         post.get().addReply(r);
         postService.addNewPost(post.get());
@@ -107,6 +98,15 @@ public class PostController {
         Optional<Reply> prevReply = replyService.getReplyById(id);
         if(!prevReply.isPresent()) return "postNotFound";
 
+        Reply r = createReply(text, image, audio, recording);
+        replyService.addNewReply(r);
+        prevReply.get().addReply(r);
+        replyService.addNewReply(prevReply.get());
+
+        return "redirect:/post/" + postId;
+    }
+
+    private Reply createReply(String text, MultipartFile image, MultipartFile audio, String recording) {
         String imgUrl = "";
         String audioUrl = "";
         String recordingUrl = "";
@@ -116,10 +116,6 @@ public class PostController {
         Content c = new Content(text, imgUrl, audioUrl, recordingUrl);
         User user = userService.getUsers().get(0);
         Reply r = new Reply(c, user, new ArrayList<Voter>(), new ArrayList<Reply>());
-        replyService.addNewReply(r);
-        prevReply.get().addReply(r);
-        replyService.addNewReply(prevReply.get());
-
-        return "redirect:/post/" + postId;
+        return r;
     }
 }
