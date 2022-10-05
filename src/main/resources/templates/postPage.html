@@ -27,7 +27,8 @@
 			</div>
 			<p th:text="${post.created}"></p>
 		</div>
-		<div th:switch="${postReplies}">
+		<div th:replace="fragments/reply :: replies"></div>
+		<!-- <div th:switch="${postReplies}">
 			<ul th:case="*">
 				<li th:each="postReply : ${postReplies}">
 					<p th:text="${postReply.content.text}"></p>
@@ -111,7 +112,7 @@
 					</form>
 				</li>
 			</ul>
-		</div>
+		</div> </!-->
 		<form enctype="multipart/form-data" action="#" th:action="@{/post/} + ${post.postId}" method="post">
 			<div>
 				<input

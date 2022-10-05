@@ -1,0 +1,157 @@
+<html xmlns:th="http://thymeleaf.org">
+<body>
+<div th:fragment="replies" th:remove="tag">
+  <div th:switch="${postReplies}">
+    <ul th:case="*">
+        <li th:each="postReply : ${postReplies}">
+            <p th:text="${postReply.content.text}"></p>
+            <img th:src="${postReply.content.image}"/>
+            <div th:if="${postReply.content.audio != ''}">
+                <audio controls>
+                    <source th:src="@{${postReply.content.audio}}" type="audio/mpeg">
+                    <source th:src="@{${postReply.content.audio}}" type="audio/ogg">
+                    <source th:src="@{${postReply.content.audio}}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <div th:if="${postReply.content.recording != ''}">
+                <audio controls>
+                    <source th:src="@{${postReply.content.recording}}" type="audio/ogg">
+                    <source th:src="@{${postReply.content.recording}}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+          <div th:with="postReplies = ${postReply.replies}"
+               th:include="fragments/reply.html :: replies" th:remove="tag" ></div>
+          <form action="#" th:action="@{/post/} + ${post.postId} + @{/} + ${postReply.replyId}" method="post" enctype="multipart/form-data">
+            <div>
+              <input
+                      type="text"
+                      field="*{text}"
+                      name="text"
+                      id="replyText"
+                      placeholder="What's on your mind?">
+
+              <label for="image">Image file</label>
+              <input
+                      type="file"
+                      field="*{image}"
+                      name="image"
+                      id="replyImage"
+                      accept="image/*">
+
+              <input
+                      type="text"
+                      field="*{recording}"
+                      value="recording"
+                      onchange="test(this)"
+                      name="recording"
+                      id="replyRecording"
+                      hidden>
+
+              <label for="audio">Audio file</label>
+              <input type="button" onclick="recordAudio(this, 'replyRecording')" value="Record">
+              <input
+                      type="file"
+                      onchange="play(this)"
+                      value="*{audio}"
+                      name="audio"
+                      id="replyAudio"
+                      accept="audio/*"
+                      capture>
+            </div>
+            <input type="submit" value="Add comment">
+          </form>
+        </li>
+    </ul>
+  </div>
+</div>
+</div>
+</body>
+</html>
+
+<!-- <div th:switch="${postReplies}">
+    <ul th:case="*">
+        <li th:each="postReply : ${postReplies}">
+            <p th:text="${postReply.content.text}"></p>
+            <img th:src="${postReply.content.image}"/>
+            <div th:if="${postReply.content.audio != ''}">
+                <audio controls>
+                    <source th:src="@{${postReply.content.audio}}" type="audio/mpeg">
+                    <source th:src="@{${postReply.content.audio}}" type="audio/ogg">
+                    <source th:src="@{${postReply.content.audio}}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <div th:if="${postReply.content.recording != ''}">
+                <audio controls>
+                    <source th:src="@{${postReply.content.recording}}" type="audio/ogg">
+                    <source th:src="@{${postReply.content.recording}}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <div th:switch="${postReply.replies}">
+                <ul th:case="*">
+                    <li th:each="reply : ${postReply.replies}">
+                        <p th:text="${reply.content.text}"></p>
+                        <img th:src="${reply.content.image}"/>
+                        <div th:if="${reply.content.audio != ''}">
+                            <audio controls>
+                                <source th:src="@{${reply.content.audio}}" type="audio/mpeg">
+                                <source th:src="@{${reply.content.audio}}" type="audio/ogg">
+                                <source th:src="@{${reply.content.audio}}" type="audio/wav">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                        <div th:if="${reply.content.recording != ''}">
+                            <audio controls>
+                                <source th:src="@{${reply.content.recording}}" type="audio/ogg">
+                                <source th:src="@{${reply.content.recording}}" type="audio/wav">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <form action="#" th:action="@{/post/} + ${post.postId} + @{/} + ${postReply.replyId}" method="post" enctype="multipart/form-data">
+                <div>
+                    <input
+                        type="text"
+                        field="*{text}"
+                        name="text"
+                        id="replyText"
+                        placeholder="What's on your mind?">
+
+                    <label for="image">Image file</label>
+                    <input
+                            type="file"
+                            field="*{image}"
+                            name="image"
+                            id="replyImage"
+                            accept="image/*">
+
+                    <input
+                            type="text"
+                            field="*{recording}"
+                            value="recording"
+                            onchange="test(this)"
+                            name="recording"
+                            id="replyRecording"
+                            hidden>
+
+                    <label for="audio">Audio file</label>
+                    <input type="button" onclick="recordAudio(this, 'replyRecording')" value="Record">
+                    <input
+                            type="file"
+                            onchange="play(this)"
+                            value="*{audio}"
+                            name="audio"
+                            id="replyAudio"
+                            accept="audio/*"
+                            capture>
+                </div>
+                <input type="submit" value="Add comment">
+            </form>
+        </li>
+    </ul>
+</div> </!-->
