@@ -47,27 +47,6 @@ public class PostController {
         return "newPost";
     }
 
-    @RequestMapping(value = "/newPost", method = RequestMethod.POST)
-    public String newPostPOST(String title, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model){
-        String imgUrl = "";
-        String audioUrl = "";
-        String recordingUrl = "";
-        if (!image.isEmpty()) imgUrl = cloudinaryService.uploadImage(image);
-        if (!audio.isEmpty()) audioUrl = cloudinaryService.uploadAudio(audio);
-        if (recording.length() != 9) recordingUrl = cloudinaryService.uploadRecording(recording);
-        Content c = new Content(text, imgUrl, audioUrl, recordingUrl);
-        User user = userService.getUsers().get(0);
-        Sub sub = subService.getSubs().get(0);
-        Post newPost = new Post(title,
-                                sub,
-                                c,
-                                user,
-                                new ArrayList<Voter>(),
-                                new ArrayList<Reply>());
-        postService.addNewPost(newPost);
-        return "redirect:/post/" + newPost.getPostId();
-    }
-
     @RequestMapping(value = "/post/{id}", method = RequestMethod.GET)
     public String postPage(@PathVariable("id") long id, Model model) {
         Optional<Post> post = postService.getPostById(id);
@@ -78,6 +57,13 @@ public class PostController {
         model.addAttribute("reply", new Reply());
         model.addAttribute("content", new Content());
         return "postPage";
+    }
+
+    @RequestMapping(value = "/newPost", method = RequestMethod.POST)
+    public String newPostPOST(String title, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model){
+        Post newPost = createPost(title, text, image, audio, recording);
+        postService.addNewPost(newPost);
+        return "redirect:/post/" + newPost.getPostId();
     }
 
     @RequestMapping(value = "/post/{id}", method = RequestMethod.POST)
@@ -106,7 +92,28 @@ public class PostController {
         return "redirect:/post/" + postId;
     }
 
+    private Post createPost(String title, String text, MultipartFile image, MultipartFile audio, String recording) {
+        Content c = createContent(text, image, audio, recording);
+        User user = getUser();
+        Sub sub = getSub();
+        Post newPost = new Post(title,
+                                sub,
+                                c,
+                                user,
+                                new ArrayList<Voter>(),
+                                new ArrayList<Reply>());
+        return newPost;
+    }
+
+
     private Reply createReply(String text, MultipartFile image, MultipartFile audio, String recording) {
+        Content c = createContent(text, image, audio, recording);
+        User user = getUser();
+        Reply r = new Reply(c, user, new ArrayList<Voter>(), new ArrayList<Reply>());
+        return r;
+    }
+
+    private Content createContent(String text, MultipartFile image, MultipartFile audio, String recording) {
         String imgUrl = "";
         String audioUrl = "";
         String recordingUrl = "";
@@ -114,8 +121,16 @@ public class PostController {
         if (!audio.isEmpty()) audioUrl = cloudinaryService.uploadAudio(audio);
         if (recording.length() != 9) recordingUrl = cloudinaryService.uploadRecording(recording);
         Content c = new Content(text, imgUrl, audioUrl, recordingUrl);
+        return c;
+    }
+
+    private User getUser() {
         User user = userService.getUsers().get(0);
-        Reply r = new Reply(c, user, new ArrayList<Voter>(), new ArrayList<Reply>());
-        return r;
+        return user;
+    }
+
+    private Sub getSub() {
+        Sub sub = subService.getSubs().get(0);
+        return sub;
     }
 }
