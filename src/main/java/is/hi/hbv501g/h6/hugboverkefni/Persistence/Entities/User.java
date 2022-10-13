@@ -40,15 +40,13 @@ public class User {
     public User() {
     }
 
-    public User(Long user_id,
-                String userName,
+    public User(String userName,
                 String realName,
                 String avatar,
                 String email,
                 List<Sub> subs,
                 List<Post> posts,
                 List<Reply> replies) {
-        this.user_id = user_id;
         this.userName = userName;
         this.realName = realName;
         this.avatar = avatar;
