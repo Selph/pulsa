@@ -11,11 +11,26 @@
 			// wait for the DOM to be loaded
 			$(document).ready(function() {
 				// bind 'myForm' and provide a simple callback function
-				$('#upvote').ajaxForm(function() {
-					alert("Thank you for your upvote!");
+				$('.upvote').ajaxForm(function() {
+					let votes = document.getElementsByClassName('vote');
+
+					for (let vote of votes) {
+							let result = fetch("/post/" + vote.id + "/vote")
+									.then((response) => {
+							if (!response.ok) {
+								throw new Error(`HTTP error! Status: ${response.status}`);
+							}
+
+							return response.blob();
+						})
+									.then((response) => {
+							response.text().then((result) => {
+								console.log(result);
+							});
+					});
+					}
 				});
-				$('#downvote').ajaxForm(function() {
-					alert("Thank you for your downvote!");
+				$('.downvote').ajaxForm(function() {
 				});
 			});
 		</script>

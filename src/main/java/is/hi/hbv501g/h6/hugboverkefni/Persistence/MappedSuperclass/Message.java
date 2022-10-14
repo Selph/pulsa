@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @MappedSuperclass
 public abstract class Message {
@@ -47,6 +48,14 @@ public abstract class Message {
         return replies;
     }
 
+    public Optional<Reply> getReplyById(Long replyId) {
+        for (Reply reply : this.replies)
+            if (reply.getReplyId() == replyId)
+                return Optional.of(reply);
+
+        return Optional.empty();
+    }
+
     public void setReplies(List<Reply> replies) {
         this.replies = replies;
     }
@@ -62,12 +71,15 @@ public abstract class Message {
 
     public Integer getVote() {
         int votes = 0;
-        while (this.getVoted().iterator().hasNext())
-            if (this.getVoted().iterator().next().isVote()) {
+
+        for (Voter vote : this.getVoted()) {
+            if (vote.isVote()) {
                 votes++;
             } else {
                 votes--;
             }
+    }
+
         return votes;
     }
 
@@ -81,6 +93,14 @@ public abstract class Message {
 
     public void setVoted(List<Voter> voted) {
         this.voted = voted;
+    }
+
+    public void addVote(Voter vote) {
+        this.voted.add(vote);
+    }
+
+    public void removeVote(Voter vote) {
+        this.voted.remove(vote);
     }
 
     public LocalDateTime getCreated() {
