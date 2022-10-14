@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -141,7 +138,6 @@ public class PostController {
 
         System.out.println(reply.getVote());
 
-    public String upvote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
         return "frontPage.html";
     }
 
@@ -149,7 +145,6 @@ public class PostController {
     public String downvoteReply(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
         postService.getPostById(postId).get().getReplyById(id).get().addVote(new Voter("", 1L, false));
 
-    public String upvote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
         return "frontPage.html";
     }
 
