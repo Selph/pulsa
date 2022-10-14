@@ -124,12 +124,31 @@ public class PostController {
         return c;
     }
 
+    @RequestMapping(value = "/post/{postId}/{id}/vote", method = RequestMethod.GET)
+    @ResponseBody
+    public String getReplyVote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+        Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
+
+        System.out.println(reply.getVote());
+
+        return reply.getVote().toString();
+    }
+
     @RequestMapping(value = "/post/{postId}/{id}/upvote", method = RequestMethod.POST)
+    public String upvoteReply(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+        Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
+        reply.addVote(new Voter("", 1L, true));
+
+        System.out.println(reply.getVote());
+
     public String upvote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
         return "frontPage.html";
     }
 
     @RequestMapping(value = "/post/{postId}/{id}/downvote", method = RequestMethod.POST)
+    public String downvoteReply(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+        postService.getPostById(postId).get().getReplyById(id).get().addVote(new Voter("", 1L, false));
+
     public String upvote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
         return "frontPage.html";
     }

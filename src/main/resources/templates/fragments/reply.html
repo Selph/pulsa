@@ -21,12 +21,15 @@
                     Your browser does not support the audio element.
                 </audio>
             </div>
-            <form id="upvote" action="#" th:action="@{/post/} + ${post.postId} + @{/} + ${postReply.replyId} + @{/upvote}" method="post">
+            <div>
+                <p class="vote" th:id="${post.postId} + '/' + ${postReply.replyId}" th:text="${postReply.getVote()}"></p>
+            <form class="upvote" action="#" th:action="@{/post/} + ${post.postId} + @{/} + ${postReply.replyId} + @{/upvote}" method="post">
             <input type="submit" value="Upvote">
             </form>
-            <form id="downvote" action="#" th:action="@{/post/} + ${post.postId} + @{/} + ${postReply.replyId} + @{/downvote}" method="post">
+            <form class="downvote" action="#" th:action="@{/post/} + ${post.postId} + @{/} + ${postReply.replyId} + @{/downvote}" method="post">
             <input type="submit" value="Downvote">
             </form>
+            </div>
           <div th:with="postReplies = ${postReply.replies}"
                th:include="fragments/reply.html :: replies" th:remove="tag" ></div>
           <form action="#" th:action="@{/post/} + ${post.postId} + @{/} + ${postReply.replyId}" method="post" enctype="multipart/form-data">
