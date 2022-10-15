@@ -41,13 +41,8 @@ public class PostController {
         this.cloudinaryService = cloudinaryService;
     }
 
-    @RequestMapping(value = "/newPost", method = RequestMethod.GET)
-    public String newPostGET(Post post){
 
-        return "newPost";
-    }
-
-    @RequestMapping(value = "/post/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/p/{slug}/{id}", method = RequestMethod.GET)
     public String postPage(@PathVariable("id") long id, Model model) {
         Optional<Post> post = postService.getPostById(id);
         if(!post.isPresent()) return "postNotFound";
@@ -59,15 +54,22 @@ public class PostController {
         return "postPage";
     }
 
-    @RequestMapping(value = "/newPost", method = RequestMethod.POST)
-    public String newPostPOST(String title, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model){
-        Post newPost = createPost(title, text, image, audio, recording);
-        postService.addNewPost(newPost);
-        return "redirect:/post/" + newPost.getPostId();
+    @RequestMapping(value = "/p/{slug}/newPost", method = RequestMethod.GET)
+    public String newPostGET(@PathVariable String slug, Post post, Model model){
+        model.addAttribute("slug", slug);
+        return "newPost";
     }
 
-    @RequestMapping(value = "/post/{id}", method = RequestMethod.POST)
-    public String replyPost(@PathVariable("id") long id, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model) {
+    @RequestMapping(value = "/p/{slug}/newPost", method = RequestMethod.POST)
+    public String newPostPOST(@PathVariable String slug, String title, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model){
+        Sub sub = subService.getSubBySlug(slug);
+        Post newPost = createPost(title, sub, text, image, audio, recording);
+        postService.addNewPost(newPost);
+        return "redirect:/p/" + slug + '/' + newPost.getPostId();
+    }
+
+    @RequestMapping(value = "/p/{slug}/{id}", method = RequestMethod.POST)
+    public String replyPost(@PathVariable String slug, @PathVariable("id") long id, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model) {
         Optional<Post> post = postService.getPostById(id);
         if(!post.isPresent()) return "postNotFound";
 
@@ -76,11 +78,11 @@ public class PostController {
         post.get().addReply(r);
         postService.addNewPost(post.get());
 
-        return "redirect:/post/" + post.get().getPostId();
+        return "redirect:/p/" + slug + '/' + post.get().getPostId();
     }
 
-    @RequestMapping(value = "/post/{postId}/{id}", method = RequestMethod.POST)
-    public String replyReply(@PathVariable("postId") long postId, @PathVariable("id") long id, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio,@RequestParam("recording") String recording, Model model) {
+    @RequestMapping(value = "/p/{slug}/{postId}/{id}", method = RequestMethod.POST)
+    public String replyReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio,@RequestParam("recording") String recording, Model model) {
         Optional<Reply> prevReply = replyService.getReplyById(id);
         if(!prevReply.isPresent()) return "postNotFound";
 
@@ -89,13 +91,12 @@ public class PostController {
         prevReply.get().addReply(r);
         replyService.addNewReply(prevReply.get());
 
-        return "redirect:/post/" + postId;
+        return "redirect:/p/" + slug + '/' + postId;
     }
 
-    private Post createPost(String title, String text, MultipartFile image, MultipartFile audio, String recording) {
+    private Post createPost(String title, Sub sub, String text, MultipartFile image, MultipartFile audio, String recording) {
         Content c = createContent(text, image, audio, recording);
         User user = getUser();
-        Sub sub = getSub();
         Post newPost = new Post(title,
                                 sub,
                                 c,

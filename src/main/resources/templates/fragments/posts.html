@@ -1,6 +1,6 @@
 <ul th:fragment="posts" th:remove="tag">
   <li th:each="post : ${posts}" >
-    <a th:href="@{'/post/' + ${post.postId}}"> <p th:text="${post.title}"></p></a>
+    <a th:href="@{'/p/' + ${post.sub.slug} + '/' + ${post.postId}}"> <p th:text="${post.title}"></p></a>
     <div th:unless="${sub}">
       <a th:href="@{'/p/' + ${post.sub.slug}}"> <p th:text="${post.sub.name}"></p></a>
     </div>

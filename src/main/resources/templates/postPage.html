@@ -22,7 +22,8 @@
 	</head>
 	<body>
 		<div th:object="${post}">
-			<h1 th:text="*{title}"></h1>
+			<a th:href="@{'/p/' + *{sub.slug}}"><h1 th:text="*{sub.name}"></h1></a>
+			<h2 th:text="*{title}"></h2>
 			<h3 th:text="*{content.text}"></h3>
 			<img th:src="*{content.image}"/>
 			<div th:if="*{content.audio != ''}">
@@ -43,7 +44,7 @@
 			<p th:text="${post.created}"></p>
 		</div>
 		<div th:replace="fragments/reply :: replies"></div>
-		<form enctype="multipart/form-data" action="#" th:action="@{/post/} + ${post.postId}" method="post">
+		<form enctype="multipart/form-data" action="#" th:action="@{/p/} + ${post.sub.slug} + '/' + ${post.postId}" method="post">
 			<div>
 				<input
 					type="text"

@@ -9,6 +9,6 @@
   <h1 th:text="${sub.name}"></h1>
   <img th:src="*{sub.image}"/>
   <div th:replace="fragments/posts :: posts(sub = true)"></div>
-  <p><a href="/newPost">Create New Post</a></p>
+  <p><a th:href="@{'/p/' + ${sub.slug} + '/newPost'}">Create New Post</a></p>
 </body>
 </html>
