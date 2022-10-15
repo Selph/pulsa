@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="@{'Sub Puls ' + ${sub.name}}"></title>
+  <div th:replace="fragments/header :: header"></div>
+</head>
+<body>
+  <h1 th:text="${sub.name}"></h1>
+  <img th:src="*{sub.image}"/>
+  <div th:replace="fragments/posts :: posts(sub = true)"></div>
+  <p><a href="/newPost">Create New Post</a></p>
+</body>
+</html>

@@ -41,6 +41,11 @@ public class SubServiceImplementation implements SubService {
         return null;
     }
 
+    @Override
+    public Sub getSubBySlug(String slug) {
+        return subRepository.findBySlug(slug);
+    }
+
     public void deleteSub(Sub sub) {
         boolean exists = subRepository.existsById(sub.getSub_id());
         if (!exists) {

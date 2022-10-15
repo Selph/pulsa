@@ -1,0 +1,24 @@
+<ul th:fragment="posts" th:remove="tag">
+  <li th:each="post : ${posts}" >
+    <a th:href="@{'/post/' + ${post.postId}}"> <p th:text="${post.title}"></p></a>
+    <div th:unless="${sub}">
+      <a th:href="@{'/p/' + ${post.sub.slug}}"> <p th:text="${post.sub.name}"></p></a>
+    </div>
+    <img th:src="@{${post.content.image}}"/>
+    <div th:if="${post.content.audio != ''}">
+      <audio controls>
+        <source th:src="@{${post.content.audio}}" type="audio/mpeg">
+        <source th:src="@{${post.content.audio}}" type="audio/ogg">
+        <source th:src="@{${post.content.audio}}" type="audio/wav">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+    <div th:if="${post.content.recording != ''}">
+      <audio controls>
+        <source th:src="@{${post.content.recording}}" type="audio/ogg">
+        <source th:src="@{${post.content.recording}}" type="audio/wav">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+  </li>
+</ul>

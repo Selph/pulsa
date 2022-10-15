@@ -1,5 +1,8 @@
 package is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities;
 
+import com.github.slugify.Slugify;
+import is.hi.hbv501g.h6.hugboverkefni.Services.SubService;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +24,11 @@ public class Sub {
     private Long sub_id;
     private String name;
 
+    @Column(unique = true)
     private String slug;
     @ElementCollection
     private List<User> followers = new ArrayList<>();
+    private String image;
     private Integer followerCount;
 
     public Sub() {
@@ -31,6 +36,13 @@ public class Sub {
 
     public Sub(String name) {
         this.name = name;
+        this.slug = createSlug(name);
+    }
+
+    private String createSlug(String name) {
+        Slugify slg = Slugify.builder().build();
+        String slug = slg.slugify(name);
+        return slug;
     }
 
     public Long getId() {
@@ -79,5 +91,13 @@ public class Sub {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

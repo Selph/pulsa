@@ -28,7 +28,7 @@ public class HomePageController {
 
     @RequestMapping("/")
     public String frontPage(Model model) {
-        List<Post> allPosts = postService.getPosts();
+        List<Post> allPosts = postService.getPostsOrderedByCreated();
 
         model.addAttribute("posts", allPosts);
 
