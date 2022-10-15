@@ -124,6 +124,16 @@ public class PostController {
         return c;
     }
 
+    @RequestMapping(value = "/post/{postId}/{id}/upvote", method = RequestMethod.POST)
+    public String upvote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+        return "frontPage.html";
+    }
+
+    @RequestMapping(value = "/post/{postId}/{id}/downvote", method = RequestMethod.POST)
+    public String upvote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+        return "frontPage.html";
+    }
+
     private User getUser() {
         User user = userService.getUsers().get(0);
         return user;
