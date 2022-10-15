@@ -130,7 +130,7 @@ public class PostController {
     }
 
     @RequestMapping(value = "/post/{postId}/{id}/downvote", method = RequestMethod.POST)
-    public String upvote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+    public String downvote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
         return "frontPage.html";
     }
 
