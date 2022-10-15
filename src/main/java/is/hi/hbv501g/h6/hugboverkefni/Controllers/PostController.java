@@ -94,6 +94,16 @@ public class PostController {
         return "redirect:/p/" + slug + '/' + postId;
     }
 
+    @RequestMapping(value = "/p/{slug}/{postId}/{id}/upvote", method = RequestMethod.POST)
+    public String upvote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+        return "frontPage.html";
+    }
+
+    @RequestMapping(value = "/p/{slug}/{postId}/{id}/downvote", method = RequestMethod.POST)
+    public String downvote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+        return "frontPage.html";
+    }
+
     private Post createPost(String title, Sub sub, String text, MultipartFile image, MultipartFile audio, String recording) {
         Content c = createContent(text, image, audio, recording);
         User user = getUser();
@@ -125,15 +135,6 @@ public class PostController {
         return c;
     }
 
-    @RequestMapping(value = "/post/{postId}/{id}/upvote", method = RequestMethod.POST)
-    public String upvote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
-        return "frontPage.html";
-    }
-
-    @RequestMapping(value = "/post/{postId}/{id}/downvote", method = RequestMethod.POST)
-    public String downvote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
-        return "frontPage.html";
-    }
 
     private User getUser() {
         User user = userService.getUsers().get(0);
