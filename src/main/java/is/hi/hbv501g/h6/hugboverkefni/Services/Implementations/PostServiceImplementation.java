@@ -42,7 +42,7 @@ public class PostServiceImplementation implements PostService {
 
     @Override
     public List<Post> getSubPostsOrderedByCreated(Sub sub) {
-        return postRepository.findAllBySubContainingOrderByCreatedDesc(sub);
+        return postRepository.findAllBySubOrderByCreatedDesc(sub);
     }
 
     public Post addNewPost(Post post) {

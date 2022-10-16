@@ -14,10 +14,9 @@ public class SubConfig {
     @Bean
     CommandLineRunner commandLineSubRunner(SubRepository subRepository) {
         return args -> {
-            Sub graenmeti = new Sub("Graenmeti");
+            Sub graenmeti = new Sub("Grænmeti");
             Sub malning = new Sub("Málning Þornar");
-            Sub haskolalifid = new Sub("Háskólalífið");
-            subRepository.saveAll(List.of(graenmeti, malning, haskolalifid));
+            subRepository.saveAll(List.of(graenmeti, malning));
         };
     }
 }

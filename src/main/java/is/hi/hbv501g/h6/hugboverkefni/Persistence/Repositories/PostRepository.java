@@ -12,6 +12,6 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByCreator(User user);
     List<Post> findAllByOrderByCreatedDesc();
-    List<Post> findAllBySubContainingOrderByCreatedDesc(Sub sub);
+    List<Post> findAllBySubOrderByCreatedDesc(Sub sub);
 }
 

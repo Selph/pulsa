@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Sub Genesis</title>
+      <div th:replace="fragments/header :: header"></div>
+    </head>
+    <body>
+        <form action="#" th:action="@{/newSub}"  method="post" enctype="multipart/form-data">
+            <label for="name">Sub Pulsa Name</label>
+            <input type="text" field="*{name}" name="name" id="name" placeholder="Name">
+            <label for="image">Image</label>
+            <input
+                    type="file"
+                    field="*{image}"
+                    name="image"
+                    id="image"
+                    accept="image/*">
+            <input type="submit" value="Create new sub pulsa">
+        </form>
+    </body>
+</html>

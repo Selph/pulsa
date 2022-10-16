@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Pulsu Index</title>
+  <div th:replace="fragments/header :: header"></div>
+</head>
+<body>
+  <ul>
+    <li th:each="sub : ${subs}" >
+      <img th:src="*{sub.image}"/>
+      <a th:href="@{'/p/' + ${sub.slug}}"> <p th:text="${sub.name}"></p></a>
+    </li>
+  </ul>
+  <p><a href="/newSub">Create New Sub</a></p>
+</body>
+</html>

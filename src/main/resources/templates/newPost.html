@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<form action="#" th:action="@{/newPost}"  method="post" enctype="multipart/form-data">
+<form action="#" th:action="@{'/p/' + ${slug} + '/newPost'}"  method="post" enctype="multipart/form-data">
   <label for="title">Title</label>
   <input type="text" field="*{title}" name="title" id="title" placeholder="Title">
   <div>
@@ -37,61 +37,7 @@
 			  id="recording"
 			  hidden>
 	  <input type="button" onclick="recordAudio(this, 'recording')" value="Record">
-	  <script>
-		  let record = false;
-		  let mediaRecorder;
-		  let chunks = [];
-
-		  function recordAudio(el, reply) {
-			  if(!record) {
-				  navigator.mediaDevices.getUserMedia({audio: true, video: false})
-						  .then((stream) => {
-							  mediaRecorder = new MediaRecorder(stream);
-
-							  mediaRecorder.ondataavailable = (e) => {
-								  chunks.push(e.data);
-							  }
-
-							  mediaRecorder.onstop = async (e) => {
-								  let audioPlayer = document.getElementById('player');
-
-
-								  const blob = new Blob(chunks, {type: "audio/ogg"});
-								  var dataUrl = await new Promise(r => {
-									  let a = new FileReader();
-									  a.onload = r;
-									  a.readAsDataURL(blob)
-								  }).then(e => e.target.result);
-								  chunks = [];
-								  const audioUrl = window.URL.createObjectURL(blob);
-								  audioPlayer.src = audioUrl;
-								  let recording = document.getElementById(reply);
-								  recording.value = dataUrl;
-
-							  }
-
-							  mediaRecorder.start();
-							  record = !record;
-							  changeButtonValue(el);
-						  })
-						  .catch((err) => {
-							  console.log(err);
-						  });
-			  } else {
-				  mediaRecorder.stop();
-				  record = !record;
-				  changeButtonValue(el)
-			  }
-		  }
-
-		  function changeButtonValue(el) {
-			  if(el.getAttribute("value") === "Record") {
-				  el.setAttribute("value", "Stop");
-			  } else {
-				  el.setAttribute("value", "Record");
-			  }
-		  }
-	  </script>
+	  <div th:replace="fragments/recorderScript :: recorderScript"></div>
 	  <input
 			  type="file"
 			  onchange="play(this)"
@@ -100,15 +46,7 @@
 			  id="audio"
 			  accept="audio/*"
 			  capture>
-	  <script>
-		  function play(el) {
-			  let player = document.getElementById('player');
-
-			  if(!el.files.length) return;
-			  const audioUrl = URL.createObjectURL(el.files[0]);
-			  player.src = audioUrl;
-		  }
-	  </script>
+	  <div th:replace="fragments/playerScript :: playerScript"></div>
 	  <audio id="player" controls></audio>
   </div>
   

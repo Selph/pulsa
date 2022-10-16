@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SubRepository extends JpaRepository<Sub, Long> {
+    Sub findBySlug(String slug);
 }
 

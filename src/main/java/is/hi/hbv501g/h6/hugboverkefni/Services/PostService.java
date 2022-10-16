@@ -3,8 +3,6 @@ package is.hi.hbv501g.h6.hugboverkefni.Services;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Post;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Sub;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
-import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.PostRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

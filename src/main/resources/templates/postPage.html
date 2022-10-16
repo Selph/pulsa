@@ -2,7 +2,7 @@
 <html xmlns:th="https://thymeleaf.org">
 	<head>
 		<meta charset="UTF-8">
-		<title>Post</title>
+		<title th:text="@{'Pul-[ ' + ${post.sub.name} + ' ' + ${post.title} + ' ]-sa'}"></title>
 		<div th:replace="fragments/header :: header"></div>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
 		<script src="https://malsup.github.io/jquery.form.js"></script>
@@ -37,8 +37,8 @@
 	</head>
 	<body>
 		<div th:object="${post}">
-			<p th:text="${post.postId}"></p>
-			<h1 th:text="*{title}"></h1>
+			<a th:href="@{'/p/' + *{sub.slug}}"><h1 th:text="*{sub.name}"></h1></a>
+			<h2 th:text="*{title}"></h2>
 			<h3 th:text="*{content.text}"></h3>
 			<img th:src="*{content.image}"/>
 			<div th:if="*{content.audio != ''}">
@@ -59,7 +59,7 @@
 			<p th:text="${post.created}"></p>
 		</div>
 		<div th:replace="fragments/reply :: replies"></div>
-		<form enctype="multipart/form-data" action="#" th:action="@{/post/} + ${post.postId}" method="post">
+		<form enctype="multipart/form-data" action="#" th:action="@{/p/} + ${post.sub.slug} + '/' + ${post.postId}" method="post">
 			<div>
 				<input
 					type="text"
@@ -87,61 +87,7 @@
 
 				<label for="audio">Audio file</label>
 				<input type="button" onclick="recordAudio(this, 'recording')" value="Record">
-				<script>
-					let record = false;
-					let mediaRecorder;
-					let chunks = [];
-					
-					function recordAudio(el, reply) {
-						if(!record) {
-							navigator.mediaDevices.getUserMedia({audio: true, video: false})
-								.then((stream) => {
-									mediaRecorder = new MediaRecorder(stream);
-									
-									mediaRecorder.ondataavailable = (e) => {
-										chunks.push(e.data);
-									}
-									
-									mediaRecorder.onstop = async (e) => {
-										let audioPlayer = document.getElementById('player');
-										
-
-										const blob = new Blob(chunks, {type: "audio/ogg"});
-										var dataUrl = await new Promise(r => {
-											let a = new FileReader();
-											a.onload = r;
-											a.readAsDataURL(blob)
-										}).then(e => e.target.result);
-										chunks = [];
-										const audioUrl = window.URL.createObjectURL(blob);
-										audioPlayer.src = audioUrl;
-										let recording = document.getElementById(reply);
-										recording.value = dataUrl;
-										
-									}
-									
-									mediaRecorder.start();
-									record = !record;
-									changeButtonValue(el);
-								})
-								.catch((err) => {
-								console.log(err);
-							});
-						} else {
-							mediaRecorder.stop();
-							record = !record;
-							changeButtonValue(el)
-						}
-					}
-					
-					function changeButtonValue(el) {
-						if(el.getAttribute("value") === "Record") {
-							el.setAttribute("value", "Stop");
-						} else {
-							el.setAttribute("value", "Record");
-						}
-					}
-				</script>
+				<div th:replace="fragments/recorderScript :: recorderScript"></div>
 				<input
 					type="file"
 					onchange="play(this)"
@@ -150,15 +96,7 @@
 					id="audio"
 					accept="audio/*"
 					capture>
-				<script>
-					function play(el) {
-						let player = document.getElementById('player');
-
-						if(!el.files.length) return;
-						const audioUrl = URL.createObjectURL(el.files[0]);
-						player.src = audioUrl;
-					}
-				</script>
+				<div th:replace="fragments/playerScript :: playerScript"></div>
 				<audio id="player" controls></audio>
 			</div>
 			<input type="submit" value="Add comment">
