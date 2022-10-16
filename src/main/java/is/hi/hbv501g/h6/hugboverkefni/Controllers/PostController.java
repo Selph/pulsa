@@ -41,8 +41,13 @@ public class PostController {
         this.cloudinaryService = cloudinaryService;
     }
 
+    @RequestMapping(value = "/newPost", method = RequestMethod.GET)
+    public String newPostGET(Post post){
 
-    @RequestMapping(value = "/p/{slug}/{id}", method = RequestMethod.GET)
+        return "newPost";
+    }
+
+    @RequestMapping(value = "/post/{id}", method = RequestMethod.GET)
     public String postPage(@PathVariable("id") long id, Model model) {
         Optional<Post> post = postService.getPostById(id);
         if(!post.isPresent()) return "postNotFound";
@@ -54,22 +59,15 @@ public class PostController {
         return "postPage";
     }
 
-    @RequestMapping(value = "/p/{slug}/newPost", method = RequestMethod.GET)
-    public String newPostGET(@PathVariable String slug, Post post, Model model){
-        model.addAttribute("slug", slug);
-        return "newPost";
-    }
-
-    @RequestMapping(value = "/p/{slug}/newPost", method = RequestMethod.POST)
-    public String newPostPOST(@PathVariable String slug, String title, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model){
-        Sub sub = subService.getSubBySlug(slug);
-        Post newPost = createPost(title, sub, text, image, audio, recording);
+    @RequestMapping(value = "/newPost", method = RequestMethod.POST)
+    public String newPostPOST(String title, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model){
+        Post newPost = createPost(title, text, image, audio, recording);
         postService.addNewPost(newPost);
-        return "redirect:/p/" + slug + '/' + newPost.getPostId();
+        return "redirect:/post/" + newPost.getPostId();
     }
 
-    @RequestMapping(value = "/p/{slug}/{id}", method = RequestMethod.POST)
-    public String replyPost(@PathVariable String slug, @PathVariable("id") long id, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model) {
+    @RequestMapping(value = "/post/{id}", method = RequestMethod.POST)
+    public String replyPost(@PathVariable("id") long id, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model) {
         Optional<Post> post = postService.getPostById(id);
         if(!post.isPresent()) return "postNotFound";
 
@@ -78,11 +76,11 @@ public class PostController {
         post.get().addReply(r);
         postService.addNewPost(post.get());
 
-        return "redirect:/p/" + slug + '/' + post.get().getPostId();
+        return "redirect:/post/" + post.get().getPostId();
     }
 
-    @RequestMapping(value = "/p/{slug}/{postId}/{id}", method = RequestMethod.POST)
-    public String replyReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio,@RequestParam("recording") String recording, Model model) {
+    @RequestMapping(value = "/post/{postId}/{id}", method = RequestMethod.POST)
+    public String replyReply(@PathVariable("postId") long postId, @PathVariable("id") long id, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio,@RequestParam("recording") String recording, Model model) {
         Optional<Reply> prevReply = replyService.getReplyById(id);
         if(!prevReply.isPresent()) return "postNotFound";
 
@@ -91,22 +89,13 @@ public class PostController {
         prevReply.get().addReply(r);
         replyService.addNewReply(prevReply.get());
 
-        return "redirect:/p/" + slug + '/' + postId;
+        return "redirect:/post/" + postId;
     }
 
-    @RequestMapping(value = "/p/{slug}/{postId}/{id}/upvote", method = RequestMethod.POST)
-    public String upvote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
-        return "frontPage.html";
-    }
-
-    @RequestMapping(value = "/p/{slug}/{postId}/{id}/downvote", method = RequestMethod.POST)
-    public String downvote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
-        return "frontPage.html";
-    }
-
-    private Post createPost(String title, Sub sub, String text, MultipartFile image, MultipartFile audio, String recording) {
+    private Post createPost(String title, String text, MultipartFile image, MultipartFile audio, String recording) {
         Content c = createContent(text, image, audio, recording);
         User user = getUser();
+        Sub sub = getSub();
         Post newPost = new Post(title,
                                 sub,
                                 c,
@@ -135,6 +124,32 @@ public class PostController {
         return c;
     }
 
+    @RequestMapping(value = "/post/{postId}/{id}/vote", method = RequestMethod.GET)
+    @ResponseBody
+    public String getReplyVote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+        Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
+
+        System.out.println(reply.getVote());
+
+        return reply.getVote().toString();
+    }
+
+    @RequestMapping(value = "/post/{postId}/{id}/upvote", method = RequestMethod.POST)
+    public String upvoteReply(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+        Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
+        reply.addVote(new Voter("", 1L, true));
+
+        System.out.println(reply.getVote());
+
+        return "frontPage.html";
+    }
+
+    @RequestMapping(value = "/post/{postId}/{id}/downvote", method = RequestMethod.POST)
+    public String downvoteReply(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+        postService.getPostById(postId).get().getReplyById(id).get().addVote(new Voter("", 1L, false));
+
+        return "frontPage.html";
+    }
 
     private User getUser() {
         User user = userService.getUsers().get(0);
