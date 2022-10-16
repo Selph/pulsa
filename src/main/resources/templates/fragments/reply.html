@@ -21,10 +21,10 @@
                     Your browser does not support the audio element.
                 </audio>
             </div>
-            <form id="upvote" action="#" th:action="@{/p/} + ${post.sub.slug} + @{/} + ${post.postId} + @{/} + ${postReply.replyId} + @{/upvote}" method="post">
+            <form class="upvote" action="#" th:action="@{/p/} + ${post.sub.slug} + @{/} + ${post.postId} + @{/} + ${postReply.replyId} + @{/upvote}" method="post">
             <input type="submit" value="Upvote">
             </form>
-            <form id="downvote" action="#" th:action="@{/p/} + ${post.sub.slug} + @{/} + ${post.postId} + @{/} + ${postReply.replyId} + @{/downvote}" method="post">
+            <form class="downvote" action="#" th:action="@{/p/} + ${post.sub.slug} + @{/} + ${post.postId} + @{/} + ${postReply.replyId} + @{/downvote}" method="post">
             <input type="submit" value="Downvote">
             </form>
           <div th:with="postReplies = ${postReply.replies}"
