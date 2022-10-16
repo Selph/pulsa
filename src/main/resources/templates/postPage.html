@@ -15,7 +15,7 @@
 					let votes = document.getElementsByClassName('vote');
 
 					for (let vote of votes) {
-							let result = fetch("/post/" + vote.id + "/vote")
+							let result = fetch("/p/" + vote.id + "/vote")
 									.then((response) => {
 							if (!response.ok) {
 								throw new Error(`HTTP error! Status: ${response.status}`);
@@ -25,12 +25,29 @@
 						})
 									.then((response) => {
 							response.text().then((result) => {
-								console.log(result);
+								vote.innerHTML = `${result}`;
 							});
 					});
 					}
 				});
 				$('.downvote').ajaxForm(function() {
+					let votes = document.getElementsByClassName('vote');
+
+					for (let vote of votes) {
+						let result = fetch("/p/" + vote.id + "/vote")
+								.then((response) => {
+									if (!response.ok) {
+										throw new Error(`HTTP error! Status: ${response.status}`);
+									}
+
+									return response.blob();
+								})
+								.then((response) => {
+									response.text().then((result) => {
+										vote.innerHTML = `${result}`;
+									});
+								});
+					}
 				});
 			});
 		</script>

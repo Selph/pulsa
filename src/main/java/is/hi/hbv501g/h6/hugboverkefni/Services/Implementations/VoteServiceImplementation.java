@@ -22,7 +22,9 @@ public class VoteServiceImplementation implements VoteService {
         this.voteRepository = voteRepository;
     }
 
-    public void addNewVote(Voter vote) {
+    public Voter addVoter(Voter vote) {
         voteRepository.save(vote);
+
+        return vote;
     }
 }

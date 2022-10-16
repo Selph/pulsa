@@ -17,33 +17,35 @@ public class Voter {
             generator = "voter_sequence"
     )
     private Long id;
-    private String username;
-    private Long userID;
+
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "user_id")
+    private User user;
+
     private boolean vote;
 
-    public Voter(String user, Long userID, boolean vote) {
-        this.username = user;
-        this.userID = userID;
+    public Voter(User user, boolean vote) {
+        this.user = user;
         this.vote = vote;
     }
 
     public Voter() {
     }
 
-    public String getUser() {
-        return username;
+    public User getUser() {
+        return user;
     }
 
     public void setUser(String username) {
-        this.username = username;
+        this.user = user;
     }
 
     public Long getUserID() {
-        return userID;
+        return user.getUser_id();
     }
 
     public void setUserID(Long userID) {
-        this.userID = userID;
+        this.user.setUser_id(userID);
     }
 
     public boolean isVote() {
@@ -58,8 +60,8 @@ public class Voter {
     public String toString() {
         return "Voter{" +
                 "id='" + id + '\'' +
-                "user='" + username + '\'' +
-                ", userID=" + userID +
+                "user='" + user + '\'' +
+                ", userID=" + user.getUser_id()+
                 ", vote=" + vote +
                 '}';
     }

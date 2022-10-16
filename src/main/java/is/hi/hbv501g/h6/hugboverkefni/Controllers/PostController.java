@@ -22,6 +22,8 @@ public class PostController {
     private PostServiceImplementation postService;
     private UserServiceImplementation userService;
     private ReplyServiceImplementation replyService;
+
+    private VoteServiceImplementation voteService;
     private SubServiceImplementation subService;
     private CloudinaryService cloudinaryService;
 
@@ -89,6 +91,35 @@ public class PostController {
         replyService.addNewReply(prevReply.get());
 
         return "redirect:/p/" + slug + '/' + postId;
+    }
+
+    @RequestMapping(value = "/post/{postId}/{id}/vote", method = RequestMethod.GET)
+    @ResponseBody
+    public String getReplyVote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+        Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
+
+        System.out.println(reply.getVote());
+
+        return reply.getVote().toString();
+    }
+
+    @RequestMapping(value = "/post/{postId}/{id}/upvote", method = RequestMethod.POST)
+    public String upvoteReply(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+        Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
+        Voter voter = new Voter("", 1L, true);
+        reply.addVote(voter);
+        voteService.addNewVote(voter);
+
+        System.out.println(reply.getVote());
+
+        return "frontPage.html";
+    }
+
+    @RequestMapping(value = "/post/{postId}/{id}/downvote", method = RequestMethod.POST)
+    public String downvoteReply(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+        postService.getPostById(postId).get().getReplyById(id).get().addVote(new Voter("", 1L, false));
+
+        return "frontPage.html";
     }
 
     private Post createPost(String title, Sub sub, String text, MultipartFile image, MultipartFile audio, String recording) {
