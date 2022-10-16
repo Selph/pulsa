@@ -96,7 +96,15 @@ public abstract class Message {
     }
 
     public void addVote(Voter vote) {
-        this.voted.add(vote);
+        Voter voter = this.voted.stream().filter(v -> v.getUserID() == vote.getUserID()).findAny().orElse(null);
+
+        if(voter == null) {
+
+            this.voted.add(vote);
+        }
+        else if (voter.isVote() != vote.isVote()) {
+            voter.setVote(vote.isVote());
+        }
     }
 
     public void removeVote(Voter vote) {

@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @Service
 public interface VoteService {
-    void addNewVote(Voter vote);
+    Voter addVoter(Voter vote);
 }

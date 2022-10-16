@@ -28,11 +28,13 @@ public class PostController {
     public PostController(PostServiceImplementation postService,
                           UserServiceImplementation userService,
                           ReplyServiceImplementation replyService,
+                          VoteServiceImplementation voteService,
                           SubServiceImplementation subService,
                           CloudinaryService cloudinaryService){
         this.postService = postService;
         this.userService = userService;
         this.replyService = replyService;
+        this.voteService = voteService;
         this.subService = subService;
         this.cloudinaryService = cloudinaryService;
     }
@@ -90,31 +92,34 @@ public class PostController {
         return "redirect:/p/" + slug + '/' + postId;
     }
 
-    @RequestMapping(value = "/post/{postId}/{id}/vote", method = RequestMethod.GET)
+    @RequestMapping(value = "/p/{slug}/{postId}/{id}/vote", method = RequestMethod.GET)
     @ResponseBody
-    public String getReplyVote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+    public String getReplyVote(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
         Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
-
-        System.out.println(reply.getVote());
 
         return reply.getVote().toString();
     }
 
-    @RequestMapping(value = "/post/{postId}/{id}/upvote", method = RequestMethod.POST)
-    public String upvoteReply(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+    @RequestMapping(value = "/p/{slug}/{postId}/{id}/upvote", method = RequestMethod.POST)
+    public String upvoteReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
         Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
-        Voter voter = new Voter("", 1L, true);
-        reply.addVote(voter);
-        voteService.addNewVote(voter);
+        Voter voter = new Voter(userService.getUserByUserName("gervinotandi1").get(), true);
+        Voter v = voteService.addVoter(voter);
+        reply.addVote(v);
+        replyService.addNewReply(reply);
 
-        System.out.println(reply.getVote());
+        System.out.println(reply.getVoted());
 
         return "frontPage.html";
     }
 
-    @RequestMapping(value = "/post/{postId}/{id}/downvote", method = RequestMethod.POST)
-    public String downvoteReply(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
-        postService.getPostById(postId).get().getReplyById(id).get().addVote(new Voter("", 1L, false));
+    @RequestMapping(value = "/p/{slug}/{postId}/{id}/downvote", method = RequestMethod.POST)
+    public String downvoteReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+        Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
+        Voter voter = new Voter(userService.getUserByUserName("gervinotandi1").get(), false);
+        reply.addVote(voter);
+        replyService.addNewReply(reply);
+
 
         return "frontPage.html";
     }
