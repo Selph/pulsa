@@ -19,8 +19,6 @@ public class PostController {
     private PostServiceImplementation postService;
     private UserServiceImplementation userService;
     private ReplyServiceImplementation replyService;
-
-    private VoteServiceImplementation voteService;
     private SubServiceImplementation subService;
     private CloudinaryService cloudinaryService;
 
@@ -28,13 +26,11 @@ public class PostController {
     public PostController(PostServiceImplementation postService,
                           UserServiceImplementation userService,
                           ReplyServiceImplementation replyService,
-                          VoteServiceImplementation voteService,
                           SubServiceImplementation subService,
                           CloudinaryService cloudinaryService){
         this.postService = postService;
         this.userService = userService;
         this.replyService = replyService;
-        this.voteService = voteService;
         this.subService = subService;
         this.cloudinaryService = cloudinaryService;
     }
@@ -104,11 +100,8 @@ public class PostController {
     public String upvoteReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
         Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
         User user = userService.getUserByUserName("gervinotandi1").get();
-        Voter voter = reply.findVoter(reply, user, userService);
-        reply.addVote(voter);
+        reply.addVote(user, true);
         replyService.addNewReply(reply);
-
-        System.out.println(reply.getVoted());
 
         return "frontPage.html";
     }
@@ -116,10 +109,9 @@ public class PostController {
     @RequestMapping(value = "/p/{slug}/{postId}/{id}/downvote", method = RequestMethod.POST)
     public String downvoteReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
         Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
-        Voter voter = new Voter(userService.getUserByUserName("gervinotandi1").get(), false);
-        reply.addVote(voter);
+        User user = userService.getUserByUserName("gervinotandi1").get();
+        reply.addVote(user, false);
         replyService.addNewReply(reply);
-
 
         return "frontPage.html";
     }

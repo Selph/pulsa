@@ -15,7 +15,7 @@ import java.util.List;
 public class PostConfig {
 
     @Bean
-    CommandLineRunner commandLineRunner(PostRepository postRepository, UserRepository userRepository, ReplyRepository replyRepository, VoteRepository voteRepository) {
+    CommandLineRunner commandLineRunner(PostRepository postRepository, UserRepository userRepository, ReplyRepository replyRepository) {
         return args -> {
             Sub sub = new Sub("Háskólalífið");
             sub.setImage("https://res.cloudinary.com/dc6h0nrwk/image/upload/v1665799070/i3g9v3wdjlzbeaxvhihc.jpg");
@@ -41,8 +41,6 @@ public class PostConfig {
             Reply reply = new Reply(content2, user2, new ArrayList<Voter>(), new ArrayList<Reply>());
             Voter voter = new Voter(user, true);
             userRepository.save(user2);
-            voteRepository.save(voter);
-            reply.addVote(voter);
             replyRepository.save(reply);
             List<Reply> replies = new ArrayList<Reply>();
             replies.add(0, reply);
