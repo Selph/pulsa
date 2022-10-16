@@ -4,6 +4,7 @@ import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Content;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Reply;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Voter;
+import is.hi.hbv501g.h6.hugboverkefni.Services.UserService;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -22,9 +23,6 @@ public abstract class Message {
     @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "user_id")
     private User creator;
-
-    @Transient
-    private Integer vote;
 
     @ElementCollection
     private List<Voter> voted = new ArrayList<>();
@@ -83,10 +81,6 @@ public abstract class Message {
         return votes;
     }
 
-    public void setVote(Integer vote) {
-        this.vote = vote;
-    }
-
     public List<Voter> getVoted() {
         return voted;
     }
@@ -125,5 +119,12 @@ public abstract class Message {
 
     public void setUpdated() {
         this.updated = LocalDateTime.now();
+    }
+
+    public Voter findVoter(Reply reply, User user, UserService userService) {
+        List<Voter> voted = reply.getVoted();
+        Optional<Voter> voter = voted.stream().filter(v -> v.getUser().getUser_id() == user.getUser_id()).findAny();
+        if (voter.isPresent()) return voter.get();
+        return new Voter(user, true);
     }
 }

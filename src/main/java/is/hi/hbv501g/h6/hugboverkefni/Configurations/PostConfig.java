@@ -1,10 +1,7 @@
 package is.hi.hbv501g.h6.hugboverkefni.Configurations;
 
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.*;
-import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.PostRepository;
-import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.ReplyRepository;
-import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.SubRepository;
-import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.UserRepository;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +15,7 @@ import java.util.List;
 public class PostConfig {
 
     @Bean
-    CommandLineRunner commandLineRunner(PostRepository postRepository, UserRepository userRepository, ReplyRepository replyRepository) {
+    CommandLineRunner commandLineRunner(PostRepository postRepository, UserRepository userRepository, ReplyRepository replyRepository, VoteRepository voteRepository) {
         return args -> {
             Sub sub = new Sub("Háskólalífið");
             sub.setImage("https://res.cloudinary.com/dc6h0nrwk/image/upload/v1665799070/i3g9v3wdjlzbeaxvhihc.jpg");
@@ -42,7 +39,10 @@ public class PostConfig {
                     new ArrayList<Post>(),
                     new ArrayList<Reply>());
             Reply reply = new Reply(content2, user2, new ArrayList<Voter>(), new ArrayList<Reply>());
+            Voter voter = new Voter(user, true);
             userRepository.save(user2);
+            voteRepository.save(voter);
+            reply.addVote(voter);
             replyRepository.save(reply);
             List<Reply> replies = new ArrayList<Reply>();
             replies.add(0, reply);

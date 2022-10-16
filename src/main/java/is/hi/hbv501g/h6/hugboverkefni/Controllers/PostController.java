@@ -103,9 +103,9 @@ public class PostController {
     @RequestMapping(value = "/p/{slug}/{postId}/{id}/upvote", method = RequestMethod.POST)
     public String upvoteReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
         Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
-        Voter voter = new Voter(userService.getUserByUserName("gervinotandi1").get(), true);
-        Voter v = voteService.addVoter(voter);
-        reply.addVote(v);
+        User user = userService.getUserByUserName("gervinotandi1").get();
+        Voter voter = reply.findVoter(reply, user, userService);
+        reply.addVote(voter);
         replyService.addNewReply(reply);
 
         System.out.println(reply.getVoted());
