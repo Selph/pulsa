@@ -20,10 +20,7 @@ public class ReplyConfig {
                     "gervinotandi2",
                     "gervikona",
                     "mynd.jpg",
-                    "net@fa.ng",
-                    new ArrayList<Sub>(),
-                    new ArrayList<Post>(),
-                    new ArrayList<Reply>());
+                    "net@fa.ng");
             Reply Joseph = new Reply(
                     content,
                     user,

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Log in to the Pulsiverse</title>
+  <div th:replace="fragments/header :: header"></div>
+</head>
+<body>
+<div th:switch="${users}">
+  <h2 th:case="null">No users yet!</h2>
+  <div th:case="*">
+    <h2>Users</h2>
+    <table>
+      <thead>
+      <tr>
+        <th>username</th>
+        <th>realname</th>
+        <th>email</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="user : ${users}">
+        <td th:text="${user.userName}"></td>
+        <td th:text="${user.realName}"></td>
+        <td th:text="${user.email}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -28,19 +28,13 @@ public class PostConfig {
                     "gervinotandi1",
                     "gervimadur",
                     "mynd.jpg",
-                    "net@fa.ng",
-                    new ArrayList<Sub>(),
-                    new ArrayList<Post>(),
-                    new ArrayList<Reply>());;
+                    "net@fa.ng");;
             Content content2 = new Content("Sugoi!", "http://res.cloudinary.com/dc6h0nrwk/image/upload/v1664806729/uakzskirbbkgb30tejb0.gif", "http://res.cloudinary.com/dc6h0nrwk/video/upload/v1664806897/xzn8cw8bkvv3moc3d8ua.mp3", "");
             User user2 = new User(
                     "gervinotandi2",
                     "gervikona",
                     "mynd.jpg",
-                    "net@fe.ng",
-                    new ArrayList<Sub>(),
-                    new ArrayList<Post>(),
-                    new ArrayList<Reply>());
+                    "net@fe.ng");
             Reply reply = new Reply(content2, user2, new ArrayList<Voter>(), new ArrayList<Reply>());
             userRepository.save(user2);
             replyRepository.save(reply);

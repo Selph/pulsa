@@ -1,0 +1,21 @@
+<html xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register New Account</title>
+</head>
+<body>
+<h2>Join the Pulsiverse</h2>
+<form action="#" th:action="@{/register}" th:object="${user}"  method="post">
+    <label for="userName">Username:</label>
+    <input type="text" name="userName" id="userName" th:field="*{userName}"/>
+    <p th:if="${#fields.hasErrors('userName')}" >Name Error</p>
+    <label for="realName">Fullt nafn:</label>
+    <input type="text" name="realName" id="realName" th:field="*{realName}"/>
+    <p th:if="${#fields.hasErrors('realName')}" th:errors="*{realName}">hey</p>
+    <label for="email">Netfang:</label>
+    <input type="email" name="email" id="email" th:field="*{email}"/>
+    <p th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}" />
+    <input type="submit" value="Register"/>
+</form>
+</body>
+</html>

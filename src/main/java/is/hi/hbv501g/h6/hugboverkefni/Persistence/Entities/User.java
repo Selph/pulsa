@@ -1,7 +1,8 @@
 package is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,18 +22,25 @@ public class User {
             generator = "user_sequence"
     )
     private Long user_id;
+    @NotBlank(message = "plsnotblank")
     private String userName;
+    @NotBlank(message = "plsnotblank")
     private String realName;
     private String avatar;
+    @Email(message = "email pls")
+    @NotBlank(message = "plsnotblank")
     private String email;
 
-    @ElementCollection
+
+    @OneToMany
     private List<Sub> subs = new ArrayList<Sub>();
 
-    @ElementCollection
+
+    @OneToMany
     private List<Post> posts = new ArrayList<Post>();
 
-    @ElementCollection
+
+    @OneToMany
     private List<Reply> replies = new ArrayList<Reply>();
     private LocalDateTime created;
     private LocalDateTime updated;
@@ -43,17 +51,11 @@ public class User {
     public User(String userName,
                 String realName,
                 String avatar,
-                String email,
-                List<Sub> subs,
-                List<Post> posts,
-                List<Reply> replies) {
+                String email) {
         this.userName = userName;
         this.realName = realName;
         this.avatar = avatar;
         this.email = email;
-        this.subs = subs;
-        this.posts = posts;
-        this.replies = replies;
         this.setCreated();
         this.setUpdated();
     }
