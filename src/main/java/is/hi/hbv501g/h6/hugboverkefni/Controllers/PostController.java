@@ -2,10 +2,7 @@ package is.hi.hbv501g.h6.hugboverkefni.Controllers;
 
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.*;
 import is.hi.hbv501g.h6.hugboverkefni.Services.CloudinaryService;
-import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.PostServiceImplementation;
-import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.ReplyServiceImplementation;
-import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.SubServiceImplementation;
-import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.UserServiceImplementation;
+import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +19,8 @@ public class PostController {
     private PostServiceImplementation postService;
     private UserServiceImplementation userService;
     private ReplyServiceImplementation replyService;
+
+    private VoteServiceImplementation voteService;
     private SubServiceImplementation subService;
     private CloudinaryService cloudinaryService;
 
@@ -91,15 +90,44 @@ public class PostController {
         return "redirect:/p/" + slug + '/' + postId;
     }
 
+    @RequestMapping(value = "/post/{postId}/{id}/vote", method = RequestMethod.GET)
+    @ResponseBody
+    public String getReplyVote(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+        Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
+
+        System.out.println(reply.getVote());
+
+        return reply.getVote().toString();
+    }
+
+    @RequestMapping(value = "/post/{postId}/{id}/upvote", method = RequestMethod.POST)
+    public String upvoteReply(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+        Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
+        Voter voter = new Voter("", 1L, true);
+        reply.addVote(voter);
+        voteService.addNewVote(voter);
+
+        System.out.println(reply.getVote());
+
+        return "frontPage.html";
+    }
+
+    @RequestMapping(value = "/post/{postId}/{id}/downvote", method = RequestMethod.POST)
+    public String downvoteReply(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+        postService.getPostById(postId).get().getReplyById(id).get().addVote(new Voter("", 1L, false));
+
+        return "frontPage.html";
+    }
+
     private Post createPost(String title, Sub sub, String text, MultipartFile image, MultipartFile audio, String recording) {
         Content c = createContent(text, image, audio, recording);
         User user = getUser();
         Post newPost = new Post(title,
-                sub,
-                c,
-                user,
-                new ArrayList<Voter>(),
-                new ArrayList<Reply>());
+                                sub,
+                                c,
+                                user,
+                                new ArrayList<Voter>(),
+                                new ArrayList<Reply>());
         return newPost;
     }
 
@@ -120,33 +148,6 @@ public class PostController {
         if (recording.length() != 9) recordingUrl = cloudinaryService.uploadRecording(recording);
         Content c = new Content(text, imgUrl, audioUrl, recordingUrl);
         return c;
-    }
-
-    @RequestMapping(value = "/p/{slug}/{postId}/{id}/vote", method = RequestMethod.GET)
-    @ResponseBody
-    public String getReplyVote(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
-        Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
-
-        System.out.println(reply.getVote());
-
-        return reply.getVote().toString();
-    }
-
-    @RequestMapping(value = "/p/{slug}/{postId}/{id}/upvote", method = RequestMethod.POST)
-    public String upvoteReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
-        Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
-        reply.addVote(new Voter("", 1L, true));
-
-        System.out.println(reply.getVote());
-
-        return "frontPage.html";
-    }
-
-    @RequestMapping(value = "/post/{postId}/{id}/downvote", method = RequestMethod.POST)
-    public String downvoteReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
-        postService.getPostById(postId).get().getReplyById(id).get().addVote(new Voter("", 1L, false));
-
-        return "frontPage.html";
     }
 
 
