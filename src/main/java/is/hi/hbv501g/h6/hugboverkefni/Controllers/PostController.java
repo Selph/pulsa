@@ -2,10 +2,7 @@ package is.hi.hbv501g.h6.hugboverkefni.Controllers;
 
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.*;
 import is.hi.hbv501g.h6.hugboverkefni.Services.CloudinaryService;
-import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.PostServiceImplementation;
-import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.ReplyServiceImplementation;
-import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.SubServiceImplementation;
-import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.UserServiceImplementation;
+import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +19,8 @@ public class PostController {
     private PostServiceImplementation postService;
     private UserServiceImplementation userService;
     private ReplyServiceImplementation replyService;
+
+    private VoteServiceImplementation voteService;
     private SubServiceImplementation subService;
     private CloudinaryService cloudinaryService;
 
@@ -104,7 +103,9 @@ public class PostController {
     @RequestMapping(value = "/post/{postId}/{id}/upvote", method = RequestMethod.POST)
     public String upvoteReply(@PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
         Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
-        reply.addVote(new Voter("", 1L, true));
+        Voter voter = new Voter("", 1L, true);
+        reply.addVote(voter);
+        voteService.addNewVote(voter);
 
         System.out.println(reply.getVote());
 
