@@ -11,4 +11,5 @@ import java.util.Optional;
 @Service
 public interface VoteService {
     Voter addVoter(Voter vote);
+    public void removeVoter(Voter vote);
 }

@@ -23,8 +23,9 @@ public class VoteServiceImplementation implements VoteService {
     }
 
     public Voter addVoter(Voter vote) {
-        voteRepository.save(vote);
-
-        return vote;
+        return voteRepository.save(vote);
+    }
+    public void removeVoter(Voter vote) {
+        voteRepository.delete(vote);
     }
 }
