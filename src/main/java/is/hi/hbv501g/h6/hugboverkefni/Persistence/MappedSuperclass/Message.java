@@ -89,20 +89,8 @@ public abstract class Message {
         this.voted = voted;
     }
 
-    public Voter addVote(User user, Boolean value) {
-        Voter voter = findVoter(user);
-
-        if(voter == null) {
-            Voter v = new Voter(user, value);
-            this.voted.add(v);
-
-            return v;
-        }
-        else if (voter.isVote() != value) {
-            voter.setVote(value);
-        }
-
-        return voter;
+    public void addVote(Voter voter) {
+            this.voted.add(voter);
     }
 
     public void removeVote(Voter vote) {
@@ -125,10 +113,5 @@ public abstract class Message {
         this.updated = LocalDateTime.now();
     }
 
-    public Voter findVoter(User user) {
-        List<Voter> voted = getVoted();
-        Optional<Voter> voter = voted.stream().filter(v -> v.getUser().getUser_id() == user.getUser_id()).findAny();
-        if (voter.isPresent()) return voter.get();
-        return null;
-    }
+
 }

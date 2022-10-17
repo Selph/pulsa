@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -20,6 +21,7 @@ public class PostController {
     private UserServiceImplementation userService;
     private ReplyServiceImplementation replyService;
     private SubServiceImplementation subService;
+    private VoteServiceImplementation voteService;
     private CloudinaryService cloudinaryService;
 
     @Autowired
@@ -27,11 +29,13 @@ public class PostController {
                           UserServiceImplementation userService,
                           ReplyServiceImplementation replyService,
                           SubServiceImplementation subService,
+                          VoteServiceImplementation voteService,
                           CloudinaryService cloudinaryService){
         this.postService = postService;
         this.userService = userService;
         this.replyService = replyService;
         this.subService = subService;
+        this.voteService = voteService;
         this.cloudinaryService = cloudinaryService;
     }
 
@@ -97,20 +101,36 @@ public class PostController {
     }
 
     @RequestMapping(value = "/p/{slug}/{postId}/{id}/upvote", method = RequestMethod.POST)
-    public String upvoteReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
-        Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
-        User user = userService.getUserByUserName("gervinotandi1").get();
-        reply.addVote(user, true);
-        replyService.addNewReply(reply);
+    public String upvoteReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id) {
 
-        return "frontPage.html";
+        return changeReplyVote(slug, postId, id, true);
     }
 
     @RequestMapping(value = "/p/{slug}/{postId}/{id}/downvote", method = RequestMethod.POST)
-    public String downvoteReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+    public String downvoteReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id) {
+        return changeReplyVote(slug, postId, id, false);
+
+    }
+
+    public String changeReplyVote(String slug, long postId, long id, Boolean upvote) {
         Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
         User user = userService.getUserByUserName("gervinotandi1").get();
-        reply.addVote(user, false);
+
+        Voter voter = findVoter(reply, user);
+
+        if(voter == null) {
+            voter = new Voter(user, upvote);
+            reply.addVote(voter);
+            voteService.addVoter(voter);
+        }
+        else if (voter.isVote() != upvote) {
+            voter.setVote(upvote);
+        }
+        else {
+            reply.removeVote(voter);
+            voteService.removeVoter(voter);
+        }
+
         replyService.addNewReply(reply);
 
         return "frontPage.html";
@@ -156,5 +176,11 @@ public class PostController {
     private Sub getSub() {
         Sub sub = subService.getSubs().get(0);
         return sub;
+    }
+    public Voter findVoter(Reply reply, User user) {
+        List<Voter> voted = reply.getVoted();
+        Optional<Voter> voter = voted.stream().filter(v -> v.getUser().getUser_id() == user.getUser_id()).findAny();
+
+        return voter.orElse(null);
     }
 }
