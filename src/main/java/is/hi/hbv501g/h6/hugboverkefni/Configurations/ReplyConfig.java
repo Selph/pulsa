@@ -18,6 +18,7 @@ public class ReplyConfig {
             Content content = new Content("Fyrsta comment", "mynd.jpg", "hljod.wav", "upptaka.wav");
             User user = new User(
                     "gervinotandi2",
+                    "gervi",
                     "gervikona",
                     "mynd.jpg",
                     "net@fa.ng");

@@ -4,12 +4,15 @@ import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
 
 import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -30,19 +33,40 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String registerPOST(@Valid User user, BindingResult result){
+        userService.addNewUser(user, result);
+
         if (result.hasErrors()){
-            return "redirect:/register";
+            return "register";
         }
 
-        userService.addNewUser(user);
         return "redirect:/registrationSuccess";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginGET(Model model){
-        List<User> users = userService.getUsers();
-        model.addAttribute("users", users);
+    public String loginGET(User user){
         return "login";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String loginPOST(User user, HttpSession session) {
+        User auth = userService.loginUser(user);
+        if(auth == null) return "redirect:login?error";
+
+        // Session time limit er 1800s eða 30m
+        // Breyta session time limit -> session.setMaxInactiveInterval(sec);
+        session.setAttribute("user", auth);
+
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(HttpSession session) {
+        if(session.getAttribute("user") != null)  {
+            session.invalidate();
+        }
+
+
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/registrationSuccess", method = RequestMethod.GET)

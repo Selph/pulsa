@@ -6,29 +6,16 @@
   <div th:replace="fragments/header :: header"></div>
 </head>
 <body>
-<div th:switch="${users}">
-  <h2 th:case="null">No users yet!</h2>
-  <div th:case="*">
-    <h2>Users</h2>
-    <table>
-      <thead>
-      <tr>
-        <th>username</th>
-        <th>realname</th>
-        <th>email</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="user : ${users}">
-        <td th:text="${user.userName}"></td>
-        <td th:text="${user.realName}"></td>
-        <td th:text="${user.email}"></td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-
-</div>
-
+	<form action="#" th:action="@{/login}" th:object="${user}" method="post">
+		<label for="userName">Username:</label>
+		<input type="text" name="userName" id="userName" th:field="*{userName}">
+		
+		<label for="password">Password:</label>
+		<input type="text" name="password" id="password" th:field="*{password}">
+		
+		
+		<input type="submit" value="Login">
+	</form>
+	<h6 th:text="${param.error} ? 'Incorrect username and/or password' : null"></h6>
 </body>
 </html>

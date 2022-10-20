@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,9 +60,9 @@ public class PostController {
     }
 
     @RequestMapping(value = "/p/{slug}/newPost", method = RequestMethod.POST)
-    public String newPostPOST(@PathVariable String slug, String title, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model){
+    public String newPostPOST(@PathVariable String slug, String title, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model, HttpSession session){
         Sub sub = subService.getSubBySlug(slug);
-        Post newPost = createPost(title, sub, text, image, audio, recording);
+        Post newPost = createPost(title, sub, text, image, audio, recording, session);
         postService.addNewPost(newPost);
         return "redirect:/p/" + slug + '/' + newPost.getPostId();
     }
@@ -136,16 +137,13 @@ public class PostController {
         return "frontPage.html";
     }
 
-    private Post createPost(String title, Sub sub, String text, MultipartFile image, MultipartFile audio, String recording) {
-        Content c = createContent(text, image, audio, recording);
-        User user = getUser();
-        Post newPost = new Post(title,
-                                sub,
-                                c,
-                                user,
-                                new ArrayList<Voter>(),
-                                new ArrayList<Reply>());
-        return newPost;
+    private Post createPost(String title, Sub sub, String text, MultipartFile image, MultipartFile audio, String recording, HttpSession session) {
+        Content content = createContent(text, image, audio, recording);
+
+        User user = (User) session.getAttribute("user");
+        if(user != null) return new Post(title,sub,content,user,new ArrayList<Voter>(), new ArrayList<Reply>());
+
+        return new Post(title, sub, content, userService.getAnon(), new ArrayList<Voter>(), new ArrayList<Reply>());
     }
 
 

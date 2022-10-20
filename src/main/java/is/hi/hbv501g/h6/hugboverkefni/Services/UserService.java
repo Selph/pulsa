@@ -4,6 +4,7 @@ import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,9 +12,10 @@ import java.util.Optional;
 @Service
 public interface UserService {
     List<User> getUsers();
+    User getAnon();
     Optional<User> getUserByEmail(String email);
     Optional<User> getUserByUserName(String userName);
-    void addNewUser(User user);
+    void addNewUser(User user, BindingResult result);
     void deleteUser(Long userId);
     User editUserName(User user);
     User editRealName(User user);

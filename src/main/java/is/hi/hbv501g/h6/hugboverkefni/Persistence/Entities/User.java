@@ -1,8 +1,12 @@
 package is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +26,21 @@ public class User {
             generator = "user_sequence"
     )
     private Long user_id;
-    @NotBlank(message = "plsnotblank")
+    @NotBlank(message = "Field must not be empty")
+    @Size(min = 3, message= "{Size.name}")
+    @Column(unique = true)
     private String userName;
-    @NotBlank(message = "plsnotblank")
+
+    @NotBlank(message = "Field must not be empty")
+    @Size(min = 2, message = "{Size.pass}")
+    private String password;
+    @NotBlank(message = "Field must not be empty")
+    @Size(min = 3, message= "{Size.name}")
     private String realName;
     private String avatar;
-    @Email(message = "email pls")
-    @NotBlank(message = "plsnotblank")
+    @NotBlank
+    @Email
+    @Column(unique = true)
     private String email;
 
 
@@ -49,10 +61,12 @@ public class User {
     }
 
     public User(String userName,
+                String password,
                 String realName,
                 String avatar,
                 String email) {
         this.userName = userName;
+        this.password = password;
         this.realName = realName;
         this.avatar = avatar;
         this.email = email;
@@ -146,5 +160,13 @@ public class User {
 
     public void setUpdated(LocalDateTime updated) {
         this.updated = updated;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

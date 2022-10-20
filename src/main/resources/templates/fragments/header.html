@@ -5,22 +5,16 @@
     <a href="/p/"><p>Sub Page</p></a>
   </div>
   <div className="user_group">
-    <!-- TODO: Implement session connectivity -->
-    <!-- <div th:switch="${session.user}"> -->
-      <!-- <div th:case="#{session.user.isLoggedIn}" className="logged_in"> -->
-      <div className="logged_in">
+      <div th:if="${session?.user}" class="logged_in">
         <div className="hamburger">
-          <!-- Replace when user is in session -->
-          <!-- <a th:href="@{'/user/' + ${user.userId} + '/edit'}"><p>Edit</p></a> -->
+          <a th:href="@{'/user/' + ${session?.user?.user_id} + '/edit'}"><p>Edit</p></a>
           <a th:href="@{'/user/' + 1 + '/edit'}"><p>Edit Account</p></a>
          <a href="/logout"><p>Log out</p></a>
         </div>
       </div>
-      <!-- <div th:case="#{!session.user.isLoggedIn}" className="not_logged_in"> -->
-      <div className="not_logged_in">
+      <div th:unless="${session?.user}" class="not_logged_in">
         <a href="/login"><p>Log in</p></a>
         <a href="/register"><p>Register</p></a>
       </div>
-    <!-- </div>-->
   </div>
 </div>
