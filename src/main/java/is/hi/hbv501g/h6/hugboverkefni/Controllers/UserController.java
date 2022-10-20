@@ -64,8 +64,6 @@ public class UserController {
         if(session.getAttribute("user") != null)  {
             session.invalidate();
         }
-
-
         return "redirect:/";
     }
 
