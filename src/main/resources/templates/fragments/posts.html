@@ -3,6 +3,7 @@
     <a th:href="@{'/p/' + ${post.sub.slug} + '/' + ${post.postId}}"> <p th:text="${post.title}"></p></a>
 		<div th:unless="${sub}">
       <a th:href="@{'/p/' + ${post.sub.slug}}"> <p th:text="${post.sub.name}"></p></a>
+      <a th:href="@{'/u/' + ${post.creator.userName}}"> <p th:text="@{'u/' + ${post.creator.userName}}"></p></a>
     </div>
     <img th:src="@{${post.content.image}}"/>
     <div th:if="${post.content.audio != ''}">

@@ -44,6 +44,7 @@
 		<div th:object="${post}">
 			<a th:href="@{'/p/' + *{sub.slug}}"><h1 th:text="*{sub.name}"></h1></a>
 			<h2 th:text="*{title}"></h2>
+			<a th:href="@{'/u/' + ${post.creator.userName}}"> <p th:text="@{'u/' + ${post.creator.userName}}"></p></a>
 			<h3 th:text="*{content.text}"></h3>
 			<img th:src="*{content.image}"/>
 			<div th:if="*{content.audio != ''}">
