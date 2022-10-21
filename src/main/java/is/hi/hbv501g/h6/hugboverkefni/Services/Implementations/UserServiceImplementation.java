@@ -29,7 +29,7 @@ public class UserServiceImplementation implements UserService {
     }
 
     public User getAnon() {
-        Optional<User> anon = userRepository.findById(3L);
+        Optional<User> anon = userRepository.findById(1L);
         return anon.get();
     }
 
