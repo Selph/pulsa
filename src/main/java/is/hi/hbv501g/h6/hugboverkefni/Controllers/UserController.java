@@ -42,12 +42,12 @@ public class UserController {
         return "redirect:/registrationSuccess";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(name = "/login", value = "/login", method = RequestMethod.GET)
     public String loginGET(User user){
         return "login";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
     public String loginPOST(User user, HttpSession session) {
         User auth = userService.loginUser(user);
         if(auth == null) return "redirect:login?error";
@@ -73,3 +73,6 @@ public class UserController {
     }
 
 }
+
+
+
