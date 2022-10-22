@@ -6,14 +6,10 @@ import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -122,7 +118,7 @@ public class PostController {
         Reply reply = replyService.getReplyById(id).get();
         User user = (User) session.getAttribute("user");
 
-        Voter voter = findVoter(reply, user);
+        Voter voter = findReplyVoter(reply, user);
 
         if(voter == null) {
             voter = new Voter(user, upvote);
@@ -138,6 +134,43 @@ public class PostController {
         }
 
         replyService.addNewReply(reply);
+
+        return "frontPage.html";
+    }
+
+    @RequestMapping(value = "/p/{id}/upvote", method = RequestMethod.POST)
+    public String upvotePost(@PathVariable("id") long id, HttpSession session) {
+
+        return changePostVote(id, true, session);
+    }
+
+    @RequestMapping(value = "/p/{id}/downvote", method = RequestMethod.POST)
+    public String downvotePost(@PathVariable("id") long id, HttpSession session) {
+        return changePostVote(id, false, session);
+
+    }
+
+
+    public String changePostVote(long id, Boolean upvote, HttpSession session) {
+        Post post = postService.getPostById(id).get();
+        User user = (User) session.getAttribute("user");
+
+        Voter voter = findPostVoter(post, user);
+
+        if(voter == null) {
+            voter = new Voter(user, upvote);
+            post.addVote(voter);
+            voteService.addVoter(voter);
+        }
+        else if (voter.isVote() != upvote) {
+            voter.setVote(upvote);
+        }
+        else {
+            post.removeVote(voter);
+            voteService.removeVoter(voter);
+        }
+
+        postService.addNewPost(post);
 
         return "frontPage.html";
     }
@@ -182,8 +215,15 @@ public class PostController {
         Sub sub = subService.getSubs().get(0);
         return sub;
     }
-    public Voter findVoter(Reply reply, User user) {
+    public Voter findReplyVoter(Reply reply, User user) {
         List<Voter> voted = reply.getVoted();
+        Optional<Voter> voter = voted.stream().filter(v -> v.getUser().getUser_id() == user.getUser_id()).findAny();
+
+        return voter.orElse(null);
+    }
+
+    private Voter findPostVoter(Post post, User user) {
+        List<Voter> voted = post.getVoted();
         Optional<Voter> voter = voted.stream().filter(v -> v.getUser().getUser_id() == user.getUser_id()).findAny();
 
         return voter.orElse(null);

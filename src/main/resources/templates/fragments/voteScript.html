@@ -1,9 +1,28 @@
 <div th:fragment="voteScript" th:remove="tag">
   <script>
-    function updateVotes(data, myForm) {
+    function updateReplyVotes() {
       let votes = document.getElementsByClassName('vote');
       for (let vote of votes) {
         let result = fetch("/r/" + vote.id + '/vote')
+                .then((response) => {
+                  if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                  }
+
+                  return response.blob();
+                })
+                .then((response) => {
+                  response.text().then((result) => {
+                    vote.innerHTML = `${result}`;
+                  });
+                });
+      }
+    }
+
+    function updatePostVotes() {
+      let votes = document.getElementsByClassName('vote');
+      for (let vote of votes) {
+        let result = fetch("/p/" + vote.id + '/vote')
                 .then((response) => {
                   if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -56,11 +75,17 @@
     }); */
 
     $(document).ready(function() {
-      $('.upvote').ajaxForm(function() {
-        updateVotes();
+      $('.upvote_reply').ajaxForm(function() {
+        updateReplyVotes();
       });
-      $('.downvote').ajaxForm(function() {
-        updateVotes();
+      $('.downvote_reply').ajaxForm(function() {
+        updateReplyVotes();
+      });
+      $('.upvote_post').ajaxForm(function() {
+        updatePostVotes();
+      });
+      $('.downvote_post').ajaxForm(function() {
+        updatePostVotes();
       });
     });
   </script>

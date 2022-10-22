@@ -25,10 +25,10 @@
     <div class="post_votes">
       <p class="vote" th:id="${post.postId}" th:text="${post.vote}"></p>
       <div class="vote_buttons" th:if="${session?.user}">
-        <form class="upvote" action="#" th:action="@{/r/} + ${post.postId} + @{/upvote}" method="post">
+        <form class="upvote_post" action="#" th:action="@{/p/} + ${post.postId} + @{/upvote}" method="post">
           <input type="submit" value="Upvote">
         </form>
-        <form class="downvote" action="#" th:action="@{/r/} + ${post.postId} + @{/downvote}" method="post">
+        <form class="downvote_post" action="#" th:action="@{/p/} + ${post.postId} + @{/downvote}" method="post">
           <input type="submit" value="Downvote">
         </form>
       </div>
