@@ -1,9 +1,9 @@
 <div th:fragment="voteScript" th:remove="tag">
   <script>
     function updateReplyVotes() {
-      let votes = document.getElementsByClassName('vote');
+      let votes = document.getElementsByClassName('vote_reply');
       for (let vote of votes) {
-        let result = fetch("/r/" + vote.id + '/vote')
+        let result = fetch(vote.id + '/vote')
                 .then((response) => {
                   if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -20,9 +20,9 @@
     }
 
     function updatePostVotes() {
-      let votes = document.getElementsByClassName('vote');
+      let votes = document.getElementsByClassName('vote_post');
       for (let vote of votes) {
-        let result = fetch("/p/" + vote.id + '/vote')
+        let result = fetch(vote.id + '/vote')
                 .then((response) => {
                   if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);

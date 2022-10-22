@@ -27,6 +27,7 @@ public abstract class Message {
     @Transient
     private int Vote;
 
+
     @ElementCollection
     private List<Voter> voted = new ArrayList<>();
 

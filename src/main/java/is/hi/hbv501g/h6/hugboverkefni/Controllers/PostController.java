@@ -138,6 +138,14 @@ public class PostController {
         return "frontPage.html";
     }
 
+    @RequestMapping(value = "/p/{id}/vote", method = RequestMethod.GET)
+    @ResponseBody
+    public String getPostVote(@PathVariable("id") long id, Model model) {
+        Post post = postService.getPostById(id).get();
+
+        return post.getVote().toString();
+    }
+
     @RequestMapping(value = "/p/{id}/upvote", method = RequestMethod.POST)
     public String upvotePost(@PathVariable("id") long id, HttpSession session) {
 

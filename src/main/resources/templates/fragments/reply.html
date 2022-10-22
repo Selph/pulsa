@@ -21,7 +21,7 @@
                 </audio>
             </div>
             <div class="reply_votes">
-                <p class="vote" th:id="${postReply.replyId}" th:text="${postReply.vote}"></p>
+                <p class="vote_reply" th:id="@{/r/} + ${postReply.replyId}" th:text="${postReply.vote}"></p>
                 <div class="vote_buttons" th:if="${session?.user}">
                     <form class="upvote_reply" action="#" th:action="@{/r/} + ${postReply.replyId} + @{/upvote}" method="post">
                         <input type="submit" value="Upvote">
