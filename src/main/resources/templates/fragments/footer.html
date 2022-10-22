@@ -1,0 +1,5 @@
+<div th:fragment="footer" className="footer">
+  <footer>
+    <p th:if="${session?.user}">Logged in as <b>[[${session.user.userName}]]</b></p>
+  </footer>
+</div>

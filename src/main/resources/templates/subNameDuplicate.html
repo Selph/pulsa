@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Not Found</title>
-  <div th:replace="fragments/header :: header"></div>
-</head>
-<body>
-<h1>Sub already exists</h1>
-</body>
+<html lang="en" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+  <head>
+    <title layout:fragment="title">Not Found</title>
+  </head>
+  <div layout:fragment="content">
+    <h1>Sub already exists</h1>
+  </div>
 </html>

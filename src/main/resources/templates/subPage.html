@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="https://thymeleaf.org">
+<html lang="en" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <head>
-  <meta charset="UTF-8">
-  <title th:text="@{'Sub Puls ' + ${sub.name}}"></title>
-  <div th:replace="fragments/header :: header"></div>
+  <title layout:fragment="title" th:text="@{'Sub Puls ' + ${sub.name}}"></title>
 </head>
-<body>
+<div layout:fragment="content">
   <h1 th:text="${sub.name}"></h1>
   <img th:src="*{sub.image}"/>
-  <div th:replace="fragments/posts :: posts(sub = true)"></div>
+  <div th:replace="fragments/posts :: posts(sub = true, form = false)"></div>
   <p><a th:href="@{'/p/' + ${sub.slug} + '/newPost'}">Create New Post</a></p>
-</body>
+</div>
 </html>

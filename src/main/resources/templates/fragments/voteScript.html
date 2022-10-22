@@ -1,0 +1,67 @@
+<div th:fragment="voteScript" th:remove="tag">
+  <script>
+    function updateVotes(data, myForm) {
+      let votes = document.getElementsByClassName('vote');
+      for (let vote of votes) {
+        let result = fetch("/r/" + vote.id + '/vote')
+                .then((response) => {
+                  if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                  }
+
+                  return response.blob();
+                })
+                .then((response) => {
+                  response.text().then((result) => {
+                    vote.innerHTML = `${result}`;
+                  });
+                });
+      }
+    }
+
+    /* function enableButtons(enabled) {
+        let upvoteButtons = document.getElementsByClassName('upvote');
+        let downvoteButtons = document.getElementsByClassName('downvote');
+
+        if(!enabled) {
+            for (let button of upvoteButtons) {
+                button.children[0].disabled = !enabled;
+            }
+
+            for (let button of downvoteButtons) {
+                button.children[0].disabled = !enabled;
+            }
+        }
+    }
+
+    addEventListener('DOMContentLoaded', (event) => {
+        let result = fetch("/username")
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+
+                    return response.blob();
+                })
+                .then((response) => {
+                    response.text().then((result) => {
+                        if (result !== "") {
+                            enableButtons(true);
+                        }
+                        else {
+                            enableButtons(false);
+                        }
+                    });
+                });
+    }); */
+
+    $(document).ready(function() {
+      $('.upvote').ajaxForm(function() {
+        updateVotes();
+      });
+      $('.downvote').ajaxForm(function() {
+        updateVotes();
+      });
+    });
+  </script>
+</div>

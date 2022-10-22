@@ -24,6 +24,9 @@ public abstract class Message {
     @JoinColumn(name = "user_id")
     private User creator;
 
+    @Transient
+    private int Vote;
+
     @ElementCollection
     private List<Voter> voted = new ArrayList<>();
 

@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="https://thymeleaf.org">
+<html lang="en" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
 	<head>
-    <meta charset="UTF-8">
-    <title>Front Puls of the Interpuls</title>
-    <div th:replace="fragments/header :: header"></div>
+		<title layout:fragment="title">Front Puls of the Interpuls</title>
 	</head>
 	<body>
-    <div th:replace="fragments/posts :: posts(sub = false)"></div>
-    <p><a href="/newSub">Create New Sub</a></p>
+		<div layout:fragment="content">
+			<div th:replace="fragments/posts :: posts(sub = false, form = false)"></div>
+			<p th:if="${session?.user}"><a href="/newSub">Create New Sub</a></p>
+		</div>
 	</body>
-	<footer>
-		<p th:if="${session?.user}">Logged in as <b>[[${session.user.userName}]]</b></p>
-	</footer>
 </html>

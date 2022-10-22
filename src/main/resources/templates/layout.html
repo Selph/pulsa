@@ -1,0 +1,16 @@
+<html lang="en" xmlns:layout="[https://www.ultraq.net.nz/thymeleaf/layout](https://www.ultraq.net.nz/thymeleaf/layout)">
+  <head>
+    <meta charset="UTF-8">
+    <title layout:fragment="title">Layout Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+    <script src="https://malsup.github.io/jquery.form.js"></script>
+    <div th:replace="fragments/voteScript :: voteScript"></div>
+  </head>
+  <body>
+    <header th:replace="fragments/header :: header"></header>
+    <div layout:fragment="content">
+      <p>Layout content</p>
+    </div>
+    <div th:replace="fragments/footer :: footer"></div>
+  </body>
+</html>

@@ -44,7 +44,7 @@ public class PostController {
 
 
     @RequestMapping(value = "/p/{slug}/{id}", method = RequestMethod.GET)
-    public String postPage(@PathVariable("id") long id, Model model) {
+    public String postPage(@PathVariable("slug") String slug, @PathVariable("id") long id, Model model) {
         Optional<Post> post = postService.getPostById(id);
         if(!post.isPresent()) return "postNotFound";
 
@@ -52,6 +52,7 @@ public class PostController {
         model.addAttribute("postReplies", post.get().getReplies());
         model.addAttribute("reply", new Reply());
         model.addAttribute("content", new Content());
+        model.addAttribute("sub", subService.getSubBySlug(slug));
         return "postPage";
     }
 
@@ -96,29 +97,29 @@ public class PostController {
         return "redirect:/p/" + slug + '/' + postId;
     }
 
-    @RequestMapping(value = "/p/{slug}/{postId}/{id}/vote", method = RequestMethod.GET)
+    @RequestMapping(value = "/r/{id}/vote", method = RequestMethod.GET)
     @ResponseBody
-    public String getReplyVote(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
+    public String getReplyVote(@PathVariable("id") long id, Model model) {
         Reply reply = replyService.getReplyById(id).get();
 
         return reply.getVote().toString();
     }
 
-    @RequestMapping(value = "/p/{slug}/{postId}/{id}/upvote", method = RequestMethod.POST)
-    public String upvoteReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, HttpSession session) {
+    @RequestMapping(value = "/r/{id}/upvote", method = RequestMethod.POST)
+    public String upvoteReply(@PathVariable("id") long id, HttpSession session) {
 
-        return changeReplyVote(slug, postId, id, true, session);
+        return changeReplyVote(id, true, session);
     }
 
-    @RequestMapping(value = "/p/{slug}/{postId}/{id}/downvote", method = RequestMethod.POST)
-    public String downvoteReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, HttpSession session) {
-        return changeReplyVote(slug, postId, id, false, session);
+    @RequestMapping(value = "/r/{id}/downvote", method = RequestMethod.POST)
+    public String downvoteReply(@PathVariable("id") long id, HttpSession session) {
+        return changeReplyVote(id, false, session);
 
     }
 
 
-    public String changeReplyVote(String slug, long postId, long id, Boolean upvote, HttpSession session) {
-        Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
+    public String changeReplyVote(long id, Boolean upvote, HttpSession session) {
+        Reply reply = replyService.getReplyById(id).get();
         User user = (User) session.getAttribute("user");
 
         Voter voter = findVoter(reply, user);

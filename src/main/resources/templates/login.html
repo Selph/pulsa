@@ -1,21 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="https://thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Log in to the Pulsiverse</title>
-  <div th:replace="fragments/header :: header"></div>
-</head>
-<body>
-	<form action="#" th:action="@{/login}" th:object="${user}" method="post">
-		<label for="userName">Username:</label>
-		<input type="text" name="userName" id="userName" th:field="*{userName}">
-		
-		<label for="password">Password:</label>
-		<input type="text" name="password" id="password" th:field="*{password}">
-		
-		
-		<input type="submit" value="Login">
-	</form>
-	<h6 th:text="${param.error} ? 'Incorrect username and/or password' : null"></h6>
-</body>
+<html lang="en" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+	<head>
+		<title layout:fragment="title">Log in to the Pulsiverse</title>
+	</head>
+	<div layout:fragment="content">
+		<form action="#" th:action="@{/login}" th:object="${user}" method="post">
+			<label for="userName">Username:</label>
+			<input type="text" name="userName" id="userName" th:field="*{userName}">
+
+			<label for="password">Password:</label>
+			<input type="text" name="password" id="password" th:field="*{password}">
+
+
+			<input type="submit" value="Login">
+		</form>
+		<h6 th:text="${param.error} ? 'Incorrect username and/or password' : null"></h6>
+	</div>
 </html>

@@ -1,0 +1,81 @@
+<div th:fragment="post" th:remove="tag">
+  <a th:href="@{'/p/' + ${post.sub.slug} + '/' + ${post.postId}}">
+    <h1 th:if="${title}" th:text="${post.title}"></h1>
+    <h2 th:unless="${title}" th:text="${post.title}"></h2>
+  </a>
+  <div th:unless="${sub}">
+    <a th:href="@{'/p/' + ${post.sub.slug}}"> <p th:text="${post.sub.name}"></p></a>
+  </div>
+  <a th:href="@{'/u/' + ${post.creator.userName}}"> <p th:text="@{'u/' + ${post.creator.userName}}"></p></a>
+  <img th:src="@{${post.content.image}}"/>
+  <div th:if="${post.content.audio != ''}">
+    <audio controls>
+      <source th:src="@{${post.content.audio}}" type="audio/mpeg">
+      <source th:src="@{${post.content.audio}}" type="audio/ogg">
+      <source th:src="@{${post.content.audio}}" type="audio/wav">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+  <div th:if="${post.content.recording != ''}">
+    <audio controls>
+      <source th:src="@{${post.content.recording}}" type="audio/ogg">
+      <source th:src="@{${post.content.recording}}" type="audio/wav">
+      Your browser does not support the audio element.
+    </audio>
+    <div class="post_votes">
+      <p class="vote" th:id="${post.postId}" th:text="${post.vote}"></p>
+      <div class="vote_buttons" th:if="${session?.user}">
+        <form class="upvote" action="#" th:action="@{/r/} + ${post.postId} + @{/upvote}" method="post">
+          <input type="submit" value="Upvote">
+        </form>
+        <form class="downvote" action="#" th:action="@{/r/} + ${post.postId} + @{/downvote}" method="post">
+          <input type="submit" value="Downvote">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div th:if="${form}">
+  <form enctype="multipart/form-data" action="#" th:action="@{/p/} + ${post.sub.slug} + '/' + ${post.postId}" method="post">
+    <div>
+      <input
+              type="text"
+              field="*{text}"
+              name="text"
+              id="text"
+              placeholder="What's on your mind?">
+
+      <label for="image">Image file</label>
+      <input
+              type="file"
+              field="*{image}"
+              name="image"
+              id="image"
+              accept="image/*">
+
+      <input
+              type="text"
+              field="*{recording}"
+              value="recording"
+              onchange="test(this)"
+              name="recording"
+              id="recording"
+              hidden>
+
+      <label for="audio">Audio file</label>
+      <input type="button" onclick="recordAudio(this, 'recording')" value="Record">
+      <div th:replace="fragments/recorderScript :: recorderScript"></div>
+      <input
+              type="file"
+              onchange="play(this)"
+              value="*{audio}"
+              name="audio"
+              id="audio"
+              accept="audio/*"
+              capture>
+      <div th:replace="fragments/playerScript :: playerScript"></div>
+      <audio id="player" controls></audio>
+    </div>
+    <input type="submit" value="Add comment">
+  </form>
+</div>

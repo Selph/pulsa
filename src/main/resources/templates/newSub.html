@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
     <head>
-        <meta charset="UTF-8">
-        <title>Sub Genesis</title>
-      <div th:replace="fragments/header :: header"></div>
+        <title layout:fragment="title">Sub Genesis</title>
     </head>
-    <body>
+    <div layout:fragment="content">
         <form action="#" th:action="@{/newSub}"  method="post" enctype="multipart/form-data">
             <label for="name">Sub Pulsa Name</label>
             <input type="text" field="*{name}" name="name" id="name" placeholder="Name">
@@ -18,5 +16,5 @@
                     accept="image/*">
             <input type="submit" value="Create new sub pulsa">
         </form>
-    </body>
+    </div>
 </html>

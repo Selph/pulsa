@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 	<head>
-		<meta charset="UTF-8">
-		<title>Not Found</title>
-		<div th:replace="fragments/header :: header"></div>
+		<title layout:fragment="title">Not Found</title>
 	</head>
-	<body>
-	<h1>Post not found</h1>
-	</body>
+	<div layout:fragment="content">
+		<h1>Post not found</h1>
+	</div>
 </html>

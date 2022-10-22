@@ -1,25 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="https://thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Register New Account</title>
-</head>
-<body>
-<h2>Join the Pulsiverse</h2>
-<form action="#" th:action="@{/register}" th:object="${user}"  method="post">
-    <label for="userName">Username:</label>
-    <input type="text" name="userName" id="userName" th:field="*{userName}">
-    <p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
-		<label for="password">Password:</label>
-		<input type="text" name="password" id="password" th:field="*{password}">
-		<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
-    <label for="realName">Fullt nafn:</label>
-    <input type="text" name="realName" id="realName" th:field="*{realName}">
-    <p th:if="${#fields.hasErrors('realName')}" th:errors="*{realName}">hey</p>
-    <label for="email">Netfang:</label>
-    <input type="email" name="email" id="email" th:field="*{email}">
-		<p th:if="${#fields.hasErrors('email')}" th:error="*{email}" th:errors="*{email}"></p>
-    <input type="submit" value="Register"/>
-</form>
-</body>
+<html lang="en" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+    <head>
+        <meta charset="UTF-8">
+        <title layout:fragment="title">Register New Account</title>
+    </head>
+    <div layout:fragment="content">
+        <h2>Join the Pulsiverse</h2>
+        <form action="#" th:action="@{/register}" th:object="${user}"  method="post">
+            <label for="userName">Username:</label>
+            <input type="text" name="userName" id="userName" th:field="*{userName}">
+            <p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
+                <label for="password">Password:</label>
+                <input type="text" name="password" id="password" th:field="*{password}">
+                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+            <label for="realName">Fullt nafn:</label>
+            <input type="text" name="realName" id="realName" th:field="*{realName}">
+            <p th:if="${#fields.hasErrors('realName')}" th:errors="*{realName}">hey</p>
+            <label for="email">Netfang:</label>
+            <input type="email" name="email" id="email" th:field="*{email}">
+                <p th:if="${#fields.hasErrors('email')}" th:error="*{email}" th:errors="*{email}"></p>
+            <input type="submit" value="Register"/>
+        </form>
+    </div>
 </html>
