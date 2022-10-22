@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Title</title>
+		<div th:replace="fragments/header"></div>
+	</head>
+	<body>
+		<div th:if="${session?.user}" th:object="${session.user}" th:class="edit">
+			<form action="#" th:action="@{'/user/' + *{user_id} + '/edit/email'}" method="post">
+				<label for="email">Email</label>
+				<input type="text" field="*{email}" name="email" id="email" th:value="*{email}">
+				<p th:if="${updated}">Email changed</p>
+				<input type="submit" value="Change">
+			</form>
+		</div>
+	</body>
+</html>

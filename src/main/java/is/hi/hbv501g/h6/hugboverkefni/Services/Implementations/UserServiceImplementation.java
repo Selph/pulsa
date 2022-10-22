@@ -33,6 +33,16 @@ public class UserServiceImplementation implements UserService {
         return anon.get();
     }
 
+    public int userExists(User user) {
+        Optional<User> userName = userRepository.findByUserName(user.getUserName());
+        Optional<User> email = userRepository.findByEmail(user.getEmail());
+
+        if(userName.isPresent() && email.isPresent()) return 3;
+        if(userName.isPresent()) return 1;
+        if(email.isPresent()) return 2;
+        return 0;
+    }
+
     @Override
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
@@ -43,14 +53,8 @@ public class UserServiceImplementation implements UserService {
         return userRepository.findByUserName(userName);
     }
 
-    public void addNewUser(User user, BindingResult result) {
-        Optional<User> userName = userRepository.findByUserName(user.getUserName());
-        Optional<User> email = userRepository.findByEmail(user.getEmail());
-
-        if(userName.isPresent()) result.rejectValue("userName", "error.duplicate", "Username taken");
-        if(email.isPresent()) result.rejectValue("email", "error.duplicate", "Email in use");
-
-        if(!result.hasErrors()) userRepository.save(user);
+    public void addNewUser(User user) {
+        userRepository.save(user);
     }
 
 

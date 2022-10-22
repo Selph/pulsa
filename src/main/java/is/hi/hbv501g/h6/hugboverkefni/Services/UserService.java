@@ -15,7 +15,8 @@ public interface UserService {
     User getAnon();
     Optional<User> getUserByEmail(String email);
     Optional<User> getUserByUserName(String userName);
-    void addNewUser(User user, BindingResult result);
+    void addNewUser(User user);
+    int userExists(User user);
     void deleteUser(Long userId);
     User editUserName(User user);
     User editRealName(User user);
