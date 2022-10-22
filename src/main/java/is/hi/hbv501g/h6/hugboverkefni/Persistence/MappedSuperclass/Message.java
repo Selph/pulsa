@@ -47,9 +47,12 @@ public abstract class Message {
     }
 
     public Optional<Reply> getReplyById(Long replyId) {
-        for (Reply reply : this.replies)
+        System.out.println("Finding " + replyId);
+        for (Reply reply : this.replies) {
+            System.out.println("Is it " + reply.getReplyId() + "?");
             if (reply.getReplyId() == replyId)
                 return Optional.of(reply);
+        }
 
         return Optional.empty();
     }

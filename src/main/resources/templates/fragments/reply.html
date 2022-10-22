@@ -83,6 +83,7 @@
 <!-- <div th:switch="${postReplies}">
     <ul th:case="*">
         <li th:each="postReply : ${postReplies}">
+            <p th:text="${postReply.creator.getUserName()}"></p>
             <p th:text="${postReply.content.text}"></p>
             <img th:src="${postReply.content.image}"/>
             <div th:if="${postReply.content.audio != ''}">

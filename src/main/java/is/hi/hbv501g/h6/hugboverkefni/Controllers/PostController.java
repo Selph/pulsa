@@ -99,27 +99,27 @@ public class PostController {
     @RequestMapping(value = "/p/{slug}/{postId}/{id}/vote", method = RequestMethod.GET)
     @ResponseBody
     public String getReplyVote(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, Model model) {
-        Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
+        Reply reply = replyService.getReplyById(id).get();
 
         return reply.getVote().toString();
     }
 
     @RequestMapping(value = "/p/{slug}/{postId}/{id}/upvote", method = RequestMethod.POST)
-    public String upvoteReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id) {
+    public String upvoteReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, HttpSession session) {
 
-        return changeReplyVote(slug, postId, id, true);
+        return changeReplyVote(slug, postId, id, true, session);
     }
 
     @RequestMapping(value = "/p/{slug}/{postId}/{id}/downvote", method = RequestMethod.POST)
-    public String downvoteReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id) {
-        return changeReplyVote(slug, postId, id, false);
+    public String downvoteReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, HttpSession session) {
+        return changeReplyVote(slug, postId, id, false, session);
 
     }
 
 
-    public String changeReplyVote(String slug, long postId, long id, Boolean upvote) {
+    public String changeReplyVote(String slug, long postId, long id, Boolean upvote, HttpSession session) {
         Reply reply = postService.getPostById(postId).get().getReplyById(id).get();
-        User user = userService.getUserByUserName("gervinotandi1").get();
+        User user = (User) session.getAttribute("user");
 
         Voter voter = findVoter(reply, user);
 

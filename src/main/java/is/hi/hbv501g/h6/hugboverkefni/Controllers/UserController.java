@@ -26,6 +26,20 @@ public class UserController {
         this.userService = userService;
     }
 
+    @RequestMapping(value = "/username", method = RequestMethod.GET)
+    @ResponseBody
+    public String getUsername(HttpSession session) {
+        System.out.println("Foo");
+        User user = (User)(session.getAttribute("user"));
+
+        if (user == null) {
+            return "";
+        }
+        else {
+            return user.getUserName();
+        }
+    }
+
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String registerGET(User user){
         return "register";
