@@ -29,6 +29,18 @@ public class Post extends Message {
 
     public Post() {}
 
+    /**
+     * Post entity
+     *
+     * @param title String title of post
+     * @param sub Sub SubPulsa of post
+     * @param content Content contains content of post
+     * @param creator User Post owner
+     * @param voted List<Voter> List of users that have voted on post
+     * @param replies List<Reply> List of replies to post
+     *
+     * @return Post object
+     */
     public Post(String title,
                 Sub sub,
                 Content content,

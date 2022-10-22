@@ -34,11 +34,21 @@ public class Sub {
     public Sub() {
     }
 
+    /**
+     * Sub entity
+     *
+     * @param name String name of subpulsa
+     *
+     * @return Sub
+     */
     public Sub(String name) {
         this.name = name;
         this.slug = createSlug(name);
     }
 
+    /*
+    Creates a unique identifying subpulsa name for its URL
+     */
     private String createSlug(String name) {
         Slugify slg = Slugify.builder().build();
         String slug = slg.slugify(name);

@@ -60,6 +60,18 @@ public class User {
     public User() {
     }
 
+    /**
+     * User entity
+     *
+     * @param userName String Unique user identifier
+     * @param password String Top secret password
+     * @param realName String Users real name
+     * @param avatar String DataURL of uploaded image
+     *                      representing the user
+     * @param email String email for user
+     *
+     * @return User
+     */
     public User(String userName,
                 String password,
                 String realName,

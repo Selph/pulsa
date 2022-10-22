@@ -20,20 +20,40 @@ public class ReplyServiceImplementation implements ReplyService {
         this.replyRepository = replyRepository;
     }
 
+    /**
+     * Returns all replies in database
+     * @return List<Reply>
+     */
     public List<Reply> getReplies() {
         return replyRepository.findAll();
     }
 
+    /**
+     * Returns reply with provided ID if it exists
+     * @param replyId Long ID of requested reply
+     * @return Optional<Reply>
+     */
     @Override
     public Optional<Reply> getReplyById(Long replyId) {
         return replyRepository.findById(replyId);
     }
 
+    /**
+     * Returns a list of replies belonging to provided User
+     * @param user User is owner of Replies
+     * @return List<Reply>
+     */
     @Override
     public List<Reply> getRepliesByUser(User user) {
         return replyRepository.findByCreator(user);
     }
 
+    /**
+     * Adds Reply to database.
+     * Has to contain Content object that is not empty
+     * @param reply Reply that will be added to database
+     * @return Reply
+     */
     public Reply addNewReply(Reply reply) {
         if (reply.getContent().getText().isEmpty() &&
                 reply.getContent().getImage().isEmpty() &&
@@ -45,10 +65,19 @@ public class ReplyServiceImplementation implements ReplyService {
         return replyRepository.save(reply);
     }
 
+    /**
+     * Returns Reply object with provided ID
+     * @param reply Reply contains ID
+     * @return Optional<Reply>
+     */
     public Optional<Reply> findReplyById(Reply reply) {
         return replyRepository.findById(reply.getReplyId());
     }
 
+    /**
+     * Deletes Reply from database
+     * @param reply Reply to be deleted
+     */
     public void deleteReply(Reply reply) {
         boolean exists = replyRepository.existsById(reply.getReplyId());
         if (!exists) {
@@ -57,6 +86,11 @@ public class ReplyServiceImplementation implements ReplyService {
         replyRepository.deleteById(reply.getReplyId());
     }
 
+    /**
+     * Replaces Reply in database
+     * @param reply Reply to be replaced
+     * @return Reply
+     */
     @Override
     public Reply editReply(Reply reply) {
         return replyRepository.save(reply);

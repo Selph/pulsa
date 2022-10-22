@@ -22,9 +22,19 @@ public class VoteServiceImplementation implements VoteService {
         this.voteRepository = voteRepository;
     }
 
+    /**
+     * Adds Voter to database
+     * @param vote Voter object to be added
+     * @return Voter
+     */
     public Voter addVoter(Voter vote) {
         return voteRepository.save(vote);
     }
+
+    /**
+     * Removes Voter object from database
+     * @param vote Voter Object to be removed
+     */
     public void removeVoter(Voter vote) {
         voteRepository.delete(vote);
     }

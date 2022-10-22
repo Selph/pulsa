@@ -20,6 +20,17 @@ public class Reply extends Message {
             generator = "reply_sequence"
     )
     private Long replyId;
+
+    /**
+     * Reply entity
+     *
+     * @param content Content contains content of reply
+     * @param user User owner of reply
+     * @param voted List<Voter> List of users that have voted on reply
+     * @param replies List<Reply> List of replies to Reply
+     *
+     * @return Reply
+     */
     public Reply(Content content, User user, List<Voter> voted, List<Reply> replies) {
         this.setContent(content);
         this.setCreator(user);

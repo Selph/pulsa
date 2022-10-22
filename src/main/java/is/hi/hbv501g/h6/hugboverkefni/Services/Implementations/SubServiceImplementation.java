@@ -18,15 +18,29 @@ public class SubServiceImplementation implements SubService {
         this.subRepository = subRepository;
     }
 
+    /**
+     * Returns all Subs
+     * @return List<Sub>
+     */
     public List<Sub> getSubs() {
         return subRepository.findAll();
     }
 
+    /**
+     * Returns sub from ID
+     * @param subId Long ID of subpulsa
+     * @return Sub
+     */
     @Override
     public Sub getSubById(Long subId) {
         return null;
     }
 
+    /**
+     * Adds Sub to database if it has a name
+     * @param sub Sub to be added to database
+     * @return Sub
+     */
     public Sub addNewSub(Sub sub) {
         if (sub.getName().isEmpty())
         {
@@ -36,16 +50,30 @@ public class SubServiceImplementation implements SubService {
         return subRepository.save(sub);
     }
 
+    /**
+     * Edits provided sub if it exists
+     * @param sub Sub to be edited
+     * @return Sub
+     */
     @Override
     public Sub editSub(Sub sub) {
         return null;
     }
 
+    /**
+     * Returns Sub with provided Slug identifier
+     * @param slug String slug belonging to particular sub
+     * @return Sub
+     */
     @Override
     public Sub getSubBySlug(String slug) {
         return subRepository.findBySlug(slug);
     }
 
+    /**
+     * Deletes provided Sub from database
+     * @param sub Sub to be deleted
+     */
     public void deleteSub(Sub sub) {
         boolean exists = subRepository.existsById(sub.getSub_id());
         if (!exists) {

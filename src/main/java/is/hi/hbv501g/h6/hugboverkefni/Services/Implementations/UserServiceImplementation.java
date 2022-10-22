@@ -24,25 +24,53 @@ public class UserServiceImplementation implements UserService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Returns all users in database
+     * @return List<User>
+     */
     public List<User> getUsers() {
         return userRepository.findAll();
     }
 
+    /**
+     * Returns Default User "Anon" that enables
+     * creating of posts and replies without being
+     * logged in
+     * @return User
+     */
     public User getAnon() {
         Optional<User> anon = userRepository.findById(1L);
         return anon.get();
     }
 
+    /**
+     * Returns User object containing email if it exists
+     * @param email String email of particular User
+     * @return Optional<User>
+     */
     @Override
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
+    /**
+     * Returns User containing username if it exists
+     * @param userName String username of particular User
+     * @return Optional<User>
+     */
     @Override
     public Optional<User> getUserByUserName(String userName) {
         return userRepository.findByUserName(userName);
     }
 
+    /**
+     * Adds new User to the database if userName or email is not
+     * already present in another User object in database
+     * If either username or email is taken the BindingResult object
+     * will be updated with rejectValue
+     * @param user User object to be added to database
+     * @param result BindingResult object
+     */
     public void addNewUser(User user, BindingResult result) {
         Optional<User> userName = userRepository.findByUserName(user.getUserName());
         Optional<User> email = userRepository.findByEmail(user.getEmail());
@@ -53,7 +81,10 @@ public class UserServiceImplementation implements UserService {
         if(!result.hasErrors()) userRepository.save(user);
     }
 
-
+    /**
+     * Deletes User related to provided ID from database if it exists
+     * @param userId Long ID User identifier
+     */
     public void deleteUser(Long userId) {
         boolean exists = userRepository.existsById(userId);
         if (!exists) {
@@ -87,6 +118,14 @@ public class UserServiceImplementation implements UserService {
         return null;
     }
 
+    /**
+     * Checks if username provided in UI matches a User in database
+     * If User exists, checks if password provided in UI matches password
+     * in database
+     * Returns User if password matches
+     * @param user User provided from UI
+     * @return User
+     */
     @Override
     public User loginUser(User user) {
         Optional<User> exists = getUserByUserName(user.getUserName());

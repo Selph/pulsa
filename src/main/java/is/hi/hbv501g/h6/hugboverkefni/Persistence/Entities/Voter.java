@@ -24,6 +24,15 @@ public class Voter {
 
     private boolean vote;
 
+    /**
+     * Voter entity
+     *
+     * @param user User casting the vote
+     * @param vote Boolean upvote when true
+     *                     downvote when false
+     *
+     * @return Voter Object
+     */
     public Voter(User user, boolean vote) {
         this.user = user;
         this.vote = vote;

@@ -29,6 +29,16 @@ public class Content {
     public Content() {
     }
 
+    /**
+     * Container for message content
+     *
+     * @param text String text input from user
+     * @param image String DataURL of uploaded image
+     * @param audio String DataURL of uploaded audio
+     * @param recording String DataURL of recorded audio
+     *
+     * @return Content
+     */
     public Content(String text, String image, String audio, String recording) {
         this.text = text;
         this.image = image;
