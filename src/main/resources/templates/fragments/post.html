@@ -22,16 +22,16 @@
       <source th:src="@{${post.content.recording}}" type="audio/wav">
       Your browser does not support the audio element.
     </audio>
-    <div class="post_votes">
-      <p class="vote_post" th:id="@{/p/} + ${post.postId}" th:text="${post.vote}"></p>
-      <div class="vote_buttons" th:if="${session?.user}">
-        <form class="upvote_post" action="#" th:action="@{/p/} + ${post.postId} + @{/upvote}" method="post">
-          <input type="submit" value="Upvote">
-        </form>
-        <form class="downvote_post" action="#" th:action="@{/p/} + ${post.postId} + @{/downvote}" method="post">
-          <input type="submit" value="Downvote">
-        </form>
-      </div>
+  </div>
+  <div class="post_votes">
+    <p class="vote_post" th:id="@{/p/} + ${post.postId}" th:text="${post.vote}"></p>
+    <div class="vote_buttons" th:if="${session?.user}">
+      <form class="upvote_post" action="#" th:action="@{/p/} + ${post.postId} + @{/upvote}" method="post">
+        <input type="submit" value="Upvote">
+      </form>
+      <form class="downvote_post" action="#" th:action="@{/p/} + ${post.postId} + @{/downvote}" method="post">
+        <input type="submit" value="Downvote">
+      </form>
     </div>
   </div>
   <div th:if="${form}">
