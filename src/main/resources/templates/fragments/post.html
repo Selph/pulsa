@@ -40,7 +40,7 @@
     <h2 th:unless="${title}" th:text="${post.title}"></h2>
   </a>
   <div class="flex flex-auto flex-col justify-center m-auto">
-    <a th:href="@{'/p/' + ${post.sub.slug}}" class=""> <img th:src="@{${post.content.image}}"/></a>
+    <a th:href="@{'/p/' + ${post.sub.slug} + '/' + ${post.postId}}" class=""> <img th:src="@{${post.content.image}}"/></a>
   </div>
   <div th:if="${post.content.audio != ''}" class="flex flex-auto flex-col justify-center m-auto">
     <audio controls>

@@ -61,9 +61,20 @@ public class PostConfig {
                     replies
             );
 
+            Content content3 = new Content("C3P0 and R2D2 walk into a bar...", "http://res.cloudinary.com/dc6h0nrwk/image/upload/v1666562503/t94r47hzji1i2aoyxhx7.jpg","http://res.cloudinary.com/dc6h0nrwk/video/upload/v1666563900/rzqrqkiggilk4wbbztqu.mp3","");
+            Sub starwars = new Sub("Star Wars");
+            sub.setImage("https://cdn.shopify.com/s/files/1/1057/4964/t/24/assets/star-wars-banner.jpeg");
+            Post Joseph = new Post("C3P0 and R2D2 walk into a bar...",
+                    starwars,
+                    content3,
+                    anon,
+                    new ArrayList<Voter>(),
+                    new ArrayList<Reply>());
+
             userRepository.save(user);
             userRepository.save(user3);
             postRepository.save(Jonathan);
+            postRepository.save(Joseph);
         };
     }
 }
