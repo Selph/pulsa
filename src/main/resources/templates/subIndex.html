@@ -4,12 +4,21 @@
     <title layout:fragment="title">Pulsu Index</title>
   </head>
   <div layout:fragment="content">
-    <ul>
-      <li th:each="sub : ${subs}" >
-        <img th:src="*{sub.image}"/>
-        <a th:href="@{'/p/' + ${sub.slug}}"> <p th:text="${sub.name}"></p></a>
-      </li>
-    </ul>
+    <div class="flex flex-auto flex-col justify-center m-auto">
+      <ul class="">
+        <li th:each="sub : ${subs}" class="bg-slate-800 p-5 rounded-2xl m-10 w-fit">
+          <a th:href="@{'/p/' + ${sub.slug}}">
+            <div class="absolute overflow-hidden bg-black w-fit text-center m-auto">
+              <p th:text="${sub.name}" class="font-bold text-5xl text-center"></p>
+            </div>
+            <div class="p-4 bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400">
+              <img th:src="*{sub.image}" class="bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400"/>
+            </div>
+          </a>
+
+        </li>
+      </ul>
+    </div>
     <p><a th:if="${session?.user}" href="/newSub">Create New Sub</a></p>
   </div>
 </html>

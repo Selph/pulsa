@@ -1,4 +1,4 @@
-<ul th:fragment="posts" th:remove="tag">
+<ul th:fragment="posts" th:remove="tag" class="">
   <li th:each="post : ${posts}" >
     <div th:replace="fragments/post :: post(sub = false, title = false)"></div>
   </li>

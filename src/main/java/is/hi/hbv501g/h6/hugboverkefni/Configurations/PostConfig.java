@@ -18,7 +18,7 @@ public class PostConfig {
     CommandLineRunner commandLineRunner(PostRepository postRepository, UserRepository userRepository, ReplyRepository replyRepository) {
         return args -> {
             User anon = new User("Anonymous",
-                                "aksjdfefefsdfa",
+                                "anon",
                                 "Anonymous",
                                 "https://res.cloudinary.com/dc6h0nrwk/image/upload/v1666386282/xov6nkbsxf3hmhuqb3jn.png",
                                 "anon@anon.com");
@@ -31,20 +31,20 @@ public class PostConfig {
                     "gervinotandi1",
                     "gervi",
                     "gervimadur",
-                    "mynd.jpg",
+                    "https://cdn2.iconfinder.com/data/icons/food-drink-60/50/1F32D-hot-dog-1024.png",
                     "net@fi.ng");;
             Content content2 = new Content("Sugoi!", "http://res.cloudinary.com/dc6h0nrwk/image/upload/v1664806729/uakzskirbbkgb30tejb0.gif", "http://res.cloudinary.com/dc6h0nrwk/video/upload/v1664806897/xzn8cw8bkvv3moc3d8ua.mp3", "");
             User user2 = new User(
                     "gervinotandi3",
                     "gervi",
                     "gervikona",
-                    "mynd.jpg",
+                    "https://cdn2.iconfinder.com/data/icons/food-drink-60/50/1F32D-hot-dog-1024.png",
                     "net@fe.ng");
             User user3 = new User(
                     "test",
                     "test",
                     "test",
-                    "mynd.jpg",
+                    "https://cdn2.iconfinder.com/data/icons/food-drink-60/50/1F32D-hot-dog-1024.png",
                     "test@test.com");
             Reply reply = new Reply(content2, user2, new ArrayList<Voter>(), new ArrayList<Reply>());
             Voter voter = new Voter(user, true);

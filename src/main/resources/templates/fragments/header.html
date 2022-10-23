@@ -1,19 +1,44 @@
-<header th:fragment="header" className="header">
-  <div className="main_index">
-    <a href="/"><p>Front Page</p></a>
-    <a href="/p/"><p>Sub Page</p></a>
-  </div>
-  <div className="user_group">
-      <div th:if="${session?.user}" class="logged_in">
-        <div className="hamburger">
-          <a th:href="@{'/user/' + ${session?.user?.user_id} + '/edit'}"><p>Edit</p></a>
-          <a th:href="@{'/user/' + 1 + '/edit'}"><p>Edit Account</p></a>
-         <a href="/logout"><p>Log out</p></a>
+<header th:fragment="header" class="m-auto">
+    <div class="flex flex-auto flex-row bg-slate-800 place-content-center text-white">
+        <div class="m-2 flex flex-auto flex-row md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-2xl">
+            <div class="flex flex-auto flex-row justify-start">
+                <div class="">
+                    <a href="/"><p class="font-trace text-5xl">pulsa</p></a>
+                </div>
+                <span class="ml-4 mr-4 h-10 my-auto w-0.5 bg-amber-100"></span>
+                <div class="my-auto">
+                    <a href="/p/">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 01-1.125-1.125v-3.75zM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 01-1.125-1.125v-8.25zM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 01-1.125-1.125v-2.25z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+              <div class="flex flex-auto flex-row justify-end">
+                  <div th:if="${session?.user}" class="flex flex-auto flex-row justify-end">
+                      <div class="dropdown">
+                          <div tabindex="0" class="relative w-12 h-12">
+                              <img class="rounded-full border border-gray-100 shadow-sm" th:src="${session.user.getAvatar()}" alt="user image" />
+                              <div class="absolute top-0 right-0 h-3 w-3 my-1 border-2 border-white rounded-full bg-green-400 z-2"></div>
+                          </div>
+                          <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                              <li><a th:href="@{'/user/' + ${session?.user?.user_id} + '/edit'}"><p class="font-jetbrains">Edit Account</p></a></li>
+                              <li><a href="/logout"><p class="font-jetbrains">Log out</p></a></li>
+                          </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div th:unless="${session?.user}" class="flex flex-auto flex-row justify-end">
+                      <div class="m-2">
+                          <a href="/login"><p class="font-jetbrains text-2xl">Log in</p></a>
+                      </div>
+                      <span class="ml-4 mr-4 h-10 my-auto w-0.5 bg-amber-100"></span>
+                      <div class="m-2">
+                        <a href="/register"><p class="font-jetbrains text-2xl">Register</p></a>
+                      </div>
+                  </div>
+              </div>
         </div>
-      </div>
-      <div th:unless="${session?.user}" class="not_logged_in">
-        <a href="/login"><p>Log in</p></a>
-        <a href="/register"><p>Register</p></a>
-      </div>
-  </div>
+    </div>
+    <span class="w-full block m-auto p-0.5 h1 bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400"></span>
 </header>
