@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Change Username</title>
+		<div th:replace="fragments/header :: header"></div>
+	</head>
+	<body>
+		<div th:if="${session?.user}" th:object="${session.user}" th:class="edit">
+			<form action="#" th:action="@{'/user/' + *{userName} + '/edit/username'}" method="post">
+				<label for="username">Username</label>
+				<input type="text" field="*{username}" name="username" id="username" th:value="*{userName}">
+				<p th:if="${error}" th:text="${error}"></p>
+				<p th:if="${updated}">Username changed</p>
+				<input type="submit" value="Change">
+			</form>
+		</div>
+	</body>
+</html>

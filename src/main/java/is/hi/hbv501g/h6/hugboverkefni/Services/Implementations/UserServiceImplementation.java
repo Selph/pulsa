@@ -4,6 +4,7 @@ import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.UserRepository;
 import is.hi.hbv501g.h6.hugboverkefni.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -94,28 +95,32 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public User editUserName(User user) {
-        return null;
+    public void editUserName(User user) {
+        Optional<User> usernameExists = userRepository.findByUserName(user.getUserName());
+        if(usernameExists.isPresent()) throw new DuplicateKeyException("Username taken");
+        userRepository.save(user);
     }
 
     @Override
     public User editRealName(User user) {
-        return null;
+        return userRepository.save(user);
     }
 
     @Override
     public User editPassword(User user) {
-        return null;
+        return userRepository.save(user);
     }
 
     @Override
-    public User editEmail(User user) {
-        return null;
+    public void editEmail(User user) {
+        Optional<User> userEmail = userRepository.findByEmail(user.getEmail());
+        if(userEmail.isPresent()) throw new DuplicateKeyException("Email taken");
+        userRepository.save(user);
     }
 
     @Override
     public User editAvatar(User user) {
-        return null;
+        return userRepository.save(user);
     }
 
     /**

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="https//thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Edit account</title>
+		<div th:replace="fragments/header :: header"></div>
+	</head>
+	<body>
+		<div th:if="${session?.user}" th:object="${session.user}" th:class="edit">
+			<nav th:class="edit__menu">
+				<picture th:if="*{avatar}" class="avatar">
+					<img th:src="@{*{avatar}}">
+				</picture>
+				<a th:href="@{'/user/' + *{user_id} + '/edit/avatar'}"><p>Change Avatar</p></a>
+				<a th:href="@{'/user/' + *{user_id} + '/edit/username'}"><p>Change Username</p></a>
+				<a th:href="@{'/user/' + *{user_id} + '/edit/password'}"><p>Change Password</p></a>
+				<a th:href="@{'/user/' + *{user_id} + '/edit/email'}"><p>Change Email</p></a>
+			</nav>
+			<form action="#" th:action="@{'/user/' + *{user_id} + '/edit'}" method="post">
+				<label for="realName">Fullt nafn:</label>
+				<input type="text" field="*{realName}" name="realName" id="realName" th:value="*{realName}">
+				<p th:if="${updated}">Name changed</p>
+				<!-- Hægt að bæta Bio, lista af subs og posts -->
+				<input type="submit" value="Update">
+			</form>
+		</div>
+	</body>
+</html>

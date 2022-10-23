@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Change Avatar</title>
+		<div th:replace="fragments/header :: header"></div>
+	</head>
+	<body>
+		<div th:if="${session?.user}" th:object="${session.user}">
+			<picture th:if="*{avatar}">
+				<img th:src="@{*{avatar}}">
+			</picture>
+			<form action="#" th:action="@{'/user/' + *{user_id} + '/edit/avatar'}" method="post" enctype="multipart/form-data">
+				<input type="file"
+							 field="avatar"
+							 name="avatar"
+							 id="avatar"
+							 accept="image/*">
+				<p th:if="${avatar}">Must select image</p>
+				<input type="submit" value="Change Avatar">
+			</form>
+		</div>
+	</body>
+</html>
