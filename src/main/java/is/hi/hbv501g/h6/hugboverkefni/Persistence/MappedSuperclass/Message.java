@@ -50,6 +50,11 @@ public abstract class Message {
         return replies;
     }
 
+    /**
+     * Returns internal Reply object by id if it exists
+     * @param replyId Long id of Reply
+     * @return Optional<Reply>
+     */
     public Optional<Reply> getReplyById(Long replyId) {
         System.out.println("Finding " + replyId);
         for (Reply reply : this.replies) {
@@ -74,6 +79,13 @@ public abstract class Message {
         this.creator = creator;
     }
 
+    /**
+     * Returns sum of total upvotes and downvotes on Message
+     * Voter object contains boolean value "vote"
+     * Upvote if true, votes is incremented
+     * Downvote if false, votes is decremented
+     * @return Integer Sum of total votes on Message
+     */
     public Integer getVote() {
         int votes = 0;
 

@@ -29,7 +29,11 @@ public class CloudinaryService {
             "api_secret", apiSecret,
             "secure", true));
 
-
+    /**
+     * Uploads Image to cloudinary
+     * @param file MultipartFile
+     * @return String Cloudinary URL containing uploaded image
+     */
     public String uploadImage(MultipartFile file) {
         try {
             File uploadedFile = convertMultiPartToFile(file);
@@ -46,6 +50,11 @@ public class CloudinaryService {
         }
     }
 
+    /**
+     * Uploads Audio file to cloudinary
+     * @param file MultipartFile
+     * @return String Cloudinary URL containing uploaded audio file
+     */
     public String uploadAudio(MultipartFile file) {
         try {
             File uploadedFile = convertMultiPartToFile(file);
@@ -62,6 +71,11 @@ public class CloudinaryService {
         }
     }
 
+    /**
+     * Uploads recorded audio to cloudinary
+     * @param recording String DataURL from audio recording
+     * @return String Cloudinary URL containing audio recording
+     */
     public String uploadRecording(String recording) {
         try {
             Map uploadResult = cloudinary.uploader().upload(recording, ObjectUtils.asMap("resource_type", "video"));
@@ -71,7 +85,12 @@ public class CloudinaryService {
         }
     }
 
-
+    /**
+     * Converts MultipartFile to File ready for upload to cloudinary
+     * @param file MultipartFile
+     * @return File
+     * @throws IOException
+     */
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
         File convFile = new File(file.getOriginalFilename());
         FileOutputStream fos = new FileOutputStream(convFile);
