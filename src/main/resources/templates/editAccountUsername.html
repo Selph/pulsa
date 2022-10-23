@@ -10,6 +10,7 @@
 			<form action="#" th:action="@{'/user/' + *{userName} + '/edit/username'}" method="post">
 				<label for="username">Username</label>
 				<input type="text" field="*{username}" name="username" id="username" th:value="*{userName}">
+				<p th:if="${error}" th:text="${error}"></p>
 				<p th:if="${updated}">Username changed</p>
 				<input type="submit" value="Change">
 			</form>

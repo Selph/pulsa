@@ -15,13 +15,12 @@ public interface UserService {
     User getAnon();
     Optional<User> getUserByEmail(String email);
     Optional<User> getUserByUserName(String userName);
-    void addNewUser(User user);
-    int userExists(User user);
+    void addNewUser(User user, BindingResult result);
     void deleteUser(Long userId);
-    User editUserName(User user);
+    void editUserName(User user);
     User editRealName(User user);
     User editPassword(User user);
-    User editEmail(User user);
+    void editEmail(User user);
     User editAvatar(User user);
     User loginUser(User user);
 }

@@ -38,22 +38,11 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String registerPOST(@Valid User user, BindingResult result){
-        int exists = userService.userExists(user);
-
-        if(exists == 1) {
-            result.rejectValue("userName", "error.duplicate", "Username taken");
-        } else if(exists == 2) {
-            result.rejectValue("email", "error.duplicate", "Email in use");
-        } else if(exists == 3) {
-            result.rejectValue("userName", "error.duplicate", "Username taken");
-            result.rejectValue("email", "error.duplicate", "Email in use");
-        }
+        userService.addNewUser(user, result);
 
         if (result.hasErrors()){
             return "register";
         }
-
-        userService.addNewUser(user);
 
         return "redirect:/registrationSuccess";
     }
@@ -101,7 +90,7 @@ public class UserController {
         if(realName.equals(user.getRealName())) return "editAccount";
 
         user.setRealName(realName);
-        userService.addNewUser(user);
+        userService.editRealName(user);
         model.addAttribute("updated", true);
 
         return "editAccount";
@@ -122,7 +111,7 @@ public class UserController {
         User user = (User) session.getAttribute("user");
         String avatarUrl = cloudinaryService.uploadImage(avatar);
         user.setAvatar(avatarUrl);
-        userService.addNewUser(user);
+        userService.editAvatar(user);
 
         return "editAccountAvatar";
     }
@@ -133,13 +122,21 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/{id}/edit/username", method = RequestMethod.POST)
-    public String changeUsernamePOST(String username, HttpSession session, Model model) {
+    public String changeUsernamePOST(@ModelAttribute("username") String username, HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
-        if(username.equals(user.getUserName())) return "editAccountUsername";
+
+        if(username.isBlank()) return "editAccountUsername";
+
+        user.setUserName(username);
+        try {
+            userService.editUserName(user);
+        } catch (DuplicateKeyException e) {
+            model.addAttribute("error", "Username taken");
+            return "editAccountUsername";
+        }
 
         model.addAttribute("updated", true);
         user.setUserName(username);
-        userService.addNewUser(user);
 
         return "editAccountUsername";
     }
@@ -157,7 +154,7 @@ public class UserController {
 
         model.addAttribute("updated", true);
         user.setPassword(password);
-        userService.addNewUser(user);
+        userService.editPassword(user);
 
         return "editAccountPassword";
     }
@@ -170,12 +167,17 @@ public class UserController {
     @RequestMapping(value = "/user/{id}/edit/email", method = RequestMethod.POST)
     public String changeEmailPOST(String email, HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
-        if(email.equals(user.getEmail())) return "editAccountEmail";
+        if(email.isBlank()) return "editAccountEmail";
+
+        user.setEmail(email);
+        try {
+            userService.editEmail(user);
+        } catch (DuplicateKeyException e) {
+            model.addAttribute("error", "Email in use");
+            return "editAccountEmail";
+        }
 
         model.addAttribute("updated", true);
-        user.setEmail(email);
-        userService.addNewUser(user);
-
         return "editAccountEmail";
     }
 }

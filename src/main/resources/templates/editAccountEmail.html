@@ -10,6 +10,7 @@
 			<form action="#" th:action="@{'/user/' + *{user_id} + '/edit/email'}" method="post">
 				<label for="email">Email</label>
 				<input type="text" field="*{email}" name="email" id="email" th:value="*{email}">
+				<p th:if="${error}" th:text="${error}"></p>
 				<p th:if="${updated}">Email changed</p>
 				<input type="submit" value="Change">
 			</form>

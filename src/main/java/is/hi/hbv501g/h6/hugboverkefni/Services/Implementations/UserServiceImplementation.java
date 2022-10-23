@@ -4,6 +4,7 @@ import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.UserRepository;
 import is.hi.hbv501g.h6.hugboverkefni.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -33,16 +34,6 @@ public class UserServiceImplementation implements UserService {
         return anon.get();
     }
 
-    public int userExists(User user) {
-        Optional<User> userName = userRepository.findByUserName(user.getUserName());
-        Optional<User> email = userRepository.findByEmail(user.getEmail());
-
-        if(userName.isPresent() && email.isPresent()) return 3;
-        if(userName.isPresent()) return 1;
-        if(email.isPresent()) return 2;
-        return 0;
-    }
-
     @Override
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
@@ -53,8 +44,14 @@ public class UserServiceImplementation implements UserService {
         return userRepository.findByUserName(userName);
     }
 
-    public void addNewUser(User user) {
-        userRepository.save(user);
+    public void addNewUser(User user, BindingResult result) {
+        Optional<User> userName = userRepository.findByUserName(user.getUserName());
+        Optional<User> email = userRepository.findByEmail(user.getEmail());
+
+        if(userName.isPresent()) result.rejectValue("userName", "error.duplicate", "Username taken");
+        if(email.isPresent()) result.rejectValue("email", "error.duplicate", "Email in use");
+
+        if(!result.hasErrors()) userRepository.save(user);
     }
 
 
@@ -67,28 +64,32 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public User editUserName(User user) {
-        return null;
+    public void editUserName(User user) {
+        Optional<User> usernameExists = userRepository.findByUserName(user.getUserName());
+        if(usernameExists.isPresent()) throw new DuplicateKeyException("Username taken");
+        userRepository.save(user);
     }
 
     @Override
     public User editRealName(User user) {
-        return null;
+        return userRepository.save(user);
     }
 
     @Override
     public User editPassword(User user) {
-        return null;
+        return userRepository.save(user);
     }
 
     @Override
-    public User editEmail(User user) {
-        return null;
+    public void editEmail(User user) {
+        Optional<User> userEmail = userRepository.findByEmail(user.getEmail());
+        if(userEmail.isPresent()) throw new DuplicateKeyException("Email taken");
+        userRepository.save(user);
     }
 
     @Override
     public User editAvatar(User user) {
-        return null;
+        return userRepository.save(user);
     }
 
     @Override
