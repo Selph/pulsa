@@ -12,6 +12,8 @@ module.exports = {
     fontFamily: {
       'trace': ['Trace'],
       'jetbrains': ['JetBrains Mono', 'monospace'],
+      'opensans': ['"Open Sans"', 'sans-serif'],
+      'audiowide': ['Audiowide', 'cursive']
     }
   },
   variants: {

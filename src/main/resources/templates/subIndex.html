@@ -4,6 +4,26 @@
     <title layout:fragment="title">Pulsu Index</title>
   </head>
   <div layout:fragment="content">
+    <div class="flex flex-auto flex-row justify-center m-auto">
+      <form action="#" th:action="@{/newSub}"  method="post" enctype="multipart/form-data" class="flex flex-auto flex-row">
+        <div class="flex flex-row m-auto justify-content-evenly">
+          <label class="mr-3" for="name">Sub Pulsa Name</label>
+          <input type="text" field="*{name}" name="name" id="name" placeholder="Name" class="pl-3">
+        </div>
+        <span class="ml-4 mr-4 h-10 my-auto pr-0.5 bg-amber-100"></span>
+        <div class="flex flex-row mt-5 justify-content-evenly">
+          <label for="image">Image</label>
+          <input
+                  type="file"
+                  field="*{image}"
+                  name="image"
+                  id="image"
+                  accept="image/*"
+                  class="btn-link btn">
+      </div>
+      <input type="submit" value="Create new sub pulsa" class="btn m-auto">
+      </form>
+    </div>
     <div class="flex flex-auto flex-col justify-center m-auto">
       <ul class="">
         <li th:each="sub : ${subs}" class="bg-slate-800 p-5 rounded-2xl m-10 w-fit">
@@ -19,6 +39,6 @@
         </li>
       </ul>
     </div>
-    <p><a th:if="${session?.user}" href="/newSub">Create New Sub</a></p>
+
   </div>
 </html>

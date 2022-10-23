@@ -1,8 +1,5 @@
 <div th:fragment="voteScript" th:remove="tag">
   <script>
-    import 'tw-elements';
-    import 'flowbite';
-
     function updateReplyVotes() {
       let votes = document.getElementsByClassName('vote_reply');
       for (let vote of votes) {

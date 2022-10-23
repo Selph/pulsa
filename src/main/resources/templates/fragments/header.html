@@ -15,26 +15,26 @@
                 </div>
             </div>
               <div class="flex flex-auto flex-row justify-end">
-                  <div th:if="${session?.user}" class="flex flex-auto flex-row justify-end">
-                      <div class="dropdown">
-                          <div tabindex="0" class="relative w-12 h-12">
+                  <div th:if="${session?.user}" class="flex flex-row justify-end">
+                      <div class="dropdown flex flex-row flex-auto justify-end">
+                          <div tabindex="0" class="flex w-12 h-12">
                               <img class="rounded-full border border-gray-100 shadow-sm" th:src="${session.user.getAvatar()}" alt="user image" />
                               <div class="absolute top-0 right-0 h-3 w-3 my-1 border-2 border-white rounded-full bg-green-400 z-2"></div>
                           </div>
-                          <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                              <li><a th:href="@{'/user/' + ${session?.user?.user_id} + '/edit'}"><p class="font-jetbrains">Edit Account</p></a></li>
-                              <li><a href="/logout"><p class="font-jetbrains">Log out</p></a></li>
+                          <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 mt-5 font-audiowide">
+                              <li><a th:href="@{'/user/' + ${session?.user?.user_id} + '/edit'}"><p class="">Edit Account</p></a></li>
+                              <li><a href="/logout"><p class="">Log out</p></a></li>
                           </ul>
                       </div>
+                      <p th:if="${session?.user}" class="font-audiowide m-auto ml-4"><b>[[${session.user.userName}]]</b></p>
                     </div>
                   </div>
-                  <div th:unless="${session?.user}" class="flex flex-auto flex-row justify-end font-jetbrains text-lg ">
-                      <div class="m-2">
-                          <a href="/login"><p class="">Log in</p></a>
-                      </div>
-                      <span class="ml-4 mr-4 h-10 my-auto w-0.5 bg-amber-100"></span>
+                  <div th:unless="${session?.user}" class="flex flex-auto flex-row justify-end text-lg font-audiowide">
                       <div class="m-2">
                         <a href="/register"><p class="">Register</p></a>
+                      </div>
+                      <div class="m-2">
+                          <a href="/login"><p class="">Log in</p></a>
                       </div>
                   </div>
               </div>

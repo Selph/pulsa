@@ -1,14 +1,48 @@
 <div th:fragment="post" th:remove="tag">
-  <a th:href="@{'/p/' + ${post.sub.slug} + '/' + ${post.postId}}">
+  <div class="flex flex-auto flex-row justify-between mt-4 ml-4">
+    <div class="flex flex-auto flex-row">
+      <div class="flex w-8 h-8 mr-1 pb-1">
+        <img class="rounded-full border border-gray-100 shadow-sm" th:src="${post.creator.getAvatar()}" alt="user image" />
+      </div>
+      <a th:href="@{'/u/' + ${post.creator.userName}}" class="font-audiowide text-sky-400 text-opacity-80"> <p th:text=" ${post.creator.userName}"></p></a>
+    </div>
+    <div class="post_votes flex flex-auto flex-row">
+      <div class="vote_buttons flex flex-auto flex-row" th:if="${session?.user}">
+        <form class="upvote_post" action="#" th:action="@{/p/} + ${post.postId} + @{/upvote}" method="post">
+          <label class="flex flex-auto flex-row">
+            <input type="submit" name="image" value="">
+            <svg type="submit" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 11.25l-3-3m0 0l-3 3m3-3v7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </label>
+        </form>
+        <p class="vote_post text-green-400 ml-2 mr-2" th:if="${post.vote} < 0" th:id="@{/p/} + ${post.postId}" th:text="${post.vote}"></p>
+        <p class="vote_post ml-2 mr-2" th:if="${post.vote} == 0" th:id="@{/p/} + ${post.postId}" th:text="${post.vote}"></p>
+        <p class="vote_post text-purple-600 ml-2 mr-2" th:if="${post.vote} > 0" th:id="@{/p/} + ${post.postId}" th:text="${post.vote}"></p>
+        <form class="downvote_post flex flex-auto flex-row" action="#" th:action="@{/p/} + ${post.postId} + @{/downvote}" method="post">
+          <label class="flex flex-auto flex-row">
+            <input type="submit" name="image" value="">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75l3 3m0 0l3-3m-3 3v-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </label>
+
+        </form>
+      </div>
+    </div>
+    <div th:unless="${sub}" class="mr-5">
+      <a th:href="@{'/p/' + ${post.sub.slug}}"> <p th:text="@{p/} + ${post.sub.name}" class="font-jetbrains font-bold text-amber-200 text-opacity-60"></p></a>
+    </div>
+  </div>
+  <span class="w-full block m-auto p-0.5 h1 bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400 mt-2 mb-4"></span>
+  <a th:href="@{'/p/' + ${post.sub.slug} + '/' + ${post.postId}}" class="font-opensans font-semibold ml-4 text-xl mb-4">
     <h1 th:if="${title}" th:text="${post.title}"></h1>
     <h2 th:unless="${title}" th:text="${post.title}"></h2>
   </a>
-  <div th:unless="${sub}">
-    <a th:href="@{'/p/' + ${post.sub.slug}}"> <p th:text="${post.sub.name}"></p></a>
+  <div class="flex flex-auto flex-col justify-center m-auto">
+    <a th:href="@{'/p/' + ${post.sub.slug}}" class=""> <img th:src="@{${post.content.image}}"/></a>
   </div>
-  <a th:href="@{'/u/' + ${post.creator.userName}}"> <p th:text="@{'u/' + ${post.creator.userName}}"></p></a>
-  <img th:src="@{${post.content.image}}"/>
-  <div th:if="${post.content.audio != ''}">
+  <div th:if="${post.content.audio != ''}" class="flex flex-auto flex-col justify-center m-auto">
     <audio controls>
       <source th:src="@{${post.content.audio}}" type="audio/mpeg">
       <source th:src="@{${post.content.audio}}" type="audio/ogg">
@@ -16,23 +50,12 @@
       Your browser does not support the audio element.
     </audio>
   </div>
-  <div th:if="${post.content.recording != ''}">
+  <div th:if="${post.content.recording != ''}" class="flex flex-auto flex-col justify-center m-auto">
     <audio controls>
       <source th:src="@{${post.content.recording}}" type="audio/ogg">
       <source th:src="@{${post.content.recording}}" type="audio/wav">
       Your browser does not support the audio element.
     </audio>
-  </div>
-  <div class="post_votes">
-    <p class="vote_post" th:id="@{/p/} + ${post.postId}" th:text="${post.vote}"></p>
-    <div class="vote_buttons" th:if="${session?.user}">
-      <form class="upvote_post" action="#" th:action="@{/p/} + ${post.postId} + @{/upvote}" method="post">
-        <input type="submit" value="Upvote">
-      </form>
-      <form class="downvote_post" action="#" th:action="@{/p/} + ${post.postId} + @{/downvote}" method="post">
-        <input type="submit" value="Downvote">
-      </form>
-    </div>
   </div>
   <div th:if="${form}">
     <form enctype="multipart/form-data" action="#" th:action="@{/p/} + ${post.sub.slug} + '/' + ${post.postId}" method="post">
