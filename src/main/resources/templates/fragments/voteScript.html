@@ -2,25 +2,25 @@
   <script>
     function updateReplyVotes() {
       let votes = document.getElementsByClassName('vote_reply');
-      for (let vote of votes) {
-        let result = fetch(vote.id + '/vote')
-                .then((response) => {
-                  if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                  }
-
-                  return response.blob();
-                })
-                .then((response) => {
-                  response.text().then((result) => {
-                    vote.innerHTML = `${result}`;
-                  });
-                });
-      }
+      updatePost(votes)
     }
 
-    function updatePostVotes() {
+    function updateReplyVotes() {
+      let votes = document.getElementsByClassName('vote_reply');
+      updatePost(votes);
+    }
+
+    async function updatePostUpvote() {
       let votes = document.getElementsByClassName('vote_post');
+      await updateVotes(votes);
+    }
+
+    function updatePostDownvote() {
+      let votes = document.getElementsByClassName('vote_post');
+      updateVotes(votes);
+    }
+
+    function updateVotes(votes, arrows) {
       for (let vote of votes) {
         let result = fetch(vote.id + '/vote')
                 .then((response) => {
@@ -37,56 +37,36 @@
                 });
       }
     }
-
-    /* function enableButtons(enabled) {
-        let upvoteButtons = document.getElementsByClassName('upvote');
-        let downvoteButtons = document.getElementsByClassName('downvote');
-
-        if(!enabled) {
-            for (let button of upvoteButtons) {
-                button.children[0].disabled = !enabled;
-            }
-
-            for (let button of downvoteButtons) {
-                button.children[0].disabled = !enabled;
-            }
-        }
-    }
-
-    addEventListener('DOMContentLoaded', (event) => {
-        let result = fetch("/username")
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-
-                    return response.blob();
-                })
-                .then((response) => {
-                    response.text().then((result) => {
-                        if (result !== "") {
-                            enableButtons(true);
-                        }
-                        else {
-                            enableButtons(false);
-                        }
-                    });
-                });
-    }); */
 
     $(document).ready(function() {
       $('.upvote_reply').ajaxForm(function() {
-        updateReplyVotes();
+        updateReplyUpvote();
       });
       $('.downvote_reply').ajaxForm(function() {
-        updateReplyVotes();
+        updateReplyDownvote();
       });
-      $('.upvote_post').ajaxForm(function() {
-        updatePostVotes();
+      $('.upvote_post').ajaxForm(async function() {
+        await updatePostUpvote();
+        upvote = ($('.upvote_div'))
+        for (let i = 0; i < upvote.length; i++) {
+          str = ' #'+ upvote[i].id + ' > *';
+          $(`#${upvote.id}`).replaceWith($(location.href + str));
+        }
       });
       $('.downvote_post').ajaxForm(function() {
-        updatePostVotes();
+        updatePostDownvote();
       });
     });
+
+    function showRequest(formData, jqForm, options) {
+      var queryString = $.param(formData);
+      alert('About to submit: \n\n' + queryString);
+      return true;
+    }
+
+    function showResponse(responseText, statusText) {
+      alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +
+              '\n\nThe output div should have already been updated with the responseText.');
+    }
   </script>
 </div>

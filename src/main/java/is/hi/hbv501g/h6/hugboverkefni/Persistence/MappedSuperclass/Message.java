@@ -132,5 +132,12 @@ public abstract class Message {
         this.updated = LocalDateTime.now();
     }
 
+    public Voter findVoter(User user) {
+        List<Voter> voted = this.getVoted();
+        Optional<Voter> voter = voted.stream().filter(v -> v.getUser().getUser_id() == user.getUser_id()).findAny();
+        voter.get().isVote();
+        return voter.orElse(null);
+    }
+
 
 }

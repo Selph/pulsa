@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table
@@ -80,5 +81,6 @@ public class Post extends Message {
     public void setSub(Sub sub) {
         this.sub = sub;
     }
+
 }
 

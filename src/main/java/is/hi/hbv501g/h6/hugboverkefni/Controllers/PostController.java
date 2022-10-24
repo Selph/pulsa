@@ -118,7 +118,7 @@ public class PostController {
         Reply reply = replyService.getReplyById(id).get();
         User user = (User) session.getAttribute("user");
 
-        Voter voter = findReplyVoter(reply, user);
+        Voter voter = reply.findVoter(user);
 
         if(voter == null) {
             voter = new Voter(user, upvote);
@@ -142,12 +142,17 @@ public class PostController {
     @ResponseBody
     public String getPostVote(@PathVariable("id") long id, Model model) {
         Post post = postService.getPostById(id).get();
-
         return post.getVote().toString();
     }
 
     @RequestMapping(value = "/p/{id}/upvote", method = RequestMethod.POST)
     public String upvotePost(@PathVariable("id") long id, HttpSession session) {
+
+        return changePostVote(id, true, session);
+    }
+
+    @RequestMapping(value = "/p/{id}/upvote", method = RequestMethod.GET)
+    public String getUpvote(@PathVariable("id") long id, HttpSession session) {
 
         return changePostVote(id, true, session);
     }
@@ -158,12 +163,18 @@ public class PostController {
 
     }
 
+    @RequestMapping(value = "/p/{id}/downvote", method = RequestMethod.GET)
+    public String getDownvote(@PathVariable("id") long id, HttpSession session) {
+        return changePostVote(id, false, session);
+
+    }
+
 
     public String changePostVote(long id, Boolean upvote, HttpSession session) {
         Post post = postService.getPostById(id).get();
         User user = (User) session.getAttribute("user");
 
-        Voter voter = findPostVoter(post, user);
+        Voter voter = post.findVoter(user);
 
         if(voter == null) {
             voter = new Voter(user, upvote);
@@ -222,18 +233,5 @@ public class PostController {
     private Sub getSub() {
         Sub sub = subService.getSubs().get(0);
         return sub;
-    }
-    public Voter findReplyVoter(Reply reply, User user) {
-        List<Voter> voted = reply.getVoted();
-        Optional<Voter> voter = voted.stream().filter(v -> v.getUser().getUser_id() == user.getUser_id()).findAny();
-
-        return voter.orElse(null);
-    }
-
-    private Voter findPostVoter(Post post, User user) {
-        List<Voter> voted = post.getVoted();
-        Optional<Voter> voter = voted.stream().filter(v -> v.getUser().getUser_id() == user.getUser_id()).findAny();
-
-        return voter.orElse(null);
     }
 }
