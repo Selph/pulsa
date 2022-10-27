@@ -26,18 +26,22 @@
       let uvote = document.getElementById(vote.id + '/upvote')
       let dvote = document.getElementById(vote.id + '/downvote')
       if (upvote) {
-        $(uvote).toggleClass(upvoteClasses)
-        console.log($(dvote).hasClass("text-green-400"))
-        if ($(dvote).hasClass("text-green-400")) {
-          $(dvote).toggleClass(downvoteClasses)
+        if ($(uvote).hasClass('text-zinc-300')) {
+          if ($(dvote).hasClass("text-green-400")) {
+            $(dvote).toggleClass(downvoteClasses)
+          }
         }
+        $(uvote).toggleClass(upvoteClasses)
+
         return
       }
 
-      $(dvote).toggleClass(downvoteClasses)
-      if ($(uvote).hasClass("text-purple-600")) {
-        $(uvote).toggleClass(upvoteClasses)
+      if ($(dvote).hasClass('text-zinc-300')) {
+        if ($(uvote).hasClass("text-purple-600")) {
+          $(uvote).toggleClass(upvoteClasses)
+        }
       }
+      $(dvote).toggleClass(downvoteClasses)
     }
 
       var replyvote = 'vote_reply'
@@ -58,13 +62,13 @@
         updateVote(replyvote, true);
       });
       $('.downvote_reply').ajaxForm(function() {
-        updateVote(replyvote);
+        updateVote(replyvote, false);
       });
       $('.upvote_post').ajaxForm(function() {
         updateVote(postvote, true);
       });
       $('.downvote_post').ajaxForm(function() {
-        updateVote(postvote);
+        updateVote(postvote, false);
       });
     });
 
