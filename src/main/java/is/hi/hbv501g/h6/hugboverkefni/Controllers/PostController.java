@@ -118,19 +118,19 @@ public class PostController {
         Reply reply = replyService.getReplyById(id).get();
         User user = (User) session.getAttribute("user");
 
-        Voter voter = reply.findVoter(user);
+        Optional<Voter> voter = reply.findVoter(user);
 
-        if(voter == null) {
-            voter = new Voter(user, upvote);
-            reply.addVote(voter);
-            voteService.addVoter(voter);
+        if(voter.isEmpty()) {
+            Voter newVoter = new Voter(user, upvote);
+            reply.addVote(newVoter);
+            voteService.addVoter(newVoter);
         }
-        else if (voter.isVote() != upvote) {
-            voter.setVote(upvote);
+        else if (voter.get().isVote() != upvote) {
+            voter.get().setVote(upvote);
         }
         else {
-            reply.removeVote(voter);
-            voteService.removeVoter(voter);
+            reply.removeVote(voter.get());
+            voteService.removeVoter(voter.get());
         }
 
         replyService.addNewReply(reply);
@@ -174,19 +174,19 @@ public class PostController {
         Post post = postService.getPostById(id).get();
         User user = (User) session.getAttribute("user");
 
-        Voter voter = post.findVoter(user);
+        Optional<Voter> voter = post.findVoter(user);
 
-        if(voter == null) {
-            voter = new Voter(user, upvote);
-            post.addVote(voter);
-            voteService.addVoter(voter);
+        if(voter.isEmpty()) {
+            Voter newVoter = new Voter(user, upvote);
+            post.addVote(newVoter);
+            voteService.addVoter(newVoter);
         }
-        else if (voter.isVote() != upvote) {
-            voter.setVote(upvote);
+        else if (voter.get().isVote() != upvote) {
+            voter.get().setVote(upvote);
         }
         else {
-            post.removeVote(voter);
-            voteService.removeVoter(voter);
+            post.removeVote(voter.get());
+            voteService.removeVoter(voter.get());
         }
 
         postService.addNewPost(post);

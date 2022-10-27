@@ -9,8 +9,8 @@
     <div class="post_votes flex flex-auto flex-row">
       <div class="vote_buttons flex flex-auto flex-row upvote_div" th:id="@{'upvote_div/' + ${post.postId}}" >
         <form class="upvote_post" action="#" th:if="${session?.user}" th:action="@{/p/} + ${post.postId} + @{/upvote}" method="post">
-          <div th:if="${post.findVoter(session.user)}">
-            <label th:switch="${post.findVoter(session.user).isVote()}" class="flex flex-auto flex-row">
+          <div th:if="${post.findVoter(session.user).isPresent()}">
+            <label th:switch="${post.findVoter(session.user).get().isVote()}" class="flex flex-auto flex-row">
               <input type="submit" name="image" value="">
               <svg th:case="${true}" th:id="@{'/p/' + ${post.postId} + '/upvote'}" type="submit" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:text-zinc-300 text-purple-600">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 11.25l-3-3m0 0l-3 3m3-3v7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -20,7 +20,7 @@
               </svg>
             </label>
           </div>
-          <div th:unless="${post.findVoter(session.user)}">
+          <div th:if="${post.findVoter(session.user).isEmpty()}">
             <label class="flex flex-auto flex-row">
               <input type="submit" name="image" value="">
               <svg type="submit" th:id="@{'/p/' + ${post.postId} + '/upvote'}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-zinc-300 hover:text-purple-600">
@@ -38,8 +38,8 @@
         <p class="vote_post text-zinc-300 ml-2 mr-2" th:if="${post.vote} == 0" th:id="@{/p/} + ${post.postId}" th:text="${post.vote}"></p>
         <p class="vote_post text-purple-600 ml-2 mr-2" th:if="${post.vote} > 0" th:id="@{/p/} + ${post.postId}" th:text="${post.vote}"></p>
         <form class="downvote_post flex flex-auto flex-row" th:if="${session?.user}" action="#" th:action="@{/p/} + ${post.postId} + @{/downvote}" method="post">
-          <div th:if="${post.findVoter(session.user)}">
-            <label th:switch="${post.findVoter(session.user).isVote()}" class="flex flex-auto flex-row">
+          <div th:if="${post.findVoter(session.user).isPresent()}">
+            <label th:switch="${post.findVoter(session.user).get().isVote()}" class="flex flex-auto flex-row">
               <input type="submit" name="image" value="">
               <svg th:case="${true}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-zinc-300 hover:text-green-400">
                 <path stroke-linecap="round" th:id="@{'/p/' + ${post.postId} + '/downvote'}" stroke-linejoin="round" d="M9 12.75l3 3m0 0l3-3m-3 3v-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -49,7 +49,7 @@
               </svg>
             </label>
           </div>
-          <div th:unless="${post.findVoter(session.user)}">
+          <div th:if="${post.findVoter(session.user).isEmpty()}">
             <label class="flex flex-auto flex-row">
               <input type="submit" name="image" value="">
               <svg xmlns="http://www.w3.org/2000/svg" th:id="@{'/p/' + ${post.postId} + '/downvote'}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-zinc-300 hover:text-green-400">
