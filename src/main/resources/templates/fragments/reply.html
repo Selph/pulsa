@@ -4,7 +4,7 @@
         <li th:each="postReply : ${postReplies}">
             <canvas class="osc" th:id="@{${post.postId} + '/' + ${postReply.replyId}}"></canvas>
             <a th:href="@{'/u/' + ${postReply.creator.userName}}"> <p th:text="@{'u/' + ${postReply.creator.userName}}"></p></a>
-            <p th:text="${postReply.content.text}"></p>
+            <div th:utext="${postReply.content.text}"></div>
             <img th:src="${postReply.content.image}"/>
             <div th:if="${postReply.content.audio != ''}">
                 <audio crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}" controls>
