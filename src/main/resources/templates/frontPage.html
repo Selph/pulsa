@@ -20,10 +20,8 @@
 			let playing = false;
 			let element = null;
 
-			let canvas = document.getElementsByClassName('osc')[0];
-			canvas.style.width = "300";
-			canvas.style.height = "80px";
-			let canvasCtx = canvas.getContext("2d");
+			let canvas = null;
+			let canvasCtx = null;
 
 			function draw() {
 				requestAnimationFrame(draw);
@@ -59,6 +57,19 @@
 			}
 
 			function startOsc(audioSource){
+				let id = audioSource.id;
+				let oscillators = document.getElementsByClassName('osc');
+
+				for (let i=0; i<oscillators.length; i++) {
+					if (oscillators[i].id === id ) {
+						canvas = oscillators[i];
+					}
+				}
+
+				canvas.style.width = "300";
+				canvas.style.height = "80px";
+
+				canvasCtx = canvas.getContext("2d");
 				playing = true;
 				element = audioSource;
 
