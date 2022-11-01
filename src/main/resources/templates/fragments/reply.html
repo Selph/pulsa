@@ -2,11 +2,12 @@
   <div th:switch="${postReplies}">
     <ul th:case="*">
         <li th:each="postReply : ${postReplies}">
+            <canvas class="osc" th:id="@{${post.postId} + '/' + ${postReply.replyId}}"></canvas>
             <a th:href="@{'/u/' + ${postReply.creator.userName}}"> <p th:text="@{'u/' + ${postReply.creator.userName}}"></p></a>
             <p th:text="${postReply.content.text}"></p>
             <img th:src="${postReply.content.image}"/>
             <div th:if="${postReply.content.audio != ''}">
-                <audio controls>
+                <audio crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}" controls>
                     <source th:src="@{${postReply.content.audio}}" type="audio/mpeg">
                     <source th:src="@{${postReply.content.audio}}" type="audio/ogg">
                     <source th:src="@{${postReply.content.audio}}" type="audio/wav">
@@ -14,7 +15,7 @@
                 </audio>
             </div>
             <div th:if="${postReply.content.recording != ''}">
-                <audio controls>
+                <audio crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}" controls>
                     <source th:src="@{${postReply.content.recording}}" type="audio/ogg">
                     <source th:src="@{${postReply.content.recording}}" type="audio/wav">
                     Your browser does not support the audio element.
