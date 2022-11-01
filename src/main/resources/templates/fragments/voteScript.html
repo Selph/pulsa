@@ -1,92 +1,76 @@
 <div th:fragment="voteScript" th:remove="tag">
   <script>
-    function updateReplyVotes() {
-      let votes = document.getElementsByClassName('vote_reply');
-      for (let vote of votes) {
-        let result = fetch(vote.id + '/vote')
-                .then((response) => {
-                  if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                  }
+    function updateVote(vote, upvote) {
+      let votes = document.getElementsByClassName(vote);
+      updateVotes(votes, upvote)
+    }
 
-                  return response.blob();
-                })
-                .then((response) => {
-                  response.text().then((result) => {
-                    vote.innerHTML = `${result}`;
-                  });
-                });
+    function updateVotes(votes, upvote) {
+      for (let vote of votes) {
+        let result = fetch(vote.id + '/vote').then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.blob();}).then((response) => {
+            response.text().then((result) => {
+              if (vote.innerHTML != `${result}`) {
+                updateClass(vote, upvote)
+              }
+              vote.innerHTML = `${result}`;
+            });
+          });
       }
     }
 
-    function updatePostVotes() {
-      let votes = document.getElementsByClassName('vote_post');
-      for (let vote of votes) {
-        let result = fetch(vote.id + '/vote')
-                .then((response) => {
-                  if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                  }
-
-                  return response.blob();
-                })
-                .then((response) => {
-                  response.text().then((result) => {
-                    vote.innerHTML = `${result}`;
-                  });
-                });
-      }
-    }
-
-    /* function enableButtons(enabled) {
-        let upvoteButtons = document.getElementsByClassName('upvote');
-        let downvoteButtons = document.getElementsByClassName('downvote');
-
-        if(!enabled) {
-            for (let button of upvoteButtons) {
-                button.children[0].disabled = !enabled;
-            }
-
-            for (let button of downvoteButtons) {
-                button.children[0].disabled = !enabled;
-            }
+    function updateClass(vote, upvote) {
+      let uvote = document.getElementById(vote.id + '/upvote')
+      let dvote = document.getElementById(vote.id + '/downvote')
+      if (upvote) {
+        if ($(uvote).hasClass('text-zinc-300')) {
+          if ($(dvote).hasClass("text-green-400")) {
+            $(dvote).toggleClass(downvoteClasses)
+          }
         }
+        $(uvote).toggleClass(upvoteClasses)
+
+        return
+      }
+
+      if ($(dvote).hasClass('text-zinc-300')) {
+        if ($(uvote).hasClass("text-purple-600")) {
+          $(uvote).toggleClass(upvoteClasses)
+        }
+      }
+      $(dvote).toggleClass(downvoteClasses)
     }
 
-    addEventListener('DOMContentLoaded', (event) => {
-        let result = fetch("/username")
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
+      var replyvote = 'vote_reply'
+      var postvote = 'vote_post'
 
-                    return response.blob();
-                })
-                .then((response) => {
-                    response.text().then((result) => {
-                        if (result !== "") {
-                            enableButtons(true);
-                        }
-                        else {
-                            enableButtons(false);
-                        }
-                    });
-                });
-    }); */
+      var upvoteClasses = ['hover:text-zinc-300',
+                           'text-zinc-300',
+                           'text-purple-600',
+                           'hover:text-purple-600']
+      var downvoteClasses = ['hover:text-zinc-300',
+                             'text-zinc-300',
+                             'text-green-400',
+                             'hover:text-green-400']
+
 
     $(document).ready(function() {
       $('.upvote_reply').ajaxForm(function() {
-        updateReplyVotes();
+        updateVote(replyvote, true);
       });
       $('.downvote_reply').ajaxForm(function() {
-        updateReplyVotes();
+        updateVote(replyvote, false);
       });
       $('.upvote_post').ajaxForm(function() {
-        updatePostVotes();
+        updateVote(postvote, true);
       });
       $('.downvote_post').ajaxForm(function() {
-        updatePostVotes();
+        updateVote(postvote, false);
       });
     });
+
   </script>
 </div>
