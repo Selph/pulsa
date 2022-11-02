@@ -3,6 +3,8 @@ package is.hi.hbv501g.h6.hugboverkefni.Controllers;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.*;
 import is.hi.hbv501g.h6.hugboverkefni.Services.CloudinaryService;
 import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.*;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,8 @@ public class PostController {
     private SubServiceImplementation subService;
     private VoteServiceImplementation voteService;
     private CloudinaryService cloudinaryService;
+    private Parser markdownParser;
+    private HtmlRenderer htmlRenderer;
 
     @Autowired
     public PostController(PostServiceImplementation postService,
@@ -36,6 +40,8 @@ public class PostController {
         this.subService = subService;
         this.voteService = voteService;
         this.cloudinaryService = cloudinaryService;
+        this.markdownParser = Parser.builder().build();
+        this.htmlRenderer = HtmlRenderer.builder().build();
     }
 
 
@@ -71,7 +77,8 @@ public class PostController {
         Optional<Post> post = postService.getPostById(id);
         if(!post.isPresent()) return "postNotFound";
 
-        Reply reply = createReply(text, image, audio, recording, session);
+        String renderedText = htmlRenderer.render(markdownParser.parse(text));
+        Reply reply = createReply(renderedText, image, audio, recording, session);
         replyService.addNewReply(reply);
         post.get().addReply(reply);
         postService.addNewPost(post.get());
@@ -85,7 +92,8 @@ public class PostController {
         Optional<Reply> prevReply = replyService.getReplyById(id);
         if(!prevReply.isPresent()) return "postNotFound";
 
-        Reply reply = createReply(text, image, audio, recording, session);
+        String renderedText = htmlRenderer.render(markdownParser.parse(text));
+        Reply reply = createReply(renderedText, image, audio, recording, session);
         replyService.addNewReply(reply);
         prevReply.get().addReply(reply);
         replyService.addNewReply(prevReply.get());

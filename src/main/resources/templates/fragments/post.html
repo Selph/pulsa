@@ -69,7 +69,7 @@
       <a th:href="@{'/p/' + ${post.sub.slug}}"> <p th:text="@{p/} + ${post.sub.name}" class="font-jetbrains font-bold text-amber-200 text-opacity-60"></p></a>
     </div>
   </div>
-  <span class="w-full block m-auto p-0.5 h1 bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400 mt-2 mb-4"></span>
+  <canvas class="osc" th:id="@{${post.postId}}"></canvas>
   <a th:href="@{'/p/' + ${post.sub.slug} + '/' + ${post.postId}}" class="font-opensans font-semibold text-zinc-300 ml-4 text-xl mb-4">
     <h1 th:if="${title}" th:text="${post.title}"></h1>
     <h2 th:unless="${title}" th:text="${post.title}"></h2>
@@ -78,7 +78,7 @@
     <a th:href="@{'/p/' + ${post.sub.slug} + '/' + ${post.postId}}" class=""> <img th:src="@{${post.content.image}}"/></a>
   </div>
   <div th:if="${post.content.audio != ''}" class="flex flex-auto flex-col justify-center m-auto">
-    <audio controls>
+    <audio crossorigin="anonymous" th:id="@{${post.postId}}" controls>
       <source th:src="@{${post.content.audio}}" type="audio/mpeg">
       <source th:src="@{${post.content.audio}}" type="audio/ogg">
       <source th:src="@{${post.content.audio}}" type="audio/wav">
@@ -86,7 +86,7 @@
     </audio>
   </div>
   <div th:if="${post.content.recording != ''}" class="flex flex-auto flex-col justify-center m-auto">
-    <audio controls>
+    <audio crossorigin="anonymous" controls>
       <source th:src="@{${post.content.recording}}" type="audio/ogg">
       <source th:src="@{${post.content.recording}}" type="audio/wav">
       Your browser does not support the audio element.
