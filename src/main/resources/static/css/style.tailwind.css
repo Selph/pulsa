@@ -8,6 +8,8 @@
     src: url("../public/fonts/TraceRegular-p76Jd.ttf")
 }
 
-html {
-    @apply text-zinc-300
+@layer base {
+    html {
+        @apply text-zinc-300
+    }
 }
