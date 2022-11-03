@@ -74,6 +74,7 @@
     <h1 th:if="${title}" th:text="${post.title}"></h1>
     <h2 th:unless="${title}" th:text="${post.title}"></h2>
   </a>
+  <div th:utext="${post.content.text}"></div>
   <div class="flex flex-auto flex-col justify-center m-auto">
     <a th:href="@{'/p/' + ${post.sub.slug} + '/' + ${post.postId}}" class=""> <img th:src="@{${post.content.image}}"/></a>
   </div>
@@ -95,12 +96,9 @@
   <div th:if="${form}">
     <form enctype="multipart/form-data" action="#" th:action="@{/p/} + ${post.sub.slug} + '/' + ${post.postId}" method="post">
       <div>
-        <input
-                type="text"
-                field="*{text}"
-                name="text"
-                id="text"
-                placeholder="What's on your mind?">
+				<textarea
+                        name="text"
+                        id="text"></textarea>
 
         <label for="image">Image file</label>
         <input

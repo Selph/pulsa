@@ -36,12 +36,9 @@
                th:include="fragments/reply.html :: replies" th:remove="tag" ></div>
           <form action="#" th:action="@{/p/} + ${post.sub.slug} + @{/} + ${post.postId} + @{/} + ${postReply.replyId}" method="post" enctype="multipart/form-data">
             <div>
-              <input
-                      type="text"
-                      field="*{text}"
-                      name="text"
-                      id="replyText"
-                      placeholder="What's on your mind?">
+				<textarea
+                        name="text"
+                        id="text"></textarea>
 
               <label for="image">Image file</label>
               <input

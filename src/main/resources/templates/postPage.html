@@ -2,6 +2,8 @@
 <html lang="en" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 	<head>
 		<title layout:fragment="title" th:text="@{'Pul-[ ' + ${post.sub.name} + ' ' + ${post.title} + ' ]-sa'}"></title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+		<script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
 	</head>
 	<div layout:fragment="content">
 		<a th:href="@{'/p/' + *{sub.slug}}"><h1 th:text="*{sub.name}"></h1></a>
@@ -9,4 +11,5 @@
 		<div th:replace="fragments/reply :: replies"></div>
 	</div>
 	<div layout:fragment="oscillatorCode" th:include="fragments/oscilloscope"></div>
+	<div layout:fragment="editor" th:include="fragments/editor"></div>
 </html>

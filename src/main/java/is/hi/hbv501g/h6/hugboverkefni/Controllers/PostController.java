@@ -67,7 +67,8 @@ public class PostController {
     @RequestMapping(value = "/p/{slug}/newPost", method = RequestMethod.POST)
     public String newPostPOST(@PathVariable String slug, String title, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model, HttpSession session){
         Sub sub = subService.getSubBySlug(slug);
-        Post newPost = createPost(title, sub, text, image, audio, recording, session);
+        String renderedText = htmlRenderer.render(markdownParser.parse(text));
+        Post newPost = createPost(title, sub, renderedText, image, audio, recording, session);
         postService.addNewPost(newPost);
         return "redirect:/p/" + slug + '/' + newPost.getPostId();
     }
