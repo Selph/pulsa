@@ -7,3 +7,7 @@
     font-family: "TRACE";
     src: url("../public/fonts/TraceRegular-p76Jd.ttf")
 }
+
+html {
+    @apply text-zinc-300
+}
