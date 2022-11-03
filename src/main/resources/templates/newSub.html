@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
-    <head>
-        <title layout:fragment="title">Sub Genesis</title>
-    </head>
-    <div layout:fragment="content" class="bg-slate-800">
-        <form action="#" th:action="@{/newSub}"  method="post" enctype="multipart/form-data">
-            <label for="name">Sub Pulsa Name</label>
-            <input type="text" field="*{name}" name="name" id="name" placeholder="Name">
-            <label for="image">Image</label>
-            <input
-                    type="file"
-                    field="*{image}"
-                    name="image"
-                    id="image"
-                    accept="image/*">
-            <input type="submit" value="Create new sub pulsa">
-        </form>
-    </div>
+<html lang="en" layout:decorate="~{layout}" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title layout:fragment="title">Sub Genesis</title>
+</head>
+<div class="bg-slate-800" layout:fragment="content">
+    <form action="#" enctype="multipart/form-data" method="post" th:action="@{/newSub}">
+        <label for="name">Sub Pulsa Name</label>
+        <input field="*{name}" id="name" name="name" placeholder="Name" type="text">
+        <label for="image">Image</label>
+        <input
+                accept="image/*"
+                field="*{image}"
+                id="image"
+                name="image"
+                type="file">
+        <input type="submit" value="Create new sub pulsa">
+    </form>
+</div>
 </html>

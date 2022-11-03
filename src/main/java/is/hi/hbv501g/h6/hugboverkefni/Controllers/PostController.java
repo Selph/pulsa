@@ -13,19 +13,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class PostController {
-    private PostServiceImplementation postService;
-    private UserServiceImplementation userService;
-    private ReplyServiceImplementation replyService;
-    private SubServiceImplementation subService;
-    private VoteServiceImplementation voteService;
-    private CloudinaryService cloudinaryService;
-    private Parser markdownParser;
-    private HtmlRenderer htmlRenderer;
+    private final PostServiceImplementation postService;
+    private final UserServiceImplementation userService;
+    private final ReplyServiceImplementation replyService;
+    private final SubServiceImplementation subService;
+    private final VoteServiceImplementation voteService;
+    private final CloudinaryService cloudinaryService;
+    private final Parser markdownParser;
+    private final HtmlRenderer htmlRenderer;
 
     @Autowired
     public PostController(PostServiceImplementation postService,
@@ -33,7 +32,7 @@ public class PostController {
                           ReplyServiceImplementation replyService,
                           SubServiceImplementation subService,
                           VoteServiceImplementation voteService,
-                          CloudinaryService cloudinaryService){
+                          CloudinaryService cloudinaryService) {
         this.postService = postService;
         this.userService = userService;
         this.replyService = replyService;
@@ -48,7 +47,7 @@ public class PostController {
     @RequestMapping(value = "/p/{slug}/{id}", method = RequestMethod.GET)
     public String postPage(@PathVariable("slug") String slug, @PathVariable("id") long id, Model model) {
         Optional<Post> post = postService.getPostById(id);
-        if(!post.isPresent()) return "postNotFound";
+        if (!post.isPresent()) return "postNotFound";
 
         model.addAttribute("post", post.get());
         model.addAttribute("postReplies", post.get().getReplies());
@@ -59,13 +58,13 @@ public class PostController {
     }
 
     @RequestMapping(value = "/p/{slug}/newPost", method = RequestMethod.GET)
-    public String newPostGET(@PathVariable String slug, Post post, Model model){
+    public String newPostGET(@PathVariable String slug, Post post, Model model) {
         model.addAttribute("slug", slug);
         return "newPost";
     }
 
     @RequestMapping(value = "/p/{slug}/newPost", method = RequestMethod.POST)
-    public String newPostPOST(@PathVariable String slug, String title, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model, HttpSession session){
+    public String newPostPOST(@PathVariable String slug, String title, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model, HttpSession session) {
         Sub sub = subService.getSubBySlug(slug);
         String renderedText = htmlRenderer.render(markdownParser.parse(text));
         Post newPost = createPost(title, sub, renderedText, image, audio, recording, session);
@@ -76,7 +75,7 @@ public class PostController {
     @RequestMapping(value = "/p/{slug}/{id}", method = RequestMethod.POST)
     public String replyPost(@PathVariable String slug, @PathVariable("id") long id, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model, HttpSession session) {
         Optional<Post> post = postService.getPostById(id);
-        if(!post.isPresent()) return "postNotFound";
+        if (!post.isPresent()) return "postNotFound";
 
         String renderedText = htmlRenderer.render(markdownParser.parse(text));
         Reply reply = createReply(renderedText, image, audio, recording, session);
@@ -89,9 +88,9 @@ public class PostController {
 
 
     @RequestMapping(value = "/p/{slug}/{postId}/{id}", method = RequestMethod.POST)
-    public String replyReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio,@RequestParam("recording") String recording, Model model, HttpSession session) {
+    public String replyReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model, HttpSession session) {
         Optional<Reply> prevReply = replyService.getReplyById(id);
-        if(!prevReply.isPresent()) return "postNotFound";
+        if (!prevReply.isPresent()) return "postNotFound";
 
         String renderedText = htmlRenderer.render(markdownParser.parse(text));
         Reply reply = createReply(renderedText, image, audio, recording, session);
@@ -129,15 +128,13 @@ public class PostController {
 
         Optional<Voter> voter = reply.findVoter(user);
 
-        if(voter.isEmpty()) {
+        if (voter.isEmpty()) {
             Voter newVoter = new Voter(user, upvote);
             reply.addVote(newVoter);
             voteService.addVoter(newVoter);
-        }
-        else if (voter.get().isVote() != upvote) {
+        } else if (voter.get().isVote() != upvote) {
             voter.get().setVote(upvote);
-        }
-        else {
+        } else {
             reply.removeVote(voter.get());
             voteService.removeVoter(voter.get());
         }
@@ -185,15 +182,13 @@ public class PostController {
 
         Optional<Voter> voter = post.findVoter(user);
 
-        if(voter.isEmpty()) {
+        if (voter.isEmpty()) {
             Voter newVoter = new Voter(user, upvote);
             post.addVote(newVoter);
             voteService.addVoter(newVoter);
-        }
-        else if (voter.get().isVote() != upvote) {
+        } else if (voter.get().isVote() != upvote) {
             voter.get().setVote(upvote);
-        }
-        else {
+        } else {
             post.removeVote(voter.get());
             voteService.removeVoter(voter.get());
         }
@@ -207,7 +202,7 @@ public class PostController {
         Content content = createContent(text, image, audio, recording);
 
         User user = (User) session.getAttribute("user");
-        if(user != null) return new Post(title,sub,content,user,new ArrayList<Voter>(), new ArrayList<Reply>());
+        if (user != null) return new Post(title, sub, content, user, new ArrayList<Voter>(), new ArrayList<Reply>());
 
         return new Post(title, sub, content, userService.getAnon(), new ArrayList<Voter>(), new ArrayList<Reply>());
     }
@@ -217,7 +212,7 @@ public class PostController {
         Content content = createContent(text, image, audio, recording);
 
         User user = (User) session.getAttribute("user");
-        if(user != null) return new Reply(content, user, new ArrayList<Voter>(), new ArrayList<Reply>());
+        if (user != null) return new Reply(content, user, new ArrayList<Voter>(), new ArrayList<Reply>());
 
         return new Reply(content, userService.getAnon(), new ArrayList<Voter>(), new ArrayList<Reply>());
     }

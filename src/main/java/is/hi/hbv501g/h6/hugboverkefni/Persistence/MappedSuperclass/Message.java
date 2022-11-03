@@ -4,13 +4,10 @@ import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Content;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Reply;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Voter;
-import is.hi.hbv501g.h6.hugboverkefni.Services.UserService;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,8 +47,13 @@ public abstract class Message {
         return replies;
     }
 
+    public void setReplies(List<Reply> replies) {
+        this.replies = replies;
+    }
+
     /**
      * Returns internal Reply object by id if it exists
+     *
      * @param replyId Long id of Reply
      * @return Optional<Reply>
      */
@@ -66,11 +68,10 @@ public abstract class Message {
         return Optional.empty();
     }
 
-    public void setReplies(List<Reply> replies) {
-        this.replies = replies;
+    public void addReply(Reply reply) {
+        this.replies.add(reply);
     }
 
-    public void addReply(Reply reply) { this.replies.add(reply); }
     public User getCreator() {
         return creator;
     }
@@ -84,6 +85,7 @@ public abstract class Message {
      * Voter object contains boolean value "vote"
      * Upvote if true, votes is incremented
      * Downvote if false, votes is decremented
+     *
      * @return Integer Sum of total votes on Message
      */
     public Integer getVote() {
@@ -95,7 +97,7 @@ public abstract class Message {
             } else {
                 votes--;
             }
-    }
+        }
 
         return votes;
     }
@@ -109,7 +111,7 @@ public abstract class Message {
     }
 
     public void addVote(Voter voter) {
-            this.voted.add(voter);
+        this.voted.add(voter);
     }
 
     public void removeVote(Voter vote) {

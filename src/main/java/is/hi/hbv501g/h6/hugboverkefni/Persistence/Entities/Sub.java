@@ -1,7 +1,6 @@
 package is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities;
 
 import com.github.slugify.Slugify;
-import is.hi.hbv501g.h6.hugboverkefni.Services.SubService;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -38,7 +37,6 @@ public class Sub {
      * Sub entity
      *
      * @param name String name of subpulsa
-     *
      * @return Sub
      */
     public Sub(String name) {

@@ -2,7 +2,6 @@ package is.hi.hbv501g.h6.hugboverkefni.Services;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,13 +14,13 @@ import java.util.Map;
 public class CloudinaryService {
 
     // @Value("${cloudinary.cloudName}")
-    private String cloudName = "dc6h0nrwk";
+    private final String cloudName = "dc6h0nrwk";
 
     // @Value("${cloudinary.apiKey}")
-    private String apiKey = "112511792528238";
+    private final String apiKey = "112511792528238";
 
     // @Value("${cloudinary.apiSecret}")
-    private String apiSecret = "sIpq6xE1V-oR39xFgnRwpdv6_3E";
+    private final String apiSecret = "sIpq6xE1V-oR39xFgnRwpdv6_3E";
 
     Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
             "cloud_name", cloudName,
@@ -31,6 +30,7 @@ public class CloudinaryService {
 
     /**
      * Uploads Image to cloudinary
+     *
      * @param file MultipartFile
      * @return String Cloudinary URL containing uploaded image
      */
@@ -40,11 +40,11 @@ public class CloudinaryService {
             Map uploadResult = cloudinary.uploader().upload(uploadedFile, ObjectUtils.emptyMap());
             boolean isDeleted = uploadedFile.delete();
 
-            if (isDeleted){
+            if (isDeleted) {
                 System.out.println("File successfully deleted");
-            }else
+            } else
                 System.out.println("File doesn't exist");
-            return  uploadResult.get("url").toString();
+            return uploadResult.get("url").toString();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -52,6 +52,7 @@ public class CloudinaryService {
 
     /**
      * Uploads Audio file to cloudinary
+     *
      * @param file MultipartFile
      * @return String Cloudinary URL containing uploaded audio file
      */
@@ -61,11 +62,11 @@ public class CloudinaryService {
             Map uploadResult = cloudinary.uploader().upload(uploadedFile, ObjectUtils.asMap("resource_type", "video"));
             boolean isDeleted = uploadedFile.delete();
 
-            if (isDeleted){
+            if (isDeleted) {
                 System.out.println("File successfully deleted");
-            }else
+            } else
                 System.out.println("File doesn't exist");
-            return  uploadResult.get("url").toString();
+            return uploadResult.get("url").toString();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -73,13 +74,14 @@ public class CloudinaryService {
 
     /**
      * Uploads recorded audio to cloudinary
+     *
      * @param recording String DataURL from audio recording
      * @return String Cloudinary URL containing audio recording
      */
     public String uploadRecording(String recording) {
         try {
             Map uploadResult = cloudinary.uploader().upload(recording, ObjectUtils.asMap("resource_type", "video"));
-            return  uploadResult.get("url").toString();
+            return uploadResult.get("url").toString();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -87,6 +89,7 @@ public class CloudinaryService {
 
     /**
      * Converts MultipartFile to File ready for upload to cloudinary
+     *
      * @param file MultipartFile
      * @return File
      * @throws IOException

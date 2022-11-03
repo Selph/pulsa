@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
-	<head>
-		<title layout:fragment="title">Front Puls of the Interpuls</title>
-	</head>
-	<body>
-		<div layout:fragment="content">
-			<div class="flex flex-auto flex-col justify-center w-1/2 m-auto">
-				<div th:replace="fragments/posts :: posts(sub = false, form = false)" ></div>
-			</div>
-		</div>
+<html lang="en" layout:decorate="~{layout.html}" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title layout:fragment="title">Front Puls of the Interpuls</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="flex flex-auto flex-col justify-center w-1/2 m-auto">
+        <div th:replace="fragments/posts :: posts(sub = false, form = false)"></div>
+    </div>
+</div>
 
-		<div layout:fragment="oscillatorCode" th:include="fragments/oscilloscope"></div>
-	</body>
+<div layout:fragment="oscillatorCode" th:include="fragments/oscilloscope"></div>
+</body>
 </html>

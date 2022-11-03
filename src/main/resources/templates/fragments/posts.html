@@ -1,5 +1,5 @@
-<ul th:fragment="posts" th:remove="tag" class="flex flex-auto flex-col justify-center">
-  <li th:each="post : ${posts}" class="list-none flex flex-auto flex-col m-20">
-    <div th:replace="fragments/post :: post(sub = false, title = false)" class=""></div>
-  </li>
+<ul class="flex flex-auto flex-col justify-center" th:fragment="posts" th:remove="tag">
+    <li class="list-none flex flex-auto flex-col m-20" th:each="post : ${posts}">
+        <div class="" th:replace="fragments/post :: post(sub = false, title = false)"></div>
+    </li>
 </ul>

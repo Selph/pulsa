@@ -20,6 +20,7 @@ public class SubServiceImplementation implements SubService {
 
     /**
      * Returns all Subs
+     *
      * @return List<Sub>
      */
     public List<Sub> getSubs() {
@@ -28,6 +29,7 @@ public class SubServiceImplementation implements SubService {
 
     /**
      * Returns sub from ID
+     *
      * @param subId Long ID of subpulsa
      * @return Sub
      */
@@ -38,12 +40,12 @@ public class SubServiceImplementation implements SubService {
 
     /**
      * Adds Sub to database if it has a name
+     *
      * @param sub Sub to be added to database
      * @return Sub
      */
     public Sub addNewSub(Sub sub) {
-        if (sub.getName().isEmpty())
-        {
+        if (sub.getName().isEmpty()) {
             throw new IllegalStateException("Sub has to have a name");
         }
         // Vantar hér -> Find by sub name, engin duplicates leyfð. Sjá UserService
@@ -52,6 +54,7 @@ public class SubServiceImplementation implements SubService {
 
     /**
      * Edits provided sub if it exists
+     *
      * @param sub Sub to be edited
      * @return Sub
      */
@@ -62,6 +65,7 @@ public class SubServiceImplementation implements SubService {
 
     /**
      * Returns Sub with provided Slug identifier
+     *
      * @param slug String slug belonging to particular sub
      * @return Sub
      */
@@ -72,6 +76,7 @@ public class SubServiceImplementation implements SubService {
 
     /**
      * Deletes provided Sub from database
+     *
      * @param sub Sub to be deleted
      */
     public void deleteSub(Sub sub) {

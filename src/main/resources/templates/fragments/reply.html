@@ -1,76 +1,81 @@
 <div th:fragment="replies" th:remove="tag">
-  <div th:switch="${postReplies}">
-    <ul th:case="*">
-        <li th:each="postReply : ${postReplies}">
-            <canvas class="osc" th:id="@{${post.postId} + '/' + ${postReply.replyId}}"></canvas>
-            <a th:href="@{'/u/' + ${postReply.creator.userName}}"> <p th:text="@{'u/' + ${postReply.creator.userName}}"></p></a>
-            <div th:utext="${postReply.content.text}"></div>
-            <img th:src="${postReply.content.image}"/>
-            <div th:if="${postReply.content.audio != ''}">
-                <audio crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}" controls>
-                    <source th:src="@{${postReply.content.audio}}" type="audio/mpeg">
-                    <source th:src="@{${postReply.content.audio}}" type="audio/ogg">
-                    <source th:src="@{${postReply.content.audio}}" type="audio/wav">
-                    Your browser does not support the audio element.
-                </audio>
-            </div>
-            <div th:if="${postReply.content.recording != ''}">
-                <audio crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}" controls>
-                    <source th:src="@{${postReply.content.recording}}" type="audio/ogg">
-                    <source th:src="@{${postReply.content.recording}}" type="audio/wav">
-                    Your browser does not support the audio element.
-                </audio>
-            </div>
-            <div class="reply_votes">
-                <p class="vote_reply" th:id="@{/r/} + ${postReply.replyId}" th:text="${postReply.vote}"></p>
-                <div class="vote_buttons" th:if="${session?.user}">
-                    <form class="upvote_reply" action="#" th:action="@{/r/} + ${postReply.replyId} + @{/upvote}" method="post">
-                        <input type="submit" value="Upvote">
-                    </form>
-                    <form class="downvote_reply" action="#" th:action="@{/r/} + ${postReply.replyId} + @{/downvote}" method="post">
-                        <input type="submit" value="Downvote">
-                    </form>
+    <div th:switch="${postReplies}">
+        <ul th:case="*">
+            <li th:each="postReply : ${postReplies}">
+                <canvas class="osc" th:id="@{${post.postId} + '/' + ${postReply.replyId}}"></canvas>
+                <a th:href="@{'/u/' + ${postReply.creator.userName}}"><p
+                        th:text="@{'u/' + ${postReply.creator.userName}}"></p></a>
+                <div th:utext="${postReply.content.text}"></div>
+                <img th:src="${postReply.content.image}"/>
+                <div th:if="${postReply.content.audio != ''}">
+                    <audio controls crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}">
+                        <source th:src="@{${postReply.content.audio}}" type="audio/mpeg">
+                        <source th:src="@{${postReply.content.audio}}" type="audio/ogg">
+                        <source th:src="@{${postReply.content.audio}}" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
                 </div>
-            </div>
-          <div th:with="postReplies = ${postReply.replies}"
-               th:include="fragments/reply.html :: replies" th:remove="tag" ></div>
-          <form action="#" th:action="@{/p/} + ${post.sub.slug} + @{/} + ${post.postId} + @{/} + ${postReply.replyId}" method="post" enctype="multipart/form-data">
-            <div>
+                <div th:if="${postReply.content.recording != ''}">
+                    <audio controls crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}">
+                        <source th:src="@{${postReply.content.recording}}" type="audio/ogg">
+                        <source th:src="@{${postReply.content.recording}}" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+                <div class="reply_votes">
+                    <p class="vote_reply" th:id="@{/r/} + ${postReply.replyId}" th:text="${postReply.vote}"></p>
+                    <div class="vote_buttons" th:if="${session?.user}">
+                        <form action="#" class="upvote_reply" method="post"
+                              th:action="@{/r/} + ${postReply.replyId} + @{/upvote}">
+                            <input type="submit" value="Upvote">
+                        </form>
+                        <form action="#" class="downvote_reply" method="post"
+                              th:action="@{/r/} + ${postReply.replyId} + @{/downvote}">
+                            <input type="submit" value="Downvote">
+                        </form>
+                    </div>
+                </div>
+                <div th:include="fragments/reply.html :: replies"
+                     th:remove="tag" th:with="postReplies = ${postReply.replies}"></div>
+                <form action="#"
+                      enctype="multipart/form-data"
+                      method="post" th:action="@{/p/} + ${post.sub.slug} + @{/} + ${post.postId} + @{/} + ${postReply.replyId}">
+                    <div>
 				<textarea
-                        name="text"
-                        id="text"></textarea>
+                        id="text"
+                        name="text"></textarea>
 
-              <label for="image">Image file</label>
-              <input
-                      type="file"
-                      field="*{image}"
-                      name="image"
-                      id="replyImage"
-                      accept="image/*">
+                        <label for="image">Image file</label>
+                        <input
+                                accept="image/*"
+                                field="*{image}"
+                                id="replyImage"
+                                name="image"
+                                type="file">
 
-              <input
-                      type="text"
-                      field="*{recording}"
-                      value="recording"
-                      onchange="test(this)"
-                      name="recording"
-                      id="replyRecording"
-                      hidden>
+                        <input
+                                field="*{recording}"
+                                hidden
+                                id="replyRecording"
+                                name="recording"
+                                onchange="test(this)"
+                                type="text"
+                                value="recording">
 
-              <label for="audio">Audio file</label>
-              <input type="button" onclick="recordAudio(this, 'replyRecording')" value="Record">
-              <input
-                      type="file"
-                      onchange="play(this)"
-                      value="*{audio}"
-                      name="audio"
-                      id="replyAudio"
-                      accept="audio/*"
-                      capture>
-            </div>
-            <input type="submit" value="Add comment">
-          </form>
-        </li>
-    </ul>
-  </div>
+                        <label for="audio">Audio file</label>
+                        <input onclick="recordAudio(this, 'replyRecording')" type="button" value="Record">
+                        <input
+                                accept="audio/*"
+                                capture
+                                id="replyAudio"
+                                name="audio"
+                                onchange="play(this)"
+                                type="file"
+                                value="*{audio}">
+                    </div>
+                    <input type="submit" value="Add comment">
+                </form>
+            </li>
+        </ul>
+    </div>
 </div>

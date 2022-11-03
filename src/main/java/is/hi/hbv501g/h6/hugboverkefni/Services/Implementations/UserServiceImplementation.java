@@ -8,18 +8,16 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class UserServiceImplementation implements UserService {
     private final UserRepository userRepository;
     @Autowired
     private Validator validator;
+
     @Autowired
     public UserServiceImplementation(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -27,6 +25,7 @@ public class UserServiceImplementation implements UserService {
 
     /**
      * Returns all users in database
+     *
      * @return List<User>
      */
     public List<User> getUsers() {
@@ -37,6 +36,7 @@ public class UserServiceImplementation implements UserService {
      * Returns Default User "Anon" that enables
      * creating of posts and replies without being
      * logged in
+     *
      * @return User
      */
     public User getAnon() {
@@ -46,6 +46,7 @@ public class UserServiceImplementation implements UserService {
 
     /**
      * Returns User object containing email if it exists
+     *
      * @param email String email of particular User
      * @return Optional<User>
      */
@@ -56,6 +57,7 @@ public class UserServiceImplementation implements UserService {
 
     /**
      * Returns User containing username if it exists
+     *
      * @param userName String username of particular User
      * @return Optional<User>
      */
@@ -69,21 +71,23 @@ public class UserServiceImplementation implements UserService {
      * already present in another User object in database
      * If either username or email is taken the BindingResult object
      * will be updated with rejectValue
-     * @param user User object to be added to database
+     *
+     * @param user   User object to be added to database
      * @param result BindingResult object
      */
     public void addNewUser(User user, BindingResult result) {
         Optional<User> userName = userRepository.findByUserName(user.getUserName());
         Optional<User> email = userRepository.findByEmail(user.getEmail());
 
-        if(userName.isPresent()) result.rejectValue("userName", "error.duplicate", "Username taken");
-        if(email.isPresent()) result.rejectValue("email", "error.duplicate", "Email in use");
+        if (userName.isPresent()) result.rejectValue("userName", "error.duplicate", "Username taken");
+        if (email.isPresent()) result.rejectValue("email", "error.duplicate", "Email in use");
 
-        if(!result.hasErrors()) userRepository.save(user);
+        if (!result.hasErrors()) userRepository.save(user);
     }
 
     /**
      * Deletes User related to provided ID from database if it exists
+     *
      * @param userId Long ID User identifier
      */
     public void deleteUser(Long userId) {
@@ -97,7 +101,7 @@ public class UserServiceImplementation implements UserService {
     @Override
     public void editUserName(User user) {
         Optional<User> usernameExists = userRepository.findByUserName(user.getUserName());
-        if(usernameExists.isPresent()) throw new DuplicateKeyException("Username taken");
+        if (usernameExists.isPresent()) throw new DuplicateKeyException("Username taken");
         userRepository.save(user);
     }
 
@@ -114,7 +118,7 @@ public class UserServiceImplementation implements UserService {
     @Override
     public void editEmail(User user) {
         Optional<User> userEmail = userRepository.findByEmail(user.getEmail());
-        if(userEmail.isPresent()) throw new DuplicateKeyException("Email taken");
+        if (userEmail.isPresent()) throw new DuplicateKeyException("Email taken");
         userRepository.save(user);
     }
 
@@ -128,6 +132,7 @@ public class UserServiceImplementation implements UserService {
      * If User exists, checks if password provided in UI matches password
      * in database
      * Returns User if password matches
+     *
      * @param user User provided from UI
      * @return User
      */
@@ -135,8 +140,8 @@ public class UserServiceImplementation implements UserService {
     public User loginUser(User user) {
         Optional<User> exists = getUserByUserName(user.getUserName());
 
-        if(exists.isPresent()) {
-            if(exists.get().getPassword().equals(user.getPassword())) return exists.get();
+        if (exists.isPresent()) {
+            if (exists.get().getPassword().equals(user.getPassword())) return exists.get();
         }
         return null;
     }

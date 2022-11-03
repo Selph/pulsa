@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
+<html lang="en" layout:decorate="~{layout.html}" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-	<title layout:fragment="title">Change Email</title>
+    <title layout:fragment="title">Change Email</title>
 </head>
-	<body>
-		<div layout:fragment="content" th:if="${session?.user}" th:object="${session.user}" th:class="edit">
-			<form action="#" th:action="@{'/user/' + *{user_id} + '/edit/email'}" method="post">
-				<label for="email">Email</label>
-				<input type="text" field="*{email}" name="email" id="email" th:value="*{email}">
-				<p th:if="${error}" th:text="${error}"></p>
-				<p th:if="${updated}">Email changed</p>
-				<input type="submit" value="Change">
-			</form>
-		</div>
-	</body>
+<body>
+<div layout:fragment="content" th:class="edit" th:if="${session?.user}" th:object="${session.user}">
+    <form action="#" method="post" th:action="@{'/user/' + *{user_id} + '/edit/email'}">
+        <label for="email">Email</label>
+        <input field="*{email}" id="email" name="email" th:value="*{email}" type="text">
+        <p th:if="${error}" th:text="${error}"></p>
+        <p th:if="${updated}">Email changed</p>
+        <input type="submit" value="Change">
+    </form>
+</div>
+</body>
 </html>

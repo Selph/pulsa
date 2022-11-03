@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
     Optional<Reply> findByReplyId(Long replyId);
+
     List<Reply> findByCreator(User user);
 }
 

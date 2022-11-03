@@ -4,6 +4,6 @@
 @import "tailwindcss/screens";
 
 @font-face {
-  font-family: "TRACE";
-  src: url("../public/fonts/TraceRegular-p76Jd.ttf")
+    font-family: "TRACE";
+    src: url("../public/fonts/TraceRegular-p76Jd.ttf")
 }

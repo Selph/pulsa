@@ -1,7 +1,6 @@
 package is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -32,11 +31,10 @@ public class Content {
     /**
      * Container for message content
      *
-     * @param text String text input from user
-     * @param image String DataURL of uploaded image
-     * @param audio String DataURL of uploaded audio
+     * @param text      String text input from user
+     * @param image     String DataURL of uploaded image
+     * @param audio     String DataURL of uploaded audio
      * @param recording String DataURL of recorded audio
-     *
      * @return Content
      */
     public Content(String text, String image, String audio, String recording) {

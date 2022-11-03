@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
-	<head>
-		<title layout:fragment="title">Log in to the Pulsiverse</title>
-	</head>
-	<div layout:fragment="content">
-		<form action="#" th:action="@{/login}" th:object="${user}" method="post">
-			<label for="userName">Username:</label>
-			<input type="text" name="userName" id="userName" th:field="*{userName}">
+<html lang="en" layout:decorate="~{layout}" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title layout:fragment="title">Log in to the Pulsiverse</title>
+</head>
+<div layout:fragment="content">
+    <form action="#" method="post" th:action="@{/login}" th:object="${user}">
+        <label for="userName">Username:</label>
+        <input id="userName" name="userName" th:field="*{userName}" type="text">
 
-			<label for="password">Password:</label>
-			<input type="text" name="password" id="password" th:field="*{password}">
+        <label for="password">Password:</label>
+        <input id="password" name="password" th:field="*{password}" type="text">
 
 
-			<input type="submit" value="Login">
-		</form>
-		<h6 th:text="${param.error} ? 'Incorrect username and/or password' : null"></h6>
-	</div>
+        <input type="submit" value="Login">
+    </form>
+    <h6 th:text="${param.error} ? 'Incorrect username and/or password' : null"></h6>
+</div>
 </html>

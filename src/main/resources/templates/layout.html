@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:layout="[https://www.ultraq.net.nz/thymeleaf/layout](https://www.ultraq.net.nz/thymeleaf/layout)">
-  <head>
+<head>
     <meta charset="UTF-8">
     <title layout:fragment="title">Layout Title</title>
     <script src="https://malsup.github.io/jquery.form.js"></script>
     <script src="https://raw.githubusercontent.com/themesberg/flowbite/main/src/flowbite.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
     <div th:replace="fragments/voteScript :: voteScript"></div>
     <link rel="stylesheet" th:href="@{/css/tailwind.css}">
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.33.0/dist/full.css" rel="stylesheet" type="text/css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.33.0/dist/full.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
-  </head>
-  <body class="bg-black min-h-screen">
-    <header th:replace="fragments/header :: header" ></header>
-    <div layout:fragment="content" class="m-auto md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-2xl font-jetbrains mt-10 flex flex-auto flex-col justify-center">
-      <p>Layout content</p>
-    </div>
-    <div th:replace="fragments/footer :: footer"></div>
-  <div layout:fragment="oscillatorCode"></div>
-    <div layout:fragment="editor"></div>
-  </body>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+          rel="stylesheet">
+</head>
+<body class="bg-black min-h-screen">
+<header th:replace="fragments/header :: header"></header>
+<div class="m-auto md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-2xl font-jetbrains mt-10 flex flex-auto flex-col justify-center"
+     layout:fragment="content">
+    <p>Layout content</p>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+<div layout:fragment="oscillatorCode"></div>
+<div layout:fragment="editor"></div>
+</body>
 </html>

@@ -1,7 +1,6 @@
 package is.hi.hbv501g.h6.hugboverkefni.Controllers;
 
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
-
 import is.hi.hbv501g.h6.hugboverkefni.Services.CloudinaryService;
 import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +8,11 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -35,26 +31,25 @@ public class UserController {
     @ResponseBody
     public String getUsername(HttpSession session) {
         System.out.println("Foo");
-        User user = (User)(session.getAttribute("user"));
+        User user = (User) (session.getAttribute("user"));
 
         if (user == null) {
             return "";
-        }
-        else {
+        } else {
             return user.getUserName();
         }
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String registerGET(User user){
+    public String registerGET(User user) {
         return "register";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String registerPOST(@Valid User user, BindingResult result){
+    public String registerPOST(@Valid User user, BindingResult result) {
         userService.addNewUser(user, result);
 
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             return "register";
         }
 
@@ -62,14 +57,14 @@ public class UserController {
     }
 
     @RequestMapping(name = "/login", value = "/login", method = RequestMethod.GET)
-    public String loginGET(User user){
+    public String loginGET(User user) {
         return "login";
     }
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
     public String loginPOST(User user, HttpSession session) {
         User auth = userService.loginUser(user);
-        if(auth == null) return "redirect:login?error";
+        if (auth == null) return "redirect:login?error";
 
         // Session time limit er 1800s eða 30m
         // Breyta session time limit -> session.setMaxInactiveInterval(sec);
@@ -80,28 +75,28 @@ public class UserController {
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpSession session) {
-        if(session.getAttribute("user") != null)  {
+        if (session.getAttribute("user") != null) {
             session.invalidate();
         }
         return "redirect:/";
     }
 
     @RequestMapping(value = "/registrationSuccess", method = RequestMethod.GET)
-    public String registrationSuccessGET(){
+    public String registrationSuccessGET() {
         return "registrationSuccess";
     }
 
     @RequestMapping(value = "/user/{id}/edit", method = RequestMethod.GET)
     public String editAccountGET(@PathVariable("id") long id, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        if(user.getUser_id() != id) return "postNotFound";
+        if (user.getUser_id() != id) return "postNotFound";
         return "editAccount";
     }
 
     @RequestMapping(value = "/user/{id}/edit", method = RequestMethod.POST)
     public String editAccountPOST(String realName, HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
-        if(realName.equals(user.getRealName())) return "editAccount";
+        if (realName.equals(user.getRealName())) return "editAccount";
 
         user.setRealName(realName);
         userService.editRealName(user);
@@ -117,7 +112,7 @@ public class UserController {
 
     @RequestMapping(value = "/user/{id}/edit/avatar", method = RequestMethod.POST)
     public String changeAvatarPOST(@RequestParam MultipartFile avatar, HttpSession session, Model model) {
-        if(avatar.isEmpty()) {
+        if (avatar.isEmpty()) {
             model.addAttribute("avatar", true);
             return "editAccountAvatar";
         }
@@ -139,7 +134,7 @@ public class UserController {
     public String changeUsernamePOST(@ModelAttribute("username") String username, HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
 
-        if(username.isBlank()) return "editAccountUsername";
+        if (username.isBlank()) return "editAccountUsername";
 
         user.setUserName(username);
         try {
@@ -164,7 +159,7 @@ public class UserController {
     public String changePasswordPOST(String password, HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
 
-        if(user.getPassword().equals(password) || password.isBlank()) return "editAccountPassword";
+        if (user.getPassword().equals(password) || password.isBlank()) return "editAccountPassword";
 
         model.addAttribute("updated", true);
         user.setPassword(password);
@@ -181,7 +176,7 @@ public class UserController {
     @RequestMapping(value = "/user/{id}/edit/email", method = RequestMethod.POST)
     public String changeEmailPOST(String email, HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
-        if(email.isBlank()) return "editAccountEmail";
+        if (email.isBlank()) return "editAccountEmail";
 
         user.setEmail(email);
         try {

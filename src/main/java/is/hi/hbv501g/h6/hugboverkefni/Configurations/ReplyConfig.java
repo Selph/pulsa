@@ -1,6 +1,9 @@
 package is.hi.hbv501g.h6.hugboverkefni.Configurations;
 
-import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.*;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Content;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Reply;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Voter;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.ReplyRepository;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;

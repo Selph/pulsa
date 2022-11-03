@@ -3,10 +3,7 @@ package is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.MappedSuperclass.Message;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Table
@@ -28,18 +25,18 @@ public class Post extends Message {
     @JoinColumn(name = "sub_id")
     private Sub sub;
 
-    public Post() {}
+    public Post() {
+    }
 
     /**
      * Post entity
      *
-     * @param title String title of post
-     * @param sub Sub SubPulsa of post
+     * @param title   String title of post
+     * @param sub     Sub SubPulsa of post
      * @param content Content contains content of post
      * @param creator User Post owner
-     * @param voted List<Voter> List of users that have voted on post
+     * @param voted   List<Voter> List of users that have voted on post
      * @param replies List<Reply> List of replies to post
-     *
      * @return Post object
      */
     public Post(String title,

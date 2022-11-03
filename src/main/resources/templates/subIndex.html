@@ -1,44 +1,45 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
-  <head>
+<html lang="en" layout:decorate="~{layout}" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
+<head>
     <title layout:fragment="title">Pulsu Index</title>
-  </head>
-  <div layout:fragment="content">
+</head>
+<div layout:fragment="content">
     <div class="flex flex-auto flex-row justify-center m-auto">
-      <form action="#" th:action="@{/newSub}"  method="post" enctype="multipart/form-data" class="flex flex-auto flex-row">
-        <div class="flex flex-row m-auto justify-content-evenly">
-          <label class="mr-3" for="name">Sub Pulsa Name</label>
-          <input type="text" field="*{name}" name="name" id="name" placeholder="Name" class="pl-3">
-        </div>
-        <span class="ml-4 mr-4 h-10 my-auto pr-0.5 bg-amber-100"></span>
-        <div class="flex flex-row mt-5 justify-content-evenly">
-          <label for="image">Image</label>
-          <input
-                  type="file"
-                  field="*{image}"
-                  name="image"
-                  id="image"
-                  accept="image/*"
-                  class="btn-link btn">
-      </div>
-      <input type="submit" value="Create new sub pulsa" class="btn m-auto">
-      </form>
+        <form action="#" class="flex flex-auto flex-row" enctype="multipart/form-data" method="post"
+              th:action="@{/newSub}">
+            <div class="flex flex-row m-auto justify-content-evenly">
+                <label class="mr-3" for="name">Sub Pulsa Name</label>
+                <input class="pl-3" field="*{name}" id="name" name="name" placeholder="Name" type="text">
+            </div>
+            <span class="ml-4 mr-4 h-10 my-auto pr-0.5 bg-amber-100"></span>
+            <div class="flex flex-row mt-5 justify-content-evenly">
+                <label for="image">Image</label>
+                <input
+                        accept="image/*"
+                        class="btn-link btn"
+                        field="*{image}"
+                        id="image"
+                        name="image"
+                        type="file">
+            </div>
+            <input class="btn m-auto" type="submit" value="Create new sub pulsa">
+        </form>
     </div>
     <div class="flex flex-auto flex-col justify-center m-auto">
-      <ul class="">
-        <li th:each="sub : ${subs}" class="bg-slate-800 p-5 rounded-2xl m-10 w-fit">
-          <a th:href="@{'/p/' + ${sub.slug}}">
-            <div class="absolute overflow-hidden bg-black w-fit text-center m-auto">
-              <p th:text="${sub.name}" class="font-bold text-5xl text-center"></p>
-            </div>
-            <div class="p-4 bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400">
-              <img th:src="*{sub.image}" class="bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400"/>
-            </div>
-          </a>
+        <ul class="">
+            <li class="bg-slate-800 p-5 rounded-2xl m-10 w-fit" th:each="sub : ${subs}">
+                <a th:href="@{'/p/' + ${sub.slug}}">
+                    <div class="absolute overflow-hidden bg-black w-fit text-center m-auto">
+                        <p class="font-bold text-5xl text-center" th:text="${sub.name}"></p>
+                    </div>
+                    <div class="p-4 bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400">
+                        <img class="bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400" th:src="*{sub.image}"/>
+                    </div>
+                </a>
 
-        </li>
-      </ul>
+            </li>
+        </ul>
     </div>
 
-  </div>
+</div>
 </html>

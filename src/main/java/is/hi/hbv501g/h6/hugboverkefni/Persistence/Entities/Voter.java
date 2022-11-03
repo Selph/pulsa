@@ -29,8 +29,7 @@ public class Voter {
      *
      * @param user User casting the vote
      * @param vote Boolean upvote when true
-     *                     downvote when false
-     *
+     *             downvote when false
      * @return Voter Object
      */
     public Voter(User user, boolean vote) {
@@ -70,7 +69,7 @@ public class Voter {
         return "Voter{" +
                 "id='" + id + '\'' +
                 "user='" + user + '\'' +
-                ", userID=" + user.getUser_id()+
+                ", userID=" + user.getUser_id() +
                 ", vote=" + vote +
                 '}';
     }

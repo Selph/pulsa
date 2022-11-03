@@ -1,10 +1,10 @@
 <div th:fragment="playerScript" th:remove="tag">
     <script>
-      function play(el) {
-        let player = document.getElementById('player');
-        if(!el.files.length) return;
-        const audioUrl = URL.createObjectURL(el.files[0]);
-        player.src = audioUrl;
-      }
+        function play(el) {
+            let player = document.getElementById('player');
+            if (!el.files.length) return;
+            const audioUrl = URL.createObjectURL(el.files[0]);
+            player.src = audioUrl;
+        }
     </script>
 </div>

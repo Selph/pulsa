@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
+<html lang="en" layout:decorate="~{layout.html}" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-	<title layout:fragment="title">Change Username</title>
+    <title layout:fragment="title">Change Username</title>
 </head>
-	<body>
-		<div layout:fragment="content" th:if="${session?.user}" th:object="${session.user}" th:class="edit">
-			<form action="#" th:action="@{'/user/' + *{userName} + '/edit/username'}" method="post">
-				<label for="username">Username</label>
-				<input type="text" field="*{username}" name="username" id="username" th:value="*{userName}">
-				<p th:if="${error}" th:text="${error}"></p>
-				<p th:if="${updated}">Username changed</p>
-				<input type="submit" value="Change">
-			</form>
-		</div>
-	</body>
+<body>
+<div layout:fragment="content" th:class="edit" th:if="${session?.user}" th:object="${session.user}">
+    <form action="#" method="post" th:action="@{'/user/' + *{userName} + '/edit/username'}">
+        <label for="username">Username</label>
+        <input field="*{username}" id="username" name="username" th:value="*{userName}" type="text">
+        <p th:if="${error}" th:text="${error}"></p>
+        <p th:if="${updated}">Username changed</p>
+        <input type="submit" value="Change">
+    </form>
+</div>
+</body>
 </html>

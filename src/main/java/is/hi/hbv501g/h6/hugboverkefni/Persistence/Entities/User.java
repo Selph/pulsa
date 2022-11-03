@@ -1,11 +1,8 @@
 package is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities;
 
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,7 +24,7 @@ public class User {
     )
     private Long user_id;
     @NotBlank(message = "Field must not be empty")
-    @Size(min = 3, message= "{Size.name}")
+    @Size(min = 3, message = "{Size.name}")
     @Column(unique = true)
     private String userName;
 
@@ -35,7 +32,7 @@ public class User {
     @Size(min = 2, message = "{Size.pass}")
     private String password;
     @NotBlank(message = "Field must not be empty")
-    @Size(min = 3, message= "{Size.name}")
+    @Size(min = 3, message = "{Size.name}")
     private String realName;
     private String avatar;
     @NotBlank
@@ -66,10 +63,9 @@ public class User {
      * @param userName String Unique user identifier
      * @param password String Top secret password
      * @param realName String Users real name
-     * @param avatar String DataURL of uploaded image
-     *                      representing the user
-     * @param email String email for user
-     *
+     * @param avatar   String DataURL of uploaded image
+     *                 representing the user
+     * @param email    String email for user
      * @return User
      */
     public User(String userName,
@@ -130,6 +126,10 @@ public class User {
         return created;
     }
 
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
     public void setCreated() {
         this.created = LocalDateTime.now();
     }
@@ -162,16 +162,12 @@ public class User {
         return updated;
     }
 
-    public void setUpdated() {
-        this.updated = LocalDateTime.now();
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
     public void setUpdated(LocalDateTime updated) {
         this.updated = updated;
+    }
+
+    public void setUpdated() {
+        this.updated = LocalDateTime.now();
     }
 
     public String getPassword() {

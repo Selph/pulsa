@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
-	<head>
-		<title layout:fragment="title">Edit Account</title>
-	</head>
-	<body>
-		<div layout:fragment="content" th:if="${session?.user}" th:object="${session.user}" th:class="edit">
-			<nav th:class="edit__menu">
-				<picture th:if="*{avatar}" class="avatar">
-					<img th:src="@{*{avatar}}">
-				</picture>
-				<a th:href="@{'/user/' + *{user_id} + '/edit/avatar'}"><p>Change Avatar</p></a>
-				<a th:href="@{'/user/' + *{user_id} + '/edit/username'}"><p>Change Username</p></a>
-				<a th:href="@{'/user/' + *{user_id} + '/edit/password'}"><p>Change Password</p></a>
-				<a th:href="@{'/user/' + *{user_id} + '/edit/email'}"><p>Change Email</p></a>
-			</nav>
-			<form action="#" th:action="@{'/user/' + *{user_id} + '/edit'}" method="post">
-				<label for="realName">Fullt nafn:</label>
-				<input type="text" field="*{realName}" name="realName" id="realName" th:value="*{realName}">
-				<p th:if="${updated}">Name changed</p>
-				<!-- Hægt að bæta Bio, lista af subs og posts -->
-				<input type="submit" value="Update">
-			</form>
-		</div>
-	</body>
+<html lang="en" layout:decorate="~{layout.html}" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title layout:fragment="title">Edit Account</title>
+</head>
+<body>
+<div layout:fragment="content" th:class="edit" th:if="${session?.user}" th:object="${session.user}">
+    <nav th:class="edit__menu">
+        <picture class="avatar" th:if="*{avatar}">
+            <img th:src="@{*{avatar}}">
+        </picture>
+        <a th:href="@{'/user/' + *{user_id} + '/edit/avatar'}"><p>Change Avatar</p></a>
+        <a th:href="@{'/user/' + *{user_id} + '/edit/username'}"><p>Change Username</p></a>
+        <a th:href="@{'/user/' + *{user_id} + '/edit/password'}"><p>Change Password</p></a>
+        <a th:href="@{'/user/' + *{user_id} + '/edit/email'}"><p>Change Email</p></a>
+    </nav>
+    <form action="#" method="post" th:action="@{'/user/' + *{user_id} + '/edit'}">
+        <label for="realName">Fullt nafn:</label>
+        <input field="*{realName}" id="realName" name="realName" th:value="*{realName}" type="text">
+        <p th:if="${updated}">Name changed</p>
+        <!-- Hægt að bæta Bio, lista af subs og posts -->
+        <input type="submit" value="Update">
+    </form>
+</div>
+</body>
 </html>
