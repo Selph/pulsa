@@ -6,11 +6,36 @@
     let data = null;
     let playing = false;
     let element = null;
+    let firstFrameCompleted = false;
 
     let canvas = null;
     let canvasCtx = null;
 
-    function draw() {
+    function initializeOscilloscopes() {
+        let oscilloscopes = document.getElementsByClassName('osc');
+
+        for(let oscilloscope of oscilloscopes) {
+            let canvas = oscilloscope;
+
+            canvas.style.width = "300";
+            canvas.style.height = "80px";
+
+            canvasCtx = canvas.getContext("2d");
+
+            canvasCtx.fillStyle = "rgb(0, 0, 0)";
+            canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+            canvasCtx.lineWidth = 2;
+            canvasCtx.strokeStyle = "rgb(255, 255, 255)";
+
+            canvasCtx.beginPath();
+            canvasCtx.moveTo(0, canvas.height / 2);
+            canvasCtx.lineTo(canvas.width, canvas.height / 2);
+            canvasCtx.stroke();
+        }
+    }
+
+    function draw(audioSource) {
         requestAnimationFrame(draw);
 
         analyzer.getByteTimeDomainData(data);
@@ -41,15 +66,20 @@
 
         canvasCtx.lineTo(canvas.width, canvas.height / 2);
         canvasCtx.stroke();
+
+        if(!firstFrameCompleted) {
+            firstFrameCompleted = true;
+            audioSource.currentTime = 0.0;
+        }
     }
 
     function startOsc(audioSource) {
         let id = audioSource.id;
-        let oscillators = document.getElementsByClassName('osc');
+        let oscilloscopes = document.getElementsByClassName('osc');
 
-        for (let i = 0; i < oscillators.length; i++) {
-            if (oscillators[i].id === id) {
-                canvas = oscillators[i];
+        for (let i = 0; i < oscilloscopes.length; i++) {
+            if (oscilloscopes[i].id === id) {
+                canvas = oscilloscopes[i];
             }
         }
 
@@ -69,11 +99,11 @@
         src.connect(analyzer);
         analyzer.connect(ctx.destination);
 
-        draw();
+        draw(audioSource);
     }
 
-    function resumeOsc() {
-        draw();
+    function resumeOsc(audioSource) {
+        draw(audioSource);
     }
 
     function disconnectOsc() {
@@ -88,6 +118,8 @@
         data = null;
     }
 
+    initializeOscilloscopes();
+
     let audioElements = document.getElementsByTagName("audio");
     for (let audioElement of audioElements) {
         audioElement.addEventListener('play', event => {
@@ -97,7 +129,7 @@
                     disconnectOsc();
                     startOsc(audioElement);
                 } else {
-                    resumeOsc();
+                    resumeOsc(audioElement);
                 }
             } else {
                 startOsc(audioElement);
