@@ -5,21 +5,23 @@
     <title layout:fragment="title">Register New Account</title>
 </head>
 <div layout:fragment="content">
-    <h2>Join the Pulsiverse</h2>
-    <form action="#" method="post" th:action="@{/register}" th:object="${user}">
-        <label for="userName">Username:</label>
-        <input id="userName" name="userName" th:field="*{userName}" type="text">
-        <p th:errors="*{userName}" th:if="${#fields.hasErrors('userName')}"></p>
-        <label for="password">Password:</label>
-        <input id="password" name="password" th:field="*{password}" type="text">
-        <p th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></p>
-        <label for="realName">Fullt nafn:</label>
-        <input id="realName" name="realName" th:field="*{realName}" type="text">
-        <p th:errors="*{realName}" th:if="${#fields.hasErrors('realName')}">hey</p>
-        <label for="email">Netfang:</label>
-        <input id="email" name="email" th:field="*{email}" type="email">
-        <p th:error="*{email}" th:errors="*{email}" th:if="${#fields.hasErrors('email')}"></p>
-        <input type="submit" value="Register"/>
-    </form>
+    <div class="flex flex-col m-5 h-full">
+        <h2 class="text-zinc-300 font-trace text-center text-4xl m-10">Join the Pulsiverse</h2>
+        <form class="flex flex-col flex-auto w-1/4 self-center justify-between" action="#" method="post" th:action="@{/register}" th:object="${user}">
+            <label class="pt-5" for="userName">Username:</label>
+            <input id="userName" name="userName" th:field="*{userName}" type="text">
+            <p class="text-center text-red-400" th:errors="*{userName}" th:if="${#fields.hasErrors('userName')}"></p>
+            <label class="pt-5" for="password">Password:</label>
+            <input id="password" name="password" th:field="*{password}" type="text">
+            <p class="text-center text-red-400" th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></p>
+            <label class="pt-5" for="realName">Fullt nafn:</label>
+            <input id="realName" name="realName" th:field="*{realName}" type="text">
+            <p class="text-center text-red-400" th:errors="*{realName}" th:if="${#fields.hasErrors('realName')}">hey</p>
+            <label class="pt-5" for="email">Netfang:</label>
+            <input id="email" name="email" th:field="*{email}" type="email">
+            <p class="text-center text-red-400" th:error="*{email}" th:errors="*{email}" th:if="${#fields.hasErrors('email')}"></p>
+                <input class="mt-10" type="submit" value="Register"/>
+        </form>
+    </div>
 </div>
 </html>

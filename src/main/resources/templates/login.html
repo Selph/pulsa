@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" layout:decorate="~{layout}" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <title layout:fragment="title">Log in to the Pulsiverse</title>
+    <title layout:fragment="title" class="center">Log in to the Pulsiverse</title>
 </head>
 <div layout:fragment="content">
-    <form action="#" method="post" th:action="@{/login}" th:object="${user}">
-        <label for="userName">Username:</label>
-        <input id="userName" name="userName" th:field="*{userName}" type="text">
+    <div class="flex flex-col m-5 h-full">
+        <h2 class="text-zinc-300 font-trace text-center text-4xl m-10">Become Pulsa</h2>
+        <form class="flex flex-col flex-auto w-1/4 self-center justify-between" action="#" method="post" th:action="@{/login}" th:object="${user}">
+            <label class="pt-5" for="userName">Username:</label>
+            <input id="userName" name="userName" th:field="*{userName}" type="text">
 
-        <label for="password">Password:</label>
-        <input id="password" name="password" th:field="*{password}" type="text">
+            <label class="pt-5" for="password">Password:</label>
+            <input id="password" name="password" th:field="*{password}" type="text">
 
 
-        <input type="submit" value="Login">
-    </form>
-    <h6 th:text="${param.error} ? 'Incorrect username and/or password' : null"></h6>
+            <input class="mt-10" type="submit" value="Login">
+        </form>
+    </div>
+    <h6 class="text-center text-red-400" th:text="${param.error} ? 'Incorrect username and/or password' : null"></h6>
 </div>
 </html>
