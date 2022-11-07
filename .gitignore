@@ -418,3 +418,4 @@ $RECYCLE.BIN/
 *_REMOTE_*.txt
 src/main/resources/application.properties
 /package-lock.json
+node_modules
