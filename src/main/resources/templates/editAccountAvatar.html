@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" layout:decorate="~{layout.html}" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
-<head>
-    <title layout:fragment="title">Change Avatar</title>
-</head>
-<body>
-<div layout:fragment="content" th:if="${session?.user}" th:object="${session.user}">
-    <picture th:if="*{avatar}">
-        <img th:src="@{*{avatar}}">
-    </picture>
-    <form action="#" enctype="multipart/form-data" method="post" th:action="@{'/user/' + *{user_id} + '/edit/avatar'}">
-        <input accept="image/*"
-               field="avatar"
-               id="avatar"
-               name="avatar"
-               type="file">
-        <p th:if="${avatar}">Must select image</p>
-        <input type="submit" value="Change Avatar">
-    </form>
-</div>
-</body>
+    <head>
+        <title layout:fragment="title">Change Avatar</title>
+    </head>
+    <body>
+        <div layout:fragment="content" th:if="${session?.user}" th:object="${session.user}">
+            <div th:replace="fragments/accountHeader :: accountHeader"></div>
+            <div class="flex flex-col flex-auto justify-center ml-auto mr-auto">
+                <form class="flex flex-col" action="#" enctype="multipart/form-data" method="post" th:action="@{'/user/' + *{user_id} + '/edit/avatar'}">
+                    <input accept="image/*"
+                           field="avatar"
+                           id="avatar"
+                           name="avatar"
+                           type="file">
+                    <p class="text-red-400" th:if="${avatar}">Must select image</p>
+                    <input class="mt-2 btn" type="submit" value="Change Avatar">
+                </form>
+            </div>
+        </div>
+    </body>
 </html>

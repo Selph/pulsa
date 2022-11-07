@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title layout:fragment="title">Layout Title</title>
     <script src="https://malsup.github.io/jquery.form.js"></script>
-    <script src="https://raw.githubusercontent.com/themesberg/flowbite/main/src/flowbite.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <script crossorigin="anonymous"
             integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn"
@@ -15,17 +14,19 @@
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
           rel="stylesheet">
 </head>
 <body class="bg-black min-h-screen text-zinc-300">
-<header th:replace="fragments/header :: header"></header>
-<div class="m-auto lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl font-jetbrains mt-10 flex flex-auto flex-col justify-center"
-     layout:fragment="content">
-    <p>Layout content</p>
-</div>
-<div th:replace="fragments/footer :: footer"></div>
-<div layout:fragment="oscillatorCode"></div>
-<div layout:fragment="editor"></div>
+    <header th:replace="fragments/header :: header"></header>
+    <div class="m-auto sm:w-full md:w-full lg:w-full xl:max-w-screen-xl 2xl:max-w-screen-2xl font-jetbrains mt-10 flex flex-auto flex-col justify-center"
+         layout:fragment="content">
+        <p>Layout content</p>
+    </div>
+    <div th:replace="fragments/footer :: footer"></div>
+    <div layout:fragment="oscillatorCode"></div>
+    <div layout:fragment="editor"></div>
 </body>
 </html>

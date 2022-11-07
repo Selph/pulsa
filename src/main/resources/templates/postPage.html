@@ -5,8 +5,8 @@
     <link href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
 </head>
-<div layout:fragment="content">
-    <a th:href="@{'/p/' + *{sub.slug}}"><h1 th:text="*{sub.name}"></h1></a>
+<div layout:fragment="content" class="flex flex-auto flex-col justify-center w-1/2 m-auto">
+    <a class="font-trace text-8xl text-center" th:href="@{'/p/' + *{sub.slug}}"><h1 th:text="*{sub.name}"></h1></a>
     <div th:replace="fragments/post :: post(sub = true, form = true)"></div>
     <div th:replace="fragments/reply :: replies"></div>
 </div>

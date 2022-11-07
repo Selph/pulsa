@@ -20,7 +20,7 @@
             <label class="pt-5" for="email">Netfang:</label>
             <input id="email" name="email" th:field="*{email}" type="email">
             <p class="text-center text-red-400" th:error="*{email}" th:errors="*{email}" th:if="${#fields.hasErrors('email')}"></p>
-                <input class="mt-10" type="submit" value="Register"/>
+                <input class="btn mt-10" type="submit" value="Register"/>
         </form>
     </div>
 </div>

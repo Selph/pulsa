@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<body>
+  <div th:fragment="accountHeader">
+    <picture class="absolute z-0 w-full left-0" style="top: 68px">
+      <img class="w-full h-72 object-cover" th:src="@{https://forums.arlongpark.net/assets/images/cover-default.png}">
+    </picture>
+    <div class="h-72"></div>
+    <div class="flex-col -mt-44">
+      <picture class="relative z-10 ml-auto mr-auto block w-56 mt-8" th:if="*{avatar}">
+        <img class="h-56" th:src="@{*{avatar}}">
+      </picture>
+      <div class="relative z-10 text-center mt-4">
+        <p class="text-4xl font-audiowide text-purple-500" th:text="${session?.user.getUserName()}"></p>
+      </div>
+    </div>
+    <div class="relative -top-[140px] flex flex-row">
+      <a href="/" class="text-green-400">Home</a>
+      <p class="ml-4 mr-4 font-light text-sm pt-1">/</p>
+      <a th:href="@{/user/} + ${session?.user.getUser_id()}" th:text="${session?.user.getUserName()}" class="text-green-400"></a>
+      <p class="ml-4 mr-4 font-light text-sm pt-1">/</p>
+      <a th:href="@{/user/} + ${session?.user.getUser_id()} + @{/edit}" class="text-green-400">Edit Account</a>
+    </div>
+  </div>
+</body>
+</html>

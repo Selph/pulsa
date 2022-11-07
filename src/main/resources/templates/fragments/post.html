@@ -108,7 +108,7 @@
         <h1 th:if="${title}" th:text="${post.title}"></h1>
         <h2 th:text="${post.title}" th:unless="${title}"></h2>
     </a>
-    <div th:utext="${post.content.text}"></div>
+    <div class="font-opensans font-medium ml-4 text-lg mb-4" th:utext="${post.content.text}"></div>
     <div class="flex flex-auto flex-col justify-center m-auto">
         <a class="" th:href="@{'/p/' + ${post.sub.slug} + '/' + ${post.postId}}"> <img
                 th:src="@{${post.content.image}}"/></a>

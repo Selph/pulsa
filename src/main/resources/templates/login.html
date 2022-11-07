@@ -14,7 +14,7 @@
             <input id="password" name="password" th:field="*{password}" type="text">
 
 
-            <input class="mt-10" type="submit" value="Login">
+            <input class="btn mt-10" type="submit" value="Login">
         </form>
     </div>
     <h6 class="text-center text-red-400" th:text="${param.error} ? 'Incorrect username and/or password' : null"></h6>
