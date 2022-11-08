@@ -1,6 +1,6 @@
 <div th:fragment="replies" th:remove="tag">
     <div class="flex flex-auto flex-row" th:switch="${postReplies}">
-        <ul class="flex flex-row flex-auto" th:case="*">
+        <ul class="flex flex-col flex-auto" th:case="*">
             <li class="ml-5 border-l-4 mt-14 border-indigo-400" th:each="postReply : ${postReplies}">
                 <div class="ml-[22px] -mt-14">
                     <div class="flex flex-row mt-4 -ml-10 justify-start">
