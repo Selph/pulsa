@@ -49,7 +49,7 @@ public class Content {
     }
 
     public String getText() {
-        return text;
+        return this.text;
     }
 
     public void setText(String text) {
@@ -57,7 +57,7 @@ public class Content {
     }
 
     public String getImage() {
-        return image;
+        return this.image;
     }
 
     public void setImage(String image) {
@@ -65,7 +65,7 @@ public class Content {
     }
 
     public String getAudio() {
-        return audio;
+        return this.audio;
     }
 
     public void setAudio(String audio) {
@@ -73,7 +73,7 @@ public class Content {
     }
 
     public Long getContent_id() {
-        return content_id;
+        return this.content_id;
     }
 
     public void setContent_id(Long id) {
@@ -81,7 +81,7 @@ public class Content {
     }
 
     public LocalDateTime getCreated() {
-        return created;
+        return this.created;
     }
 
     public void setCreated() {
@@ -89,7 +89,7 @@ public class Content {
     }
 
     public LocalDateTime getUpdated() {
-        return updated;
+        return this.updated;
     }
 
     public void setUpdated() {
@@ -97,7 +97,7 @@ public class Content {
     }
 
     public String getRecording() {
-        return recording;
+        return this.recording;
     }
 
     public void setRecording(String recording) {
