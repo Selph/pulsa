@@ -5,8 +5,17 @@
     <link href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
 </head>
-<div layout:fragment="content" class="flex flex-auto flex-col justify-center w-1/2 m-auto">
-    <a class="font-trace text-8xl text-center" th:href="@{'/p/' + *{sub.slug}}"><h1 th:text="*{sub.name}"></h1></a>
+<div layout:fragment="content" class="flex flex-auto flex-col justify-center m-auto mt-20 ml-20 mr-20 pb-20">
+    <div class="bg-slate-800 p-5 rounded-2xl w-fit ml-auto mr-auto mb-8">
+        <a th:href="@{'/p/' + ${sub.slug}}">
+            <div class="absolute overflow-hidden bg-black w-fit text-center m-auto">
+                <p class="font-bold font-audiowide text-5xl text-center" th:text="${sub.name}"></p>
+            </div>
+            <div class="p-4 bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400">
+                <img class="bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400" th:src="*{sub.image}"/>
+            </div>
+        </a>
+    </div>
     <div th:replace="fragments/post :: post(sub = true, form = true)"></div>
     <div th:replace="fragments/reply :: replies"></div>
 </div>

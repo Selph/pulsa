@@ -4,9 +4,17 @@
     <title layout:fragment="title" th:text="@{'Sub Puls ' + ${sub.name}}"></title>
 </head>
 <div layout:fragment="content">
-    <h1 th:text="${sub.name}"></h1>
-    <img th:src="*{sub.image}"/>
+    <div class="bg-slate-800 p-5 rounded-2xl m-10 w-fit ml-auto mr-auto">
+        <a th:href="@{'/p/' + ${sub.slug}}">
+            <div class="absolute overflow-hidden bg-black w-fit text-center m-auto">
+                <p class="font-bold text-5xl text-center" th:text="${sub.name}"></p>
+            </div>
+            <div class="p-4 bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400">
+                <img class="bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400" th:src="*{sub.image}"/>
+            </div>
+        </a>
+    </div>
+    <p class="text-center w-48 btn ml-auto mr-auto"><a th:href="@{'/p/' + ${sub.slug} + '/newPost'}">Create New Post</a></p>
     <div th:replace="fragments/posts :: posts(sub = true, form = false)"></div>
-    <p><a th:href="@{'/p/' + ${sub.slug} + '/newPost'}">Create New Post</a></p>
 </div>
 </html>

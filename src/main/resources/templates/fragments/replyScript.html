@@ -1,0 +1,28 @@
+<div th:fragment="replyScript" th:remove="tag">
+    <script>
+        function toggleReply(value) {
+            let the_id = "form/r/" + value
+            let element = document.getElementById(the_id)
+            $(element).toggleClass("hidden")
+        }
+
+        function togglePostReply(value) {
+            let the_id = "form/p/" + value
+            let element = document.getElementById(the_id)
+            $(element).toggleClass("hidden")
+        }
+
+
+        $(document).ready(function () {
+            $("[id^=button]").click( function() {
+                console.log(this.value)
+                if (this.classList.contains("post")) {
+                    togglePostReply(this.value);
+                } else {
+                    toggleReply(this.value);
+                }
+            })
+        });
+
+    </script>
+</div>

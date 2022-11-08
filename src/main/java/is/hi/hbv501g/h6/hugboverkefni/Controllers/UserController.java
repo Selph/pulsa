@@ -47,6 +47,7 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String registerPOST(@Valid User user, BindingResult result) {
+        user.setAvatar("https://res.cloudinary.com/dc6h0nrwk/image/upload/v1667864633/ldqgfkftspzy5yeyzube.png");
         userService.addNewUser(user, result);
 
         if (result.hasErrors()) {

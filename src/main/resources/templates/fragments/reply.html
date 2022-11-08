@@ -1,80 +1,168 @@
 <div th:fragment="replies" th:remove="tag">
-    <div th:switch="${postReplies}">
-        <ul th:case="*">
-            <li th:each="postReply : ${postReplies}">
-                <canvas class="osc" th:id="@{${post.postId} + '/' + ${postReply.replyId}}"></canvas>
-                <a th:href="@{'/u/' + ${postReply.creator.userName}}"><p
-                        th:text="@{'u/' + ${postReply.creator.userName}}"></p></a>
-                <div th:utext="${postReply.content.text}"></div>
-                <img th:src="${postReply.content.image}"/>
-                <div th:if="${postReply.content.audio != ''}">
-                    <audio controls crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}">
-                        <source th:src="@{${postReply.content.audio}}" type="audio/mpeg">
-                        <source th:src="@{${postReply.content.audio}}" type="audio/ogg">
-                        <source th:src="@{${postReply.content.audio}}" type="audio/wav">
-                        Your browser does not support the audio element.
-                    </audio>
-                </div>
-                <div th:if="${postReply.content.recording != ''}">
-                    <audio controls crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}">
-                        <source th:src="@{${postReply.content.recording}}" type="audio/ogg">
-                        <source th:src="@{${postReply.content.recording}}" type="audio/wav">
-                        Your browser does not support the audio element.
-                    </audio>
-                </div>
-                <div class="reply_votes">
-                    <p class="vote_reply" th:id="@{/r/} + ${postReply.replyId}" th:text="${postReply.vote}"></p>
-                    <div class="vote_buttons" th:if="${session?.user}">
+    <div class="flex flex-auto flex-row" th:switch="${postReplies}">
+        <ul class="flex flex-row flex-auto" th:case="*">
+            <li class="ml-5 border-l-4 mt-14 border-indigo-400" th:each="postReply : ${postReplies}">
+                <div class="ml-[22px] -mt-14">
+                    <div class="flex flex-row mt-4 -ml-10 justify-start">
+                        <div class="flex flex-row w-fit mr-10">
+                            <div class="flex w-8 h-8">
+                                <img alt="user image" class="rounded-full border border-gray-100 shadow-sm"
+                                     th:src="${postReply.creator.getAvatar()}"/>
+                            </div>
+                            <a class="font-audiowide text-sky-400 text-opacity-80 ml-4" th:href="@{'/u/' + ${postReply.creator.userName}}"><p
+                                    th:text=" ${postReply.creator.userName}"></p></a>
+                        </div>
                         <form action="#" class="upvote_reply" method="post"
-                              th:action="@{/r/} + ${postReply.replyId} + @{/upvote}">
-                            <input type="submit" value="Upvote">
+                              th:action="@{/r/} + ${post.postId} + @{/upvote}" th:if="${session?.user}">
+                            <div th:if="${postReply.findVoter(session.user).isPresent()}">
+                                <label class="flex flex-auto flex-row"
+                                       th:switch="${postReply.findVoter(session.user).get().isVote()}">
+                                    <input name="image" type="submit" value="">
+                                    <svg class="w-6 h-6 hover:text-zinc-300 text-purple-600" fill="none" stroke="currentColor"
+                                         stroke-width="1.5" th:case="${true}" th:id="@{'/r/' + ${postReply.replyId} + '/upvote'}" type="submit"
+                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M15 11.25l-3-3m0 0l-3 3m3-3v7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                    </svg>
+                                    <svg class="w-6 h-6 text-zinc-300 hover:text-purple-600" fill="none" stroke="currentColor"
+                                         stroke-width="1.5" th:case="${false}" th:id="@{'/r/' + ${postReply.replyId} + '/upvote'}" type="submit"
+                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M15 11.25l-3-3m0 0l-3 3m3-3v7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                    </svg>
+                                </label>
+                            </div>
+                            <div th:if="${postReply.findVoter(session.user).isEmpty()}">
+                                <label class="flex flex-auto flex-row">
+                                    <input name="image" type="submit" value="">
+                                    <svg class="w-6 h-6 text-zinc-300 hover:text-purple-600" fill="none"
+                                         stroke="currentColor" stroke-width="1.5" th:id="@{'/r/' + ${postReply.replyId} + '/upvote'}" type="submit"
+                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M15 11.25l-3-3m0 0l-3 3m3-3v7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                    </svg>
+                                </label>
+                            </div>
                         </form>
-                        <form action="#" class="downvote_reply" method="post"
-                              th:action="@{/r/} + ${postReply.replyId} + @{/downvote}">
-                            <input type="submit" value="Downvote">
+                        <div th:if="${session?.user == null && postReply.getVote() > 0}">
+                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" stroke-width="1.5"
+                                 type="submit" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15 11.25l-3-3m0 0l-3 3m3-3v7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                      stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <p class="vote_reply text-green-400 ml-2 mr-2" th:id="@{/r/} + ${postReply.replyId}" th:if="${postReply.vote} < 0"
+                           th:text="${postReply.vote}"></p>
+                        <p class="vote_reply text-zinc-300 ml-2 mr-2" th:id="@{/r/} + ${postReply.replyId}" th:if="${postReply.vote} == 0"
+                           th:text="${postReply.vote}"></p>
+                        <p class="vote_reply text-purple-600 ml-2 mr-2" th:id="@{/r/} + ${postReply.replyId}" th:if="${postReply.vote} > 0"
+                           th:text="${postReply.vote}"></p>
+                        <form action="#" class="downvote_reply flex flex-auto flex-row" method="post"
+                              th:action="@{/r/} + ${postReply.replyId} + @{/downvote}" th:if="${session?.user}">
+                            <div th:if="${postReply.findVoter(session.user).isPresent()}">
+                                <label class="flex flex-auto flex-row"
+                                       th:switch="${postReply.findVoter(session.user).get().isVote()}">
+                                    <input name="image" type="submit" value="">
+                                    <svg class="w-6 h-6 text-zinc-300 hover:text-green-400" fill="none"
+                                         stroke="currentColor" stroke-width="1.5" th:case="${true}" th:id="@{'/r/' + ${postReply.replyId} + '/downvote'}"
+                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 12.75l3 3m0 0l3-3m-3 3v-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                    </svg>
+                                    <svg class="w-6 h-6 hover:text-zinc-300 text-green-400" fill="none"
+                                         stroke="currentColor" stroke-width="1.5" th:case="${false}" th:id="@{'/r/' + ${postReply.replyId} + '/downvote'}"
+                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 12.75l3 3m0 0l3-3m-3 3v-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                    </svg>
+                                </label>
+                            </div>
+                            <div th:if="${postReply.findVoter(session.user).isEmpty()}">
+                                <label class="flex flex-auto flex-row">
+                                    <input name="image" type="submit" value="">
+                                    <svg class="w-6 h-6 text-zinc-300 hover:text-green-400" fill="none"
+                                         stroke="currentColor" stroke-width="1.5" th:id="@{'/r/' + ${postReply.replyId} + '/downvote'}" viewBox="0 0 24 24"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 12.75l3 3m0 0l3-3m-3 3v-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                    </svg>
+                                </label>
+                            </div>
                         </form>
+                        <div th:if="${session?.user == null && postReply.getVote() < 0}">
+                            <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" stroke-width="1.5"
+                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 12.75l3 3m0 0l3-3m-3 3v-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                      stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <canvas class="osc w-full -mt-[28px] ml-8" th:id="@{${post.postId} + '/' + ${postReply.replyId}}"></canvas>
                     </div>
+                    <div class="font-opensans font-medium text-zinc-300 text-lg mb-4" th:utext="${postReply.content.text}"></div>
+                    <img th:src="${postReply.content.image}"/>
+                    <div class="flex flex-auto flex-col justify-center m-auto w-full" th:if="${postReply.content.audio != ''}">
+                        <audio controls crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}">
+                            <source th:src="@{${postReply.content.audio}}" type="audio/mpeg">
+                            <source th:src="@{${postReply.content.audio}}" type="audio/ogg">
+                            <source th:src="@{${postReply.content.audio}}" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                    <div class="flex flex-auto flex-col justify-center m-auto w-full" th:if="${postReply.content.recording != ''}">
+                        <audio controls crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}">
+                            <source th:src="@{${postReply.content.recording}}" type="audio/ogg">
+                            <source th:src="@{${postReply.content.recording}}" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                    <button class="w-20 mt-6 ml-auto mr-auto btn reply mb-8" th:id="@{button} + @{/r/} + ${postReply.replyId}" th:value="${postReply.replyId}">Reply</button>
+                    <form class="hidden flex flex-col w-1/2 ml-auto mr-auto justify-start" action="#" th:id="@{form} + @{/r/} + ${postReply.replyId}"
+                          enctype="multipart/form-data"
+                          method="post" th:action="@{/p/} + ${post.sub.slug} + @{/} + ${post.postId} + @{/} + ${postReply.replyId}">
+                        <textarea
+                            class=""
+                            id="text"
+                            name="text"></textarea>
+
+                        <div class="flex flex-row mt-8 mb-8 justify-center">
+                            <label class="btn w-36 mr-3" for="image">Image file</label>
+                            <input
+                                    accept="image/*"
+                                    class="hidden"
+                                    field="*{image}"
+                                    id="image"
+                                    name="image"
+                                    type="file">
+
+                            <input
+                                    field="*{recording}"
+                                    hidden
+                                    id="recording"
+                                    name="recording"
+                                    onchange="test(this)"
+                                    type="text"
+                                    value="recording">
+
+                            <label class="btn w-36 ml-3 mr-3" for="audio">Audio file</label>
+                            <input class="btn w-36 ml-3" onclick="recordAudio(this, 'recording')" type="button" value="Record">
+                            <div th:replace="fragments/recorderScript :: recorderScript"></div>
+                            <input
+                                    accept="audio/*"
+                                    capture
+                                    class="hidden"
+                                    id="audio"
+                                    name="audio"
+                                    onchange="play(this)"
+                                    type="file"
+                                    value="*{audio}">
+                        </div>
+                        <div th:replace="fragments/playerScript :: playerScript"></div>
+                        <audio controls id="player"></audio>
+                        <input class="btn w-36 ml-auto mr-auto mt-6" type="submit" value="Submit reply">
+                    </form>
+                    <div th:include="fragments/reply.html :: replies"
+                         th:remove="tag" th:with="postReplies = ${postReply.replies}"></div>
                 </div>
-                <div th:include="fragments/reply.html :: replies"
-                     th:remove="tag" th:with="postReplies = ${postReply.replies}"></div>
-                <form action="#"
-                      enctype="multipart/form-data"
-                      method="post" th:action="@{/p/} + ${post.sub.slug} + @{/} + ${post.postId} + @{/} + ${postReply.replyId}">
-                    <div>
-				<textarea
-                        id="text"
-                        name="text"></textarea>
-
-                        <label for="image">Image file</label>
-                        <input
-                                accept="image/*"
-                                field="*{image}"
-                                id="replyImage"
-                                name="image"
-                                type="file">
-
-                        <input
-                                field="*{recording}"
-                                hidden
-                                id="replyRecording"
-                                name="recording"
-                                onchange="test(this)"
-                                type="text"
-                                value="recording">
-
-                        <label for="audio">Audio file</label>
-                        <input onclick="recordAudio(this, 'replyRecording')" type="button" value="Record">
-                        <input
-                                accept="audio/*"
-                                capture
-                                id="replyAudio"
-                                name="audio"
-                                onchange="play(this)"
-                                type="file"
-                                value="*{audio}">
-                    </div>
-                    <input type="submit" value="Add comment">
-                </form>
             </li>
         </ul>
     </div>

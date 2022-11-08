@@ -118,7 +118,18 @@ public class PostController {
     @RequestMapping(value = "/r/{id}/downvote", method = RequestMethod.POST)
     public String downvoteReply(@PathVariable("id") long id, HttpSession session) {
         return changeReplyVote(id, false, session);
+    }
 
+    @RequestMapping(value = "/r/{id}/upvote", method = RequestMethod.GET)
+    public String getUpvoteReply(@PathVariable("id") long id, HttpSession session) {
+
+        return changeReplyVote(id, true, session);
+    }
+
+    @RequestMapping(value = "/r/{id}/downvote", method = RequestMethod.GET)
+    public String getDownvoteReply(@PathVariable("id") long id, HttpSession session) {
+
+        return changeReplyVote(id, false, session);
     }
 
 

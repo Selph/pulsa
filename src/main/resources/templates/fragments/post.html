@@ -96,19 +96,19 @@
                 </div>
             </div>
         </div>
-        <div class="mr-5" th:unless="${sub}">
+        <div class="mr-5">
             <a th:href="@{'/p/' + ${post.sub.slug}}"><p class="font-jetbrains font-bold text-amber-200 text-opacity-60"
                                                         th:text="@{p/} + ${post.sub.name}"></p>
             </a>
         </div>
     </div>
     <span class="w-full block m-auto p-0.5 h1 bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400 mt-2 mb-4"></span>
-    <a class="font-opensans font-semibold text-zinc-300 ml-4 text-xl mb-4"
+    <a class="font-opensans font-semibold text-green-300 ml-4 text-xl mb-4"
        th:href="@{'/p/' + ${post.sub.slug} + '/' + ${post.postId}}">
         <h1 th:if="${title}" th:text="${post.title}"></h1>
         <h2 th:text="${post.title}" th:unless="${title}"></h2>
     </a>
-    <div class="font-opensans font-medium ml-4 text-lg mb-4" th:utext="${post.content.text}"></div>
+    <div class="font-opensans font-medium text-indigo-400 ml-4 text-lg mb-4" th:utext="${post.content.text}"></div>
     <div class="flex flex-auto flex-col justify-center m-auto">
         <a class="" th:href="@{'/p/' + ${post.sub.slug} + '/' + ${post.postId}}"> <img
                 th:src="@{${post.content.image}}"/></a>
@@ -129,17 +129,20 @@
         </audio>
     </div>
     <canvas th:unless="${post.content.audio == '' && post.content.recording == ''}" class="osc" th:id="@{${post.postId}}"></canvas>
-    <div th:if="${form}">
-        <form action="#" enctype="multipart/form-data" method="post"
+    <div class="flex flex-col" th:if="${form}">
+        <button class="w-20 ml-auto mr-auto btn post mb-8" th:id="@{button} + @{/p/} + ${post.postId}" th:value="${post.postId}">Reply</button>
+        <form class="hidden flex flex-col w-1/2 ml-auto mr-auto justify-start" th:id="@{form} + @{/p/} + ${post.postId}" action="#" enctype="multipart/form-data" method="post"
               th:action="@{/p/} + ${post.sub.slug} + '/' + ${post.postId}">
-            <div>
-				<textarea
-                        id="text"
-                        name="text"></textarea>
+            <textarea
+                    class=""
+                    id="text"
+                    name="text"></textarea>
 
-                <label for="image">Image file</label>
+            <div class="flex flex-row mt-8 mb-8 justify-center">
+                <label class="btn w-36 mr-3" for="image">Image file</label>
                 <input
                         accept="image/*"
+                        class="hidden"
                         field="*{image}"
                         id="image"
                         name="image"
@@ -154,21 +157,22 @@
                         type="text"
                         value="recording">
 
-                <label for="audio">Audio file</label>
-                <input onclick="recordAudio(this, 'recording')" type="button" value="Record">
+                <label class="btn w-36 ml-3 mr-3" for="audio">Audio file</label>
+                <input class="btn w-36 ml-3" onclick="recordAudio(this, 'recording')" type="button" value="Record">
                 <div th:replace="fragments/recorderScript :: recorderScript"></div>
                 <input
                         accept="audio/*"
                         capture
+                        class="hidden"
                         id="audio"
                         name="audio"
                         onchange="play(this)"
                         type="file"
                         value="*{audio}">
-                <div th:replace="fragments/playerScript :: playerScript"></div>
-                <audio controls id="player"></audio>
             </div>
-            <input type="submit" value="Add comment">
+            <div th:replace="fragments/playerScript :: playerScript"></div>
+            <audio controls id="player"></audio>
+            <input class="btn w-36 ml-auto mr-auto mt-6" type="submit" value="Submit reply">
         </form>
     </div>
 </div>

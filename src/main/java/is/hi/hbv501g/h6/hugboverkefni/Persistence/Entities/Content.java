@@ -1,6 +1,7 @@
 package is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,6 +18,7 @@ public class Content {
             generator = "content_sequence"
     )
     private Long content_id;
+    @Size(min = 0, max = 400000)
     private String text;
     private String image;
     private String audio;
