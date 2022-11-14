@@ -12,7 +12,7 @@
             <input class="mt-3" id="userName" name="userName" th:field="*{userName}" type="text">
             <p class="text-center text-red-400" th:errors="*{userName}" th:if="${#fields.hasErrors('userName')}"></p>
             <label class="mt-5 text-green-400 text-center" for="password">Password:</label>
-            <input class="mt-3" id="password" name="password" th:field="*{password}" type="text">
+            <input class="mt-3" id="password" name="password" th:field="*{password}" type="password">
             <p class="text-center text-red-400" th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></p>
             <label class="mt-5 text-green-400 text-center" for="realName">Fullt nafn:</label>
             <input class="mt-3" id="realName" name="realName" th:field="*{realName}" type="text">

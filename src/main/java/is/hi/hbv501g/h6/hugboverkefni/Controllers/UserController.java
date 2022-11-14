@@ -48,6 +48,8 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String registerPOST(@Valid User user, BindingResult result) {
         user.setAvatar("https://res.cloudinary.com/dc6h0nrwk/image/upload/v1667864633/ldqgfkftspzy5yeyzube.png");
+        String encodedPassword = User.getEncoder().encode(user.getPassword());
+        user.setPassword(encodedPassword);
         userService.addNewUser(user, result);
 
         if (result.hasErrors()) {
@@ -160,10 +162,11 @@ public class UserController {
     public String changePasswordPOST(String password, HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
 
-        if (user.getPassword().equals(password) || password.isBlank()) return "editAccountPassword";
+        if (User.getEncoder().matches(user.getPassword(), password) || password.isBlank()) return "editAccountPassword";
 
         model.addAttribute("updated", true);
-        user.setPassword(password);
+        String encodedPassword = User.getEncoder().encode(user.getPassword());
+        user.setPassword(encodedPassword);
         userService.editPassword(user);
 
         return "editAccountPassword";

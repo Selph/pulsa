@@ -141,7 +141,8 @@ public class UserServiceImplementation implements UserService {
         Optional<User> exists = getUserByUserName(user.getUserName());
 
         if (exists.isPresent()) {
-            if (exists.get().getPassword().equals(user.getPassword())) return exists.get();
+            if (User.getEncoder().matches(user.getPassword(), exists.get().getPassword()))
+                return exists.get();
         }
         return null;
     }
