@@ -4,9 +4,11 @@ import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.*;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.PostRepository;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.ReplyRepository;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.UserRepository;
+import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.UserServiceImplementation;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.BindingResult;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,14 +18,14 @@ import java.util.List;
 public class PostConfig {
 
     @Bean
-    CommandLineRunner commandLineRunner(PostRepository postRepository, UserRepository userRepository, ReplyRepository replyRepository) {
+    CommandLineRunner commandLineRunner(PostRepository postRepository, UserServiceImplementation userService, ReplyRepository replyRepository) {
         return args -> {
             User anon = new User("Anonymous",
                     "anon",
                     "Anonymous",
                     "https://res.cloudinary.com/dc6h0nrwk/image/upload/v1666386282/xov6nkbsxf3hmhuqb3jn.png",
                     "anon@anon.com");
-            userRepository.save(anon);
+            userService.addNewUser2(anon);
             Sub sub = new Sub("Háskólalífið");
             sub.setImage("https://res.cloudinary.com/dc6h0nrwk/image/upload/v1665799070/i3g9v3wdjlzbeaxvhihc.jpg");
             LocalDateTime date = LocalDateTime.now();
@@ -49,7 +51,7 @@ public class PostConfig {
                     "test@test.com");
             Reply reply = new Reply(content2, user2, new ArrayList<Voter>(), new ArrayList<Reply>());
             Voter voter = new Voter(user, true);
-            userRepository.save(user2);
+            userService.addNewUser2(user2);
             replyRepository.save(reply);
             List<Reply> replies = new ArrayList<Reply>();
             replies.add(0, reply);
@@ -72,8 +74,8 @@ public class PostConfig {
                     new ArrayList<Voter>(),
                     new ArrayList<Reply>());
 
-            userRepository.save(user);
-            userRepository.save(user3);
+            userService.addNewUser2(user);
+            userService.addNewUser2(user3);
             postRepository.save(Jonathan);
             postRepository.save(Joseph);
         };

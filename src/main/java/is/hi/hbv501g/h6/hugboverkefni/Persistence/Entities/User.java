@@ -1,5 +1,6 @@
 package is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -42,12 +43,6 @@ public class User {
     @Email
     @Column(unique = true)
     private String email;
-
-    public static PasswordEncoder getEncoder() {
-        return encoder;
-    }
-
-    private static PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     @OneToMany
     private List<Sub> subs = new ArrayList<Sub>();

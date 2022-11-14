@@ -5,6 +5,7 @@ import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.UserRepository;
 import is.hi.hbv501g.h6.hugboverkefni.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -17,10 +18,12 @@ public class UserServiceImplementation implements UserService {
     private final UserRepository userRepository;
     @Autowired
     private Validator validator;
+    private BCryptPasswordEncoder encoder;
 
     @Autowired
     public UserServiceImplementation(UserRepository userRepository) {
         this.userRepository = userRepository;
+        encoder = new BCryptPasswordEncoder(16);
     }
 
     /**
@@ -79,10 +82,22 @@ public class UserServiceImplementation implements UserService {
         Optional<User> userName = userRepository.findByUserName(user.getUserName());
         Optional<User> email = userRepository.findByEmail(user.getEmail());
 
+        user.setPassword(encoder.encode(user.getPassword()));
+
         if (userName.isPresent()) result.rejectValue("userName", "error.duplicate", "Username taken");
         if (email.isPresent()) result.rejectValue("email", "error.duplicate", "Email in use");
 
         if (!result.hasErrors()) userRepository.save(user);
+    }
+
+    public void addNewUser2(User user) {
+        Optional<User> userName = userRepository.findByUserName(user.getUserName());
+        Optional<User> email = userRepository.findByEmail(user.getEmail());
+        System.out.println("username: " + user.getUserName());
+        System.out.println("user password: " + user.getPassword());
+        user.setPassword(encoder.encode(user.getPassword()));
+
+        userRepository.save(user);
     }
 
     /**
@@ -112,6 +127,7 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public User editPassword(User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -141,7 +157,7 @@ public class UserServiceImplementation implements UserService {
         Optional<User> exists = getUserByUserName(user.getUserName());
 
         if (exists.isPresent()) {
-            if (User.getEncoder().matches(user.getPassword(), exists.get().getPassword()))
+            if (encoder.matches(user.getPassword(), exists.get().getPassword()))
                 return exists.get();
         }
         return null;

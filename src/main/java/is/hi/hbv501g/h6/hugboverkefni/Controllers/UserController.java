@@ -48,8 +48,7 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String registerPOST(@Valid User user, BindingResult result) {
         user.setAvatar("https://res.cloudinary.com/dc6h0nrwk/image/upload/v1667864633/ldqgfkftspzy5yeyzube.png");
-        String encodedPassword = User.getEncoder().encode(user.getPassword());
-        user.setPassword(encodedPassword);
+
         userService.addNewUser(user, result);
 
         if (result.hasErrors()) {
@@ -67,6 +66,7 @@ public class UserController {
     @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
     public String loginPOST(User user, HttpSession session) {
         User auth = userService.loginUser(user);
+
         if (auth == null) return "redirect:login?error";
 
         // Session time limit er 1800s eða 30m
@@ -162,11 +162,10 @@ public class UserController {
     public String changePasswordPOST(String password, HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
 
-        if (User.getEncoder().matches(user.getPassword(), password) || password.isBlank()) return "editAccountPassword";
+        if (password.isBlank()) return "editAccountPassword";
 
         model.addAttribute("updated", true);
-        String encodedPassword = User.getEncoder().encode(user.getPassword());
-        user.setPassword(encodedPassword);
+        user.setPassword(password);
         userService.editPassword(user);
 
         return "editAccountPassword";
