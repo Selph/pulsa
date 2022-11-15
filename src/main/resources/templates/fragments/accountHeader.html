@@ -16,7 +16,7 @@
     <div class="relative -top-[140px] flex flex-row">
       <a href="/" class="text-green-400">Home</a>
       <p class="ml-4 mr-4 font-light text-sm pt-1">/</p>
-      <a th:href="@{/user/} + ${session?.user.getUser_id()}" th:text="${session?.user.getUserName()}" class="text-green-400"></a>
+      <a th:href="@{/u/} + ${session?.user.getUserName()}" th:text="${session?.user.getUserName()}" class="text-green-400"></a>
       <p class="ml-4 mr-4 font-light text-sm pt-1">/</p>
       <a th:href="@{/user/} + ${session?.user.getUser_id()} + @{/edit}" class="text-green-400">Edit Account</a>
     </div>
