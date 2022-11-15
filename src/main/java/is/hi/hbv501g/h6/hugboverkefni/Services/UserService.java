@@ -16,7 +16,7 @@ public interface UserService {
     Optional<User> getUserByEmail(String email);
 
     Optional<User> getUserByUserName(String userName);
-
+    User getUserObjectByUserName(String userName);
     void addNewUser(User user, BindingResult result);
 
     void deleteUser(Long userId);

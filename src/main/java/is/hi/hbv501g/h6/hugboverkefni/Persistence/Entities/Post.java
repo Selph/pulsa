@@ -21,9 +21,7 @@ public class Post extends Message {
     private Long postId;
     private String title;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "sub_id")
-    private Sub sub;
+
 
     public Post() {
     }
@@ -46,7 +44,7 @@ public class Post extends Message {
                 List<Voter> voted,
                 List<Reply> replies) {
         this.title = title;
-        this.sub = sub;
+        this.setSub(sub);
         this.setContent(content);
         this.setCreator(creator);
         this.setVoted(voted);
@@ -71,13 +69,6 @@ public class Post extends Message {
         this.postId = id;
     }
 
-    public Sub getSub() {
-        return sub;
-    }
-
-    public void setSub(Sub sub) {
-        this.sub = sub;
-    }
 
 }
 

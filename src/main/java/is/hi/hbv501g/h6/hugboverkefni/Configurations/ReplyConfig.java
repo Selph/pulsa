@@ -1,10 +1,8 @@
 package is.hi.hbv501g.h6.hugboverkefni.Configurations;
 
-import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Content;
-import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Reply;
-import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
-import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Voter;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.*;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.ReplyRepository;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.SubRepository;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -16,9 +14,10 @@ import java.util.ArrayList;
 public class ReplyConfig {
 
     @Bean
-    CommandLineRunner commandLineReplyRunner(ReplyRepository replyRepository, UserRepository userRepository) {
+    CommandLineRunner commandLineReplyRunner(ReplyRepository replyRepository, UserRepository userRepository, SubRepository subRepository) {
         return args -> {
-            Content content = new Content("Fyrsta comment", "mynd.jpg", "hljod.wav", "upptaka.wav");
+           /* Content content = new Content("Fyrsta comment", "mynd.jpg", "hljod.wav", "upptaka.wav");
+            Sub sub = subRepository.findBySlug("starwars");
             User user = new User(
                     "gervinotandi2",
                     "gervi",
@@ -29,10 +28,11 @@ public class ReplyConfig {
                     content,
                     user,
                     new ArrayList<Voter>(),
-                    new ArrayList<Reply>()
+                    new ArrayList<Reply>(),
+                    sub
             );
             userRepository.save(user);
-            replyRepository.save(Joseph);
+            replyRepository.save(Joseph);*/
         };
     }
 }

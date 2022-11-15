@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout}" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+    <div layout:fragment="content">
+        <img th:src="${avatar}"/>
+        <div th:text="${realName}"></div>
+            <div th:text="'Member Since: ' + ${created}"></div>
+    <div th:text="'Posts by ' + ${userName}"></div>
+        <div th:each="post : ${posts}">
+            <img th:src="${post.content.image}"/>
+            <a th:href="@{'/p/' + ${post.sub.slug} + '/' + ${post.postId}}" th:text="${post.title}"></a>
+            <div th:text="${post.content.text}"></div>
+        </div>
+        <div th:text="'Replies by ' + ${userName}"/>
+        <div th:each="reply : ${replies}">
+            <img
+                 th:src="${reply.content.image}"/>
+            <div th:text="${reply.content.text}"></div>
+        </div>
+        <div th:text="'Subs followed by ' + ${userName}"/>
+        <div th:each="sub : ${subs}">
+            <div th:text="${sub.name}"/>
+        </div>
+    </div>
+</html>

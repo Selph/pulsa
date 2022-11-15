@@ -65,7 +65,10 @@ public class UserServiceImplementation implements UserService {
     public Optional<User> getUserByUserName(String userName) {
         return userRepository.findByUserName(userName);
     }
-
+    @Override
+    public User getUserObjectByUserName(String userName){
+        return userRepository.findUserByUserName(userName);
+    }
     /**
      * Adds new User to the database if userName or email is not
      * already present in another User object in database

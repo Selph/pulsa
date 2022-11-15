@@ -8,6 +8,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,7 +140,8 @@ public class User {
     }
 
     public void setCreated() {
-        this.created = LocalDateTime.now();
+
+        this.created =  LocalDateTime.now();
     }
 
     public List<Sub> getSubs() {

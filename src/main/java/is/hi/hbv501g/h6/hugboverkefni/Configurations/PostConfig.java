@@ -24,7 +24,7 @@ public class PostConfig {
                     "https://res.cloudinary.com/dc6h0nrwk/image/upload/v1666386282/xov6nkbsxf3hmhuqb3jn.png",
                     "anon@anon.com");
             userRepository.save(anon);
-            Sub sub = new Sub("Háskólalífið");
+           /* Sub sub = new Sub("Háskólalífið");
             sub.setImage("https://res.cloudinary.com/dc6h0nrwk/image/upload/v1665799070/i3g9v3wdjlzbeaxvhihc.jpg");
             LocalDateTime date = LocalDateTime.now();
             Content content = new Content("Hallo Heimur", "http://res.cloudinary.com/dc6h0nrwk/image/upload/v1664770603/q1h9kuthpcgqpkgz8c8r.png", "http://res.cloudinary.com/dc6h0nrwk/video/upload/v1664772263/ltaf63f4ococlisbqtfo.mp3", "http://res.cloudinary.com/dc6h0nrwk/video/upload/v1664826994/m11awfhrnvyfw6uc5crg.ogg");
@@ -47,7 +47,7 @@ public class PostConfig {
                     "test",
                     "https://cdn2.iconfinder.com/data/icons/food-drink-60/50/1F32D-hot-dog-1024.png",
                     "test@test.com");
-            Reply reply = new Reply(content2, user2, new ArrayList<Voter>(), new ArrayList<Reply>());
+            Reply reply = new Reply(content2, user2, new ArrayList<Voter>(), new ArrayList<Reply>(), sub);
             Voter voter = new Voter(user, true);
             userRepository.save(user2);
             replyRepository.save(reply);
@@ -75,7 +75,7 @@ public class PostConfig {
             userRepository.save(user);
             userRepository.save(user3);
             postRepository.save(Jonathan);
-            postRepository.save(Joseph);
+            postRepository.save(Joseph);*/
         };
     }
 }

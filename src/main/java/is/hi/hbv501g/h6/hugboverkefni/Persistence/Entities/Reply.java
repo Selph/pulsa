@@ -30,14 +30,14 @@ public class Reply extends Message {
      * @param replies List<Reply> List of replies to Reply
      * @return Reply
      */
-    public Reply(Content content, User user, List<Voter> voted, List<Reply> replies) {
+    public Reply(Content content, User user, List<Voter> voted, List<Reply> replies, Sub sub) {
         this.setContent(content);
         this.setCreator(user);
         this.setVoted(voted);
         this.setReplies(replies);
         this.setCreated();
         this.setUpdated();
-
+        this.setSub(sub);
     }
 
     public Reply() {
