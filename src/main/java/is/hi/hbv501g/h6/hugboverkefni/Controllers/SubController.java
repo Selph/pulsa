@@ -6,6 +6,7 @@ import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
 import is.hi.hbv501g.h6.hugboverkefni.Services.CloudinaryService;
 import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.PostServiceImplementation;
 import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.SubServiceImplementation;
+import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,14 +25,17 @@ public class SubController {
     private final PostServiceImplementation postService;
     private final SubServiceImplementation subService;
     private final CloudinaryService cloudinaryService;
+    private final UserServiceImplementation userService;
 
     @Autowired
     public SubController(PostServiceImplementation postService,
                          SubServiceImplementation subService,
-                         CloudinaryService cloudinaryService) {
+                         CloudinaryService cloudinaryService,
+                         UserServiceImplementation userService) {
         this.postService = postService;
         this.subService = subService;
         this.cloudinaryService = cloudinaryService;
+        this.userService = userService;
     }
 
     @RequestMapping(value = "/p/", method = RequestMethod.GET)
@@ -73,9 +77,24 @@ public class SubController {
     }
 
     @RequestMapping(value = "/p/{slug}/follow", method = RequestMethod.POST)
-    public String follow(@PathVariable("id") long id, HttpSession session) {
+    public String follow(@PathVariable("slug") String slug, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        user.addSub(subService.getSubById(id));
-        return "frontpage.html";
+        Sub sub = subService.getSubBySlug(slug);
+        userService.addSub(user, sub);
+        User updatedUser = userService.getUserObjectByUserName(user.getUserName());
+        session.removeAttribute("user");
+        session.setAttribute("user", updatedUser);
+        System.out.println("looooooooooooooooooool" + ((User) session.getAttribute("user")).isFollowing(sub));
+        return "redirect:/";
+    }
+    @RequestMapping(value = "/p/{slug}/unfollow", method = RequestMethod.POST)
+    public String unfollow(@PathVariable("slug") String slug, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        Sub sub = subService.getSubBySlug(slug);
+        userService.removeSub(user, sub);
+        User updatedUser = userService.getUserObjectByUserName(user.getUserName());
+        session.removeAttribute("user");
+        session.setAttribute("user", updatedUser);
+        return "redirect:/";
     }
 }

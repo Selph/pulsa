@@ -1,5 +1,6 @@
 package is.hi.hbv501g.h6.hugboverkefni.Services.Implementations;
 
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Sub;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Repositories.UserRepository;
 import is.hi.hbv501g.h6.hugboverkefni.Services.UserService;
@@ -9,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Validator;
 import java.util.List;
 import java.util.Optional;
@@ -164,5 +166,18 @@ public class UserServiceImplementation implements UserService {
                 return exists.get();
         }
         return null;
+    }
+
+    public void addSub(User user, Sub sub){
+        List<Sub> subs = user.getSubs();
+        subs.add(sub);
+        user.setSubs(subs);
+        userRepository.save(user);
+    }
+    public void removeSub(User user, Sub sub){
+        List<Sub> subs = user.getSubs();
+        subs.remove(sub);
+        user.setSubs(subs);
+        userRepository.save(user);
     }
 }
