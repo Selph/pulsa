@@ -221,9 +221,6 @@ public class UserController {
         User user = userService.getUserObjectByUserName(username);
         List<Post> posts = postService.getPostsByUser(user);
         List<Sub> subs = user.getSubs();
-        System.out.println(subs.get(0).getName());
-        System.out.println(subs.get(1).getName());
-        System.out.println(subs.get(2).getName());
         List<Reply> replies = replyService.getRepliesByUser(user);
         model.addAttribute("user", user);
         model.addAttribute("userName", theUser.get().getUserName());
