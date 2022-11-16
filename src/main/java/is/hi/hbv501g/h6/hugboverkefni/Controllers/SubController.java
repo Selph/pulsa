@@ -77,7 +77,6 @@ public class SubController {
     @RequestMapping(value = "/newSub", method = RequestMethod.POST)
     public String newSubPOST(String name, @RequestParam("image") MultipartFile image, Model model) {
         Sub newSub = new Sub(name);
-        System.out.println(subService.getSubBySlug(newSub.getSlug()));
         if (subService.getSubBySlug(newSub.getSlug()) != null) return "subNameDuplicate";
         String imgUrl = "";
         if (!image.isEmpty()) imgUrl = cloudinaryService.uploadImage(image);

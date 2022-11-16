@@ -178,7 +178,6 @@ public class UserServiceImplementation implements UserService {
     public User removeSub(User user, Sub sub){
         List<Sub> subs = user.getSubs();
         subs.remove(sub);
-        System.out.println(subs.contains(sub));
         user.setSubs(subs);
         return userRepository.save(user);
     }
