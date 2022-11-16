@@ -2,6 +2,7 @@ package is.hi.hbv501g.h6.hugboverkefni.Controllers;
 
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Post;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Sub;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
 import is.hi.hbv501g.h6.hugboverkefni.Services.CloudinaryService;
 import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.PostServiceImplementation;
 import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.SubServiceImplementation;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -70,4 +72,10 @@ public class SubController {
         return "redirect:/p/" + newSub.getSlug();
     }
 
+    @RequestMapping(value = "/p/{slug}/follow", method = RequestMethod.POST)
+    public String follow(@PathVariable("id") long id, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        user.addSub(subService.getSubById(id));
+        return "frontpage.html";
+    }
 }

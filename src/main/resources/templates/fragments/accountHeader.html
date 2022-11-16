@@ -10,15 +10,17 @@
         <img class="h-56" th:src="@{*{avatar}}">
       </picture>
       <div class="relative z-10 text-center mt-4">
-        <p class="text-4xl font-audiowide text-purple-500" th:text="${session?.user.getUserName()}"></p>
+        <p th:if="${userName}" class="text-4xl font-audiowide text-purple-500" th:text="${userName}"></p>
+        <p th:unless="${userName}" class="text-4xl font-audiowide text-purple-500" th:text="${session?.user.getUserName()}"></p>
       </div>
     </div>
     <div class="relative -top-[140px] flex flex-row">
       <a href="/" class="text-green-400">Home</a>
       <p class="ml-4 mr-4 font-light text-sm pt-1">/</p>
-      <a th:href="@{/user/} + ${session?.user.getUser_id()}" th:text="${session?.user.getUserName()}" class="text-green-400"></a>
-      <p class="ml-4 mr-4 font-light text-sm pt-1">/</p>
-      <a th:href="@{/user/} + ${session?.user.getUser_id()} + @{/edit}" class="text-green-400">Edit Account</a>
+      <a th:if="${userName}" th:href="@{/u/} + ${userName}" th:text="${userName}" class="text-green-400"></a>
+      <a th:unless="${userName}" th:href="@{/u/} + ${session?.user.getUserName()}" th:text="${session?.user.getUserName()}" class="text-green-400"></a>
+      <p th:unless="${userName}" class="ml-4 mr-4 font-light text-sm pt-1">/</p>
+      <a th:unless="${userName}" th:href="@{/user/} + ${session?.user.getUser_id()} + @{/edit}" class="text-green-400">Edit Account</a>
     </div>
   </div>
 </body>

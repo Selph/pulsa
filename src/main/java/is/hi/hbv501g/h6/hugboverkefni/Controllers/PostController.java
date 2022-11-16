@@ -76,9 +76,9 @@ public class PostController {
     public String replyPost(@PathVariable String slug, @PathVariable("id") long id, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model, HttpSession session) {
         Optional<Post> post = postService.getPostById(id);
         if (!post.isPresent()) return "postNotFound";
-
+        Sub sub = subService.getSubBySlug(slug);
         String renderedText = htmlRenderer.render(markdownParser.parse(text));
-        Reply reply = createReply(renderedText, image, audio, recording, session);
+        Reply reply = createReply(renderedText, sub, image, audio, recording, session);
         replyService.addNewReply(reply);
         post.get().addReply(reply);
         postService.addNewPost(post.get());
@@ -91,9 +91,9 @@ public class PostController {
     public String replyReply(@PathVariable String slug, @PathVariable("postId") long postId, @PathVariable("id") long id, String text, @RequestParam("image") MultipartFile image, @RequestParam("audio") MultipartFile audio, @RequestParam("recording") String recording, Model model, HttpSession session) {
         Optional<Reply> prevReply = replyService.getReplyById(id);
         if (!prevReply.isPresent()) return "postNotFound";
-
+        Sub sub = subService.getSubBySlug(slug);
         String renderedText = htmlRenderer.render(markdownParser.parse(text));
-        Reply reply = createReply(renderedText, image, audio, recording, session);
+        Reply reply = createReply(renderedText, sub, image, audio, recording, session);
         replyService.addNewReply(reply);
         prevReply.get().addReply(reply);
         replyService.addNewReply(prevReply.get());
@@ -219,13 +219,13 @@ public class PostController {
     }
 
 
-    private Reply createReply(String text, MultipartFile image, MultipartFile audio, String recording, HttpSession session) {
+    private Reply createReply(String text, Sub sub, MultipartFile image, MultipartFile audio, String recording, HttpSession session) {
         Content content = createContent(text, image, audio, recording);
 
         User user = (User) session.getAttribute("user");
-        if (user != null) return new Reply(content, user, new ArrayList<Voter>(), new ArrayList<Reply>());
+        if (user != null) return new Reply(content, user, new ArrayList<Voter>(), new ArrayList<Reply>(), sub);
 
-        return new Reply(content, userService.getAnon(), new ArrayList<Voter>(), new ArrayList<Reply>());
+        return new Reply(content, userService.getAnon(), new ArrayList<Voter>(), new ArrayList<Reply>(), sub);
     }
 
     private Content createContent(String text, MultipartFile image, MultipartFile audio, String recording) {

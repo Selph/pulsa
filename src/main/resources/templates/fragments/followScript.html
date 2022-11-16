@@ -1,0 +1,59 @@
+<div th:fragment="followScript" th:remove="tag">
+  <script>
+    function follow(str) {
+      let element = document.getElementsByClassName(str);
+      let fetchable = element[0].id.slice(3)
+      let result = fetch(`p/${fetchable}/follow`).then((response) => {
+        console.log("Yo!!")
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.blob();
+      }).then((response) => {
+        response.text().then((result) => {
+          if (vote.innerHTML != `${result}`) {
+            updateClass(str);
+          }
+          vote.innerHTML = `${result}`;
+        });
+      });
+    }
+
+    function updateClass(logic) {
+      let joined = document.getElementsByClassName('.joined')
+      let notjoined = document.getElementsByClassName('.notjoined')
+      let joinedhidden = document.getElementsByClassName('.joinedhidden')
+      let notjoinedhidden = document.getElementsByClassName('.notjoinedhidden')
+
+      if (logic === "joined" || logic === 'notjoinedhidden') {
+        joined.toggleClass('hidden')
+        joined.toggleClass('btn')
+        notjoinedhidden.toggleClass('hidden')
+        notjoinedhidden.toggleClass('btn')
+      }
+
+      if (logic === "notjoined" || logic === "joinedhidden") {
+        notjoined.toggleClass('hidden')
+        notjoined.toggleClass('btn')
+        joinedhidden.toggleClass('hidden')
+        joinedhidden.toggleClass('btn')
+      }
+    }
+
+    $(document).ready(function () {
+      $('.joined').ajaxForm(function () {
+        follow('joined');
+      });
+      $('.notjoined').ajaxForm(function () {
+        follow('notjoined');
+      });
+      $('.joinedhidden').ajaxForm(function () {
+        follow('joinedhidden');
+      });
+      $('.notjoinedhidden').ajaxForm(function () {
+        follow('notjoinedhidden');
+      });
+    });
+
+  </script>
+</div>

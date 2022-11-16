@@ -2,6 +2,7 @@
 <html lang="en" layout:decorate="~{layout}" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title layout:fragment="title" th:text="@{'Sub Puls ' + ${sub.name}}"></title>
+    <!-- <script th:replace="fragments/followScript :: followScript"></script> -->
 </head>
 <div layout:fragment="content">
     <div class="bg-slate-800 p-5 rounded-2xl m-10 w-fit ml-auto mr-auto">
@@ -11,6 +12,12 @@
             </div>
             <div class="p-4 bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400">
                 <img class="bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400" th:src="*{sub.image}"/>
+            </div>
+            <div th:if="${session?.user}" th:switch="${session?.user.isFollowing(sub)}" class="relative font-audiowide text-lg overflow-hidden bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400 w-max text-center right-auto">
+                <p th:case="${false}" th:id="@{nj/} + ${sub.getSlug()}" th:href="@{p/} + ${sub.getSlug()} + @{/follow}" method="post" class="mb-4 btn notjoined text-center w-48 ml-auto mr-auto text-white">Fylgja</p>
+                <p th:case="${true}" th:id="@{ij/} + ${sub.getSlug()}" th:href="@{p/} + ${sub.getSlug()} + @{/follow}" method="post" class="mb-4 btn joined text-center w-48 ml-auto mr-auto text-white">Fylgjandi</p>
+                <p th:id="@{nh/} + ${sub.getSlug()}" class="mb-4 notjoinedhidden hidden text-center w-48 ml-auto mr-auto text-white">Fylgja</p>
+                <p th:id="@{jh/} + ${sub.getSlug()}" class="mb-4 joinedhidden hidden text-center w-48 ml-auto mr-auto text-white">Fylgjandi</p>
             </div>
         </a>
     </div>

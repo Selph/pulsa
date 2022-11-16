@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout}" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="@{User + ' ' + ${userName}}"></title>
+    <script th:replace="fragments/userVisitorScript :: userVisitorScript"></script>
+</head>
+    <div layout:fragment="content">
+        <div th:replace="fragments/accountHeader :: accountHeader(userName = ${userName})"></div>
+        <span class="w-full block p-0.5 h1 bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400 mt-6"></span>
+        <div class="flex flex-row justify-between mt-8">
+            <div class="w-1/4 flex flex-col justify-evenly">
+                <button class="btn bio" th:id="@{button}">User Bio</button>
+                <button class="btn posts mt-4" th:id="@{button}" th:text="'Posts by ' + ${userName}"></button>
+                <button class="btn replies mt-4" th:id="@{button}" th:text="'Replies by ' + ${userName}"/>
+                <button class="btn subs mt-4" th:id="@{button}" th:text="'Subs followed by ' + ${userName}"/>
+            </div>
+            <div class="w-1/2 ml-auto mr-auto">
+                <div class="hidden" th:id="bio">
+                    <div class="flex flex-row">
+                        <p class="text-green-400">Nafn: </p>
+                        <p class="ml-4 text-indigo-400" th:text="${realName}"></p>
+                    </div>
+                    <div class="flex flex-row">
+                        <p class="text-green-400">Meðlimur síðan:  </p>
+                        <p class="ml-4 text-indigo-400" th:text="${created}"></p>
+                    </div>
+                </div>
+                <div class="hidden" th:id="posts" th:each="post : ${posts}">
+                    <div class="" th:replace="fragments/post :: post(sub = true, title = false)"></div>
+                </div>
+                <div class="hidden mt-20" th:id="replies" th:each="postReply : ${replies}">
+                    <div th:replace="fragments/reply:: reply(userpage = true)"></div>
+                </div>
+                <div class="hidden" th:id="subs" th:each="sub : ${subs}">
+                    <div th:text="${sub.name}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>

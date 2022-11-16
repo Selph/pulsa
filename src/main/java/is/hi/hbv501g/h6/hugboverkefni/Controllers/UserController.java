@@ -1,7 +1,13 @@
 package is.hi.hbv501g.h6.hugboverkefni.Controllers;
 
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Post;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Reply;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Sub;
 import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
 import is.hi.hbv501g.h6.hugboverkefni.Services.CloudinaryService;
+import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.PostServiceImplementation;
+import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.ReplyServiceImplementation;
+import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.SubServiceImplementation;
 import is.hi.hbv501g.h6.hugboverkefni.Services.Implementations.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -13,6 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -20,11 +30,20 @@ public class UserController {
     private final UserServiceImplementation userService;
 
     private final CloudinaryService cloudinaryService;
-
+    private final PostServiceImplementation postService;
+    private final SubServiceImplementation subService;
+    private final ReplyServiceImplementation replyService;
     @Autowired
-    public UserController(UserServiceImplementation userService, CloudinaryService cloudinaryService) {
+    public UserController(UserServiceImplementation userService,
+                          CloudinaryService cloudinaryService,
+                          PostServiceImplementation postService,
+                          SubServiceImplementation subService,
+                          ReplyServiceImplementation replyService) {
         this.userService = userService;
         this.cloudinaryService = cloudinaryService;
+        this.postService = postService;
+        this.subService = subService;
+        this.replyService = replyService;
     }
 
     @RequestMapping(value = "/username", method = RequestMethod.GET)
@@ -48,6 +67,8 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String registerPOST(@Valid User user, BindingResult result) {
         user.setAvatar("https://res.cloudinary.com/dc6h0nrwk/image/upload/v1667864633/ldqgfkftspzy5yeyzube.png");
+        user.setCreated();
+        user.setUpdated();
 
         userService.addNewUser(user, result);
 
@@ -191,6 +212,26 @@ public class UserController {
 
         model.addAttribute("updated", true);
         return "editAccountEmail";
+    }
+    @RequestMapping(value = "/u/{username}", method = RequestMethod.GET)
+    public String userPageGET(String email, HttpSession session, Model model, @PathVariable("username") String username) {
+        Optional<User> theUser = userService.getUserByUserName(username);
+
+        if (!theUser.isPresent()) return "userNotFound";
+        User user = userService.getUserObjectByUserName(username);
+        List<Post> posts = postService.getPostsByUser(user);
+        List<Sub> subs = user.getSubs();
+        List<Reply> replies = replyService.getRepliesByUser(user);
+        model.addAttribute("user", user);
+        model.addAttribute("userName", theUser.get().getUserName());
+        model.addAttribute("email", theUser.get().getEmail());
+        model.addAttribute("realName", theUser.get().getRealName());
+        model.addAttribute("avatar", theUser.get().getAvatar());
+        model.addAttribute("created", theUser.get().getTime());
+        model.addAttribute("posts", posts);
+        model.addAttribute("subs", subs);
+        model.addAttribute("replies", replies);
+        return "userPage";
     }
 }
 

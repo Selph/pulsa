@@ -1,9 +1,6 @@
 package is.hi.hbv501g.h6.hugboverkefni.Persistence.MappedSuperclass;
 
-import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Content;
-import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Reply;
-import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.User;
-import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.Voter;
+import is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,6 +17,10 @@ public abstract class Message {
     @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "user_id")
     private User creator;
+
+    @ManyToOne(cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "sub_id")
+    private Sub sub;
 
     @Transient
     private int Vote;
@@ -49,6 +50,14 @@ public abstract class Message {
 
     public void setReplies(List<Reply> replies) {
         this.replies = replies;
+    }
+
+    public Sub getSub() {
+        return sub;
+    }
+
+    public void setSub(Sub sub) {
+        this.sub = sub;
     }
 
     /**

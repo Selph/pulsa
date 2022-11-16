@@ -1,0 +1,39 @@
+<div th:fragment="userVisitorScript" th:remove="tag">
+    <script>
+        function toggleBio(value) {
+            let element = document.getElementById("bio")
+            $(element).toggleClass("hidden")
+        }
+
+        function toggleReplies(value) {
+            let element = document.getElementById("replies")
+            $(element).toggleClass("hidden")
+        }
+
+        function togglePosts(value) {
+            let element = document.getElementById("posts")
+            $(element).toggleClass("hidden")
+        }
+
+        function toggleSubs(value) {
+            let element = document.getElementById("subs")
+            $(element).toggleClass("hidden")
+        }
+
+
+        $(document).ready(function () {
+            $("[id^=button]").click( function() {
+                if (this.classList.contains("posts")) {
+                    togglePosts(this.value);
+                } else if (this.classList.contains("replies")) {
+                    toggleReplies(this.value);
+                } else if (this.classList.contains("subs")) {
+                    toggleSubs(this.value);
+                } else if (this.classList.contains("bio")) {
+                    toggleBio(this.value);
+                }
+            })
+        });
+
+    </script>
+</div>

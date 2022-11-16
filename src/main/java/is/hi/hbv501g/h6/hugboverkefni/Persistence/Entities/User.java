@@ -1,5 +1,7 @@
 package is.hi.hbv501g.h6.hugboverkefni.Persistence.Entities;
 
+import org.hibernate.annotations.Fetch;
+import org.springframework.data.repository.cdi.Eager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,6 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +47,7 @@ public class User {
     @Column(unique = true)
     private String email;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Sub> subs = new ArrayList<Sub>();
 
 
@@ -129,12 +132,17 @@ public class User {
         return created;
     }
 
+    public String getTime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return created.format(formatter);
+    }
+
     public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 
     public void setCreated() {
-        this.created = LocalDateTime.now();
+        this.created =  LocalDateTime.now();
     }
 
     public List<Sub> getSubs() {
@@ -144,6 +152,10 @@ public class User {
     public void setSubs(List<Sub> subs) {
         this.subs = subs;
     }
+
+    public void addSub(Sub sub) { this.subs.add(sub); }
+
+    public boolean isFollowing(Sub sub) { return this.subs.contains(sub); }
 
     public List<Post> getPosts() {
         return posts;
