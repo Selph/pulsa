@@ -53,14 +53,16 @@ public class SubController {
         Sub sub = subService.getSubBySlug(slug);
         List<Post> posts = postService.getSubPostsOrderedByCreated(sub);
 
+        model.addAttribute("sub", sub);
+        model.addAttribute("posts", posts);
+
+        if (session.getAttribute("user") == null) return "subPage";
+
         User user = (User) session.getAttribute("user");
 
         // Cursed session fix
         User dbUser = userService.getUserObjectByUserName(user.getUserName());
         boolean following = dbUser.isFollowing(sub);
-        System.out.println(following);
-        model.addAttribute("sub", sub);
-        model.addAttribute("posts", posts);
         model.addAttribute("following", following);
 
         return "subPage";
