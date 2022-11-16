@@ -5,30 +5,22 @@
             $(element).toggleClass("hidden")
         }
 
-        function toggleReplies(value) {
-            let element = document.getElementById("replies")
-            $(element).toggleClass("hidden")
-        }
-
-        function togglePosts(value) {
-            let element = document.getElementById("posts")
-            $(element).toggleClass("hidden")
-        }
-
-        function toggleSubs(value) {
-            let element = document.getElementById("subs")
-            $(element).toggleClass("hidden")
+        function toggleHidden(hidden) {
+            let stuff = document.getElementsByClassName(hidden);
+            for (thing of stuff) {
+                $(thing).toggleClass("hidden")
+            }
         }
 
 
         $(document).ready(function () {
             $("[id^=button]").click( function() {
                 if (this.classList.contains("posts")) {
-                    togglePosts(this.value);
+                    toggleHidden("postss");
                 } else if (this.classList.contains("replies")) {
-                    toggleReplies(this.value);
+                    toggleHidden("repliess");
                 } else if (this.classList.contains("subs")) {
-                    toggleSubs(this.value);
+                    toggleHidden("subss");
                 } else if (this.classList.contains("bio")) {
                     toggleBio(this.value);
                 }

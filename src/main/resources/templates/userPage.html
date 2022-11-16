@@ -26,14 +26,27 @@
                         <p class="ml-4 text-indigo-400" th:text="${created}"></p>
                     </div>
                 </div>
-                <div class="hidden" th:id="posts" th:each="post : ${posts}">
+                <div class="hidden postss" th:id="posts" th:each="post : ${posts}">
                     <div class="" th:replace="fragments/post :: post(sub = true, title = false)"></div>
                 </div>
-                <div class="hidden mt-20" th:id="replies" th:each="postReply : ${replies}">
+                <div class="hidden mt-20 repliess" th:id="replies" th:each="postReply : ${replies}">
                     <div th:replace="fragments/reply:: reply(userpage = true)"></div>
                 </div>
-                <div class="hidden" th:id="subs" th:each="sub : ${subs}">
-                    <div th:text="${sub.name}"/>
+                <div class="hidden subss" th:id="subs" th:each="sub : ${subs}">
+                    <div class="flex flex-auto flex-col justify-center m-auto">
+                        <ul class="">
+                            <li class="bg-slate-800 p-5 rounded-2xl m-10 w-fit ml-auto mr-auto">
+                                <a th:href="@{'/p/' + ${sub.slug}}">
+                                    <div class="absolute overflow-hidden bg-black w-fit text-center m-auto">
+                                        <p class="font-bold text-5xl text-center" th:text="${sub.name}"></p>
+                                    </div>
+                                    <div class="p-4 bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400">
+                                        <img class="bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400" th:src="*{sub.image}"/>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
