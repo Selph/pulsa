@@ -214,7 +214,7 @@ public class UserController {
         return "editAccountEmail";
     }
     @RequestMapping(value = "/u/{username}", method = RequestMethod.GET)
-    public String userPageGET(String email, HttpSession session, Model model, @PathVariable("username") String username) {
+    public String userPageGET(Model model, @PathVariable("username") String username) {
         Optional<User> theUser = userService.getUserByUserName(username);
 
         if (!theUser.isPresent()) return "userNotFound";

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class SubController {
@@ -48,12 +49,19 @@ public class SubController {
     }
 
     @RequestMapping(value = "/p/{slug}", method = RequestMethod.GET)
-    public String subPage(@PathVariable("slug") String slug, Model model) {
+    public String subPage(@PathVariable("slug") String slug, Model model, HttpSession session) {
         Sub sub = subService.getSubBySlug(slug);
         List<Post> posts = postService.getSubPostsOrderedByCreated(sub);
 
+        User user = (User) session.getAttribute("user");
+
+        // Cursed session fix
+        User dbUser = userService.getUserObjectByUserName(user.getUserName());
+        boolean following = dbUser.isFollowing(sub);
+        System.out.println(following);
         model.addAttribute("sub", sub);
         model.addAttribute("posts", posts);
+        model.addAttribute("following", following);
 
         return "subPage";
     }
@@ -76,25 +84,12 @@ public class SubController {
         return "redirect:/p/" + newSub.getSlug();
     }
 
-    @RequestMapping(value = "/p/{slug}/follow", method = RequestMethod.POST)
-    public String follow(@PathVariable("slug") String slug, HttpSession session) {
-        User user = (User) session.getAttribute("user");
+    @RequestMapping(value = "/p/{slug}/toggleFollow", method = RequestMethod.POST)
+    public String toggleFollow(@PathVariable("slug") String slug, HttpSession session, Model model) {
+        Optional<User> user = userService.getUserByUserName(((User) session.getAttribute("user")).getUserName());
         Sub sub = subService.getSubBySlug(slug);
-        userService.addSub(user, sub);
-        User updatedUser = userService.getUserObjectByUserName(user.getUserName());
-        session.removeAttribute("user");
-        session.setAttribute("user", updatedUser);
-        System.out.println("looooooooooooooooooool" + ((User) session.getAttribute("user")).isFollowing(sub));
-        return "redirect:/";
-    }
-    @RequestMapping(value = "/p/{slug}/unfollow", method = RequestMethod.POST)
-    public String unfollow(@PathVariable("slug") String slug, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        Sub sub = subService.getSubBySlug(slug);
-        userService.removeSub(user, sub);
-        User updatedUser = userService.getUserObjectByUserName(user.getUserName());
-        session.removeAttribute("user");
-        session.setAttribute("user", updatedUser);
-        return "redirect:/";
+        if (!user.get().isFollowing(sub)) { userService.addSub(user.get(), sub); }
+        else { userService.removeSub(user.get(), sub); }
+        return "redirect:/p/" + slug;
     }
 }

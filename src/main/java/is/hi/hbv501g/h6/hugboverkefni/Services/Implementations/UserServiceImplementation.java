@@ -168,16 +168,18 @@ public class UserServiceImplementation implements UserService {
         return null;
     }
 
-    public void addSub(User user, Sub sub){
+    public User addSub(User user, Sub sub){
         List<Sub> subs = user.getSubs();
         subs.add(sub);
         user.setSubs(subs);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
-    public void removeSub(User user, Sub sub){
+
+    public User removeSub(User user, Sub sub){
         List<Sub> subs = user.getSubs();
         subs.remove(sub);
+        System.out.println(subs.contains(sub));
         user.setSubs(subs);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 }

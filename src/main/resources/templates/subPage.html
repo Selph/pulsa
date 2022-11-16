@@ -13,14 +13,17 @@
             <div class="p-4 bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400">
                 <img class="bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400" th:src="*{sub.image}"/>
             </div>
-            <div th:if="${session?.user}" th:switch="${session?.user.isFollowing(sub)}" class="relative font-audiowide text-lg overflow-hidden bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400 w-max text-center right-auto">
-
-                <form th:case="${false}" class="flex flex-col flex-auto w-1/4 self-center justify-between" action="#" method="post" th:action="@{/p/} + ${sub.slug} + @{/follow}">
-                    <input class="btn mt-10" type="submit" value="Fylgja">
-                </form>
-                <form th:case="${true}" class="flex flex-col flex-auto w-1/4 self-center justify-between" action="#" method="post" th:action="@{/p/} + ${sub.slug} + @{/unfollow}">
-                    <input class="btn mt-10" type="submit" value="Hætta að fylgja">
-                </form>
+            <div th:if="${session?.user}" th:switch="${following}" class="relative font-audiowide text-lg overflow-hidden bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400 w-max text-center right-auto">
+                <div th:case="false" class="m-auto">
+                    <form class="w-1/4 m-auto" action="#" method="post" th:action="@{/p/} + ${sub.slug} + @{/toggleFollow}">
+                        <input class="btn mb-4 m-auto" type="submit" value="Fylgja">
+                    </form>
+                </div>
+                <div th:case="true" class="m-auto">
+                    <form class="w-1/4 m-auto" action="#" method="post" th:action="@{/p/} + ${sub.slug} + @{/toggleFollow}">
+                        <input class="btn mb-4 m-auto" type="submit" value="Hætta að fylgja">
+                    </form>
+                </div>
             </div>
         </a>
     </div>
