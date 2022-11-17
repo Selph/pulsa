@@ -16,7 +16,7 @@ public class ReplyConfig {
     @Bean
     CommandLineRunner commandLineReplyRunner(ReplyRepository replyRepository, UserRepository userRepository, SubRepository subRepository) {
         return args -> {
-           /* Content content = new Content("Fyrsta comment", "mynd.jpg", "hljod.wav", "upptaka.wav");
+           Content content = new Content("Fyrsta comment", "mynd.jpg", "hljod.wav", "upptaka.wav");
             Sub sub = subRepository.findBySlug("starwars");
             User user = new User(
                     "gervinotandi2",
@@ -32,7 +32,7 @@ public class ReplyConfig {
                     sub
             );
             userRepository.save(user);
-            replyRepository.save(Joseph);*/
+            replyRepository.save(Joseph);
         };
     }
 }
