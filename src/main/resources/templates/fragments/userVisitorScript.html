@@ -1,15 +1,35 @@
 <div th:fragment="userVisitorScript" th:remove="tag">
     <script>
         function toggleBio(value) {
+            hideAnew();
             let element = document.getElementById("bio")
             $(element).toggleClass("hidden")
         }
 
         function toggleHidden(hidden) {
+            hideAnew();
             let stuff = document.getElementsByClassName(hidden);
             for (thing of stuff) {
                 $(thing).toggleClass("hidden")
             }
+        }
+
+        function hideAnew() {
+            let replies = document.getElementsByClassName("repliess");
+            let posts = document.getElementsByClassName("postss");
+            let subs = document.getElementsByClassName("subss");
+            let bio = document.getElementById("bio")
+
+            for (reply of replies) {
+                if (!$(reply).hasClass("hidden")) $(reply).toggleClass("hidden")
+            }
+            for (post of posts) {
+                if (!$(post).hasClass("hidden")) $(post).toggleClass("hidden")
+            }
+            for (sub of subs) {
+                if (!$(sub).hasClass("hidden")) $(sub).toggleClass("hidden")
+            }
+            if (!$(bio).hasClass("hidden")) $(bio).toggleClass("hidden")
         }
 
 
