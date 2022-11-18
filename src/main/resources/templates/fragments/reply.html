@@ -98,7 +98,7 @@
         <div class="font-opensans font-medium text-zinc-300 text-lg mb-4" th:utext="${postReply.content.text}"></div>
         <img th:src="${postReply.content.image}"/>
         <div th:unless="userpage" class="flex flex-auto flex-col justify-center m-auto w-full" th:if="${postReply.content.audio != ''}">
-            <audio controls crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}">
+            <audio class="w-full" controls crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}">
                 <source th:src="@{${postReply.content.audio}}" type="audio/mpeg">
                 <source th:src="@{${postReply.content.audio}}" type="audio/ogg">
                 <source th:src="@{${postReply.content.audio}}" type="audio/wav">
@@ -106,7 +106,7 @@
             </audio>
         </div>
         <div th:unless="userpage" class="flex flex-auto flex-col justify-center m-auto w-full" th:if="${postReply.content.recording != ''}">
-            <audio controls crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}">
+            <audio class="w-full" controls crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}">
                 <source th:src="@{${postReply.content.recording}}" type="audio/ogg">
                 <source th:src="@{${postReply.content.recording}}" type="audio/wav">
                 Your browser does not support the audio element.

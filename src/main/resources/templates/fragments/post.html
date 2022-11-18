@@ -114,7 +114,7 @@
                 th:src="@{${post.content.image}}"/></a>
     </div>
     <div class="flex flex-auto flex-col justify-center m-auto w-full" th:if="${post.content.audio != ''}">
-        <audio controls crossorigin="anonymous" th:id="@{${post.postId}}">
+        <audio class="w-full" controls crossorigin="anonymous" th:id="@{${post.postId}}">
             <source th:src="@{${post.content.audio}}" type="audio/mpeg">
             <source th:src="@{${post.content.audio}}" type="audio/ogg">
             <source th:src="@{${post.content.audio}}" type="audio/wav">
@@ -122,7 +122,7 @@
         </audio>
     </div>
     <div class="flex flex-auto flex-col justify-center m-auto w-full" th:if="${post.content.recording != ''}">
-        <audio controls crossorigin="anonymous">
+        <audio class="w-full" controls crossorigin="anonymous">
             <source th:src="@{${post.content.recording}}" type="audio/ogg">
             <source th:src="@{${post.content.recording}}" type="audio/wav">
             Your browser does not support the audio element.

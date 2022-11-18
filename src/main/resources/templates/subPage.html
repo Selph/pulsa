@@ -13,7 +13,7 @@
             <div class="p-4 bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400">
                 <img class="bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400" th:src="*{sub.image}"/>
             </div>
-            <div th:if="${session?.user}" th:switch="${following}" class="relative font-audiowide m-auto w-full text-lg overflow-hidden bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400 w-max text-center right-auto">
+            <div th:if="${session?.user}" th:switch="${following}" class="relative font-audiowide m-auto w-full text-lg overflow-hidden bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400 text-center right-auto">
                 <div th:case="false" class="m-auto">
                     <form class="w-1/4 m-auto" action="#" method="post" th:action="@{/p/} + ${sub.slug} + @{/toggleFollow}">
                         <input class="btn mb-4 m-auto" type="submit" value="Fylgja">
