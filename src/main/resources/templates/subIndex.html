@@ -31,7 +31,7 @@
             <li class="bg-slate-800 p-5 rounded-2xl m-10 w-fit ml-auto mr-auto" th:each="sub : ${subs}">
                 <a th:href="@{'/p/' + ${sub.slug}}">
                     <div class="absolute overflow-hidden bg-black w-fit text-center m-auto">
-                        <p class="font-bold text-5xl text-center" th:text="${sub.name}"></p>
+                        <p class="font-bold text-5xl font-audiowide text-center" th:text="${sub.name}"></p>
                     </div>
                     <div class="p-4 bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400">
                         <img class="bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400" th:src="*{sub.image}"/>
