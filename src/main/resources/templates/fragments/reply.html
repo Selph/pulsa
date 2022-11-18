@@ -93,20 +93,20 @@
                           stroke-linejoin="round"/>
                 </svg>
             </div>
-            <canvas th:unless="userpage" class="osc w-full -mt-[28px] ml-8" th:id="@{${post.postId} + '/' + ${postReply.replyId}}"></canvas>
+            <canvas class="osc w-full -mt-[28px] ml-8" th:id="@{${post.postId} + '/' + ${postReply.replyId}}"></canvas>
         </div>
         <div class="font-opensans font-medium text-zinc-300 text-lg mb-4" th:utext="${postReply.content.text}"></div>
         <img th:src="${postReply.content.image}"/>
-        <div th:unless="userpage" class="flex flex-auto flex-col justify-center m-auto w-full" th:if="${postReply.content.audio != ''}">
-            <audio class="w-full" controls crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}">
+        <div class="flex flex-auto flex-col justify-center m-auto w-full" th:if="${postReply.content.audio != ''}">
+            <audio class="" controls crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}">
                 <source th:src="@{${postReply.content.audio}}" type="audio/mpeg">
                 <source th:src="@{${postReply.content.audio}}" type="audio/ogg">
                 <source th:src="@{${postReply.content.audio}}" type="audio/wav">
                 Your browser does not support the audio element.
             </audio>
         </div>
-        <div th:unless="userpage" class="flex flex-auto flex-col justify-center m-auto w-full" th:if="${postReply.content.recording != ''}">
-            <audio class="w-full" controls crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}">
+        <div class="flex flex-auto flex-col justify-center m-auto w-full" th:if="${postReply.content.recording != ''}">
+            <audio class="" controls crossorigin="anonymous" th:id="@{${post.postId} + '/' + ${postReply.replyId}}">
                 <source th:src="@{${postReply.content.recording}}" type="audio/ogg">
                 <source th:src="@{${postReply.content.recording}}" type="audio/wav">
                 Your browser does not support the audio element.
@@ -142,7 +142,6 @@
 
                 <label class="btn w-36 ml-3 mr-3" for="audio">Audio file</label>
                 <input class="btn w-36 ml-3" onclick="recordAudio(this, 'recording')" type="button" value="Record">
-                <div th:replace="fragments/recorderScript :: recorderScript"></div>
                 <input
                         accept="audio/*"
                         capture
@@ -153,7 +152,6 @@
                         type="file"
                         value="*{audio}">
             </div>
-            <div th:replace="fragments/playerScript :: playerScript"></div>
             <audio controls id="player"></audio>
             <input class="btn w-36 ml-auto mr-auto mt-6" type="submit" value="Submit reply">
         </form>

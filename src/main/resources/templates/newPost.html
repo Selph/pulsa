@@ -39,7 +39,6 @@
                         type="text"
                         value="recording">
                 <input class="btn w-36 text-green-400 ml-3" onclick="recordAudio(this, 'recording')" type="button" value="Record">
-                <div th:replace="fragments/recorderScript :: recorderScript"></div>
                 <input
                         class="hidden"
                         accept="audio/*"
@@ -50,7 +49,6 @@
                         type="file"
                         value="*{audio}">
             </div>
-            <div th:replace="fragments/playerScript :: playerScript"></div>
             <audio controls id="player"></audio>
             <input class="btn ml-auto mr-auto w-48 mt-8" type="submit" value="Create new post">
         </div>

@@ -159,7 +159,6 @@
 
                 <label class="btn w-36 ml-3 mr-3" for="audio">Audio file</label>
                 <input class="btn w-36 ml-3" onclick="recordAudio(this, 'recording')" type="button" value="Record">
-                <div th:replace="fragments/recorderScript :: recorderScript"></div>
                 <input
                         accept="audio/*"
                         capture
@@ -170,7 +169,6 @@
                         type="file"
                         value="*{audio}">
             </div>
-            <div th:replace="fragments/playerScript :: playerScript"></div>
             <audio controls id="player"></audio>
             <input class="btn w-36 ml-auto mr-auto mt-6" type="submit" value="Submit reply">
         </form>
