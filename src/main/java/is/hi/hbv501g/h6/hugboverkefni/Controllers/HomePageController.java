@@ -25,7 +25,7 @@ public class HomePageController {
         this.replyService = replyService;
     }
 
-    @RequestMapping("/")
+    @RequestMapping("/pulsa")
     public String frontPage(Model model) {
         List<Post> allPosts = postService.getPostsOrderedByCreated();
 
