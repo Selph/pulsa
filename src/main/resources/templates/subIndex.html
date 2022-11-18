@@ -7,11 +7,10 @@
     <div class="flex flex-auto flex-col justify-center m-auto">
         <form action="#" class="flex flex-auto flex-row" enctype="multipart/form-data" method="post"
               th:action="@{/newSub}">
-            <div class="flex flex-row m-auto justify-content-evenly">
+            <div class="flex flex-row m-auto justify-content-evenly mr-4">
                 <label class="mr-3" for="name">Sub Pulsa Name</label>
-                <input class="pl-3" field="*{name}" id="name" name="name" placeholder="Name" type="text">
+                <input class="text-black bg-black border-2 border-white" field="*{name}" id="name" name="name" placeholder="Name" type="text">
             </div>
-            <span class="ml-4 mr-4 h-10 my-auto pr-0.5 bg-amber-100"></span>
             <div class="flex flex-row justify-center mr-5">
                 <p class="mt-3 mr-3">Image</p>
                 <label class="btn" for="image">
