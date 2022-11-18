@@ -9,7 +9,7 @@
     <div class="flex flex-auto flex-col mr-auto ml-auto">
         <form class="flex flex-col" action="#" method="post" th:action="@{'/user/' + *{userName} + '/edit/username'}">
             <label class="text-center font-bold" for="username">Username</label>
-            <input class="text-center bg-black pl-3 h-10 mt-2" field="*{username}" id="username" name="username" th:value="*{userName}" type="text">
+            <input class="text-center bg-black border-2 border-white h-10 mt-2" field="*{username}" id="username" name="username" th:value="*{userName}" type="text">
             <p class="text-center text-red-400" th:if="${error}" th:text="${error}"></p>
             <p class="text-center text-green-400" th:if="${updated}">Username changed</p>
             <input class="mt-2 btn" type="submit" value="Change">

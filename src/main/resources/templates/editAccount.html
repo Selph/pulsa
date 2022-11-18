@@ -18,7 +18,7 @@
                 </nav>
                 <form class="flex flex-col ml-8" action="#" method="post" th:action="@{'/user/' + *{user_id} + '/edit'}">
                     <label class="font-bold" for="realName">Fullt nafn:</label>
-                    <input class="pl-3 h-10 mt-2 text-center bg-black border-2 border-white" field="*{realName}" id="realName" name="realName" th:value="*{realName}" type="text">
+                    <input class="h-10 mt-2 text-center bg-black border-2 border-white" field="*{realName}" id="realName" name="realName" th:value="*{realName}" type="text">
                     <p th:if="${updated}">Name changed</p>
                     <!-- Hægt að bæta Bio, lista af subs og posts -->
                     <input class="mt-2 btn" type="submit" value="Update">

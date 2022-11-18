@@ -9,7 +9,7 @@
                 <a class="font-audiowide text-sky-400 text-opacity-80 ml-4" th:href="@{'/u/' + ${postReply.creator.userName}}"><p
                         th:text=" ${postReply.creator.userName}"></p></a>
             </div>
-            <form th:unless="userpage" action="#" class="upvote_reply" method="post"
+            <form action="#" class="upvote_reply" method="post"
                   th:action="@{/r/} + ${post.postId} + @{/upvote}" th:if="${session?.user}">
                 <div th:if="${postReply.findVoter(session.user).isPresent()}">
                     <label class="flex flex-auto flex-row"
