@@ -232,13 +232,12 @@ public class PostController {
         String imgUrl = "";
         String audioUrl = "";
         String recordingUrl = "";
-        if (!image.isEmpty()) imgUrl = cloudinaryService.uploadImage(image);
-        if (!audio.isEmpty()) audioUrl = cloudinaryService.uploadAudio(audio);
-        if (recording.length() != 9) recordingUrl = cloudinaryService.uploadRecording(recording);
+        if (!image.isEmpty()) imgUrl = cloudinaryService.securify(cloudinaryService.uploadImage(image));
+        if (!audio.isEmpty()) audioUrl = cloudinaryService.securify(cloudinaryService.uploadAudio(audio));
+        if (recording.length() != 9) recordingUrl = cloudinaryService.securify(cloudinaryService.uploadRecording(recording));
         Content c = new Content(text, imgUrl, audioUrl, recordingUrl);
         return c;
     }
-
 
     private User getUser() {
         User user = userService.getUsers().get(0);

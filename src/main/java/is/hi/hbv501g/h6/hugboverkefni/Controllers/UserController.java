@@ -141,7 +141,7 @@ public class UserController {
         }
 
         User user = (User) session.getAttribute("user");
-        String avatarUrl = cloudinaryService.uploadImage(avatar);
+        String avatarUrl = cloudinaryService.securify(cloudinaryService.uploadImage(avatar));
         user.setAvatar(avatarUrl);
         userService.editAvatar(user);
 

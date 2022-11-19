@@ -101,4 +101,10 @@ public class CloudinaryService {
         fos.close();
         return convFile;
     }
+
+    public String securify(String url) {
+        StringBuffer str = new StringBuffer(url);
+        str.insert(4, 's');
+        return str.toString();
+    }
 }
