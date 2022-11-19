@@ -59,7 +59,7 @@ public class CloudinaryService {
     public String uploadAudio(MultipartFile file) {
         try {
             File uploadedFile = convertMultiPartToFile(file);
-            Map uploadResult = cloudinary.uploader().upload(uploadedFile, ObjectUtils.asMap("resource_type", "video"));
+            Map uploadResult = cloudinary.uploader().upload(uploadedFile, ObjectUtils.asMap("resource_type", "video", "secure", "true"));
             boolean isDeleted = uploadedFile.delete();
 
             if (isDeleted) {

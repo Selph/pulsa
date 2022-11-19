@@ -10,7 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Validator;
 import java.util.List;
 import java.util.Optional;
@@ -95,7 +94,7 @@ public class UserServiceImplementation implements UserService {
         if (!result.hasErrors()) userRepository.save(user);
     }
 
-    public void addNewUser2(User user) {
+    public void addDefaultUser(User user) {
         Optional<User> userName = userRepository.findByUserName(user.getUserName());
         Optional<User> email = userRepository.findByEmail(user.getEmail());
         System.out.println("username: " + user.getUserName());

@@ -1,5 +1,5 @@
 <script>
-    let ctx = new AudioContext();
+    let ctx = null;
     let analyzer = null;
     let src = null;
     let bufLen = 0;
@@ -123,6 +123,9 @@
     let audioElements = document.getElementsByTagName("audio");
     for (let audioElement of audioElements) {
         audioElement.addEventListener('play', event => {
+            if (ctx === null) {
+                ctx = new AudioContext();
+            }
             if (playing) {
                 if (audioElement !== element) {
                     element.pause();
