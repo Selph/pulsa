@@ -14,25 +14,8 @@ import java.util.ArrayList;
 public class ReplyConfig {
 
     @Bean
-    CommandLineRunner commandLineReplyRunner(ReplyRepository replyRepository, UserRepository userRepository, SubRepository subRepository) {
+    CommandLineRunner commandLineReplyRunner() {
         return args -> {
-           Content content = new Content("Fyrsta comment", "mynd.jpg", "hljod.wav", "upptaka.wav");
-            Sub sub = subRepository.findBySlug("starwars");
-            User user = new User(
-                    "gervinotandi2",
-                    "gervi",
-                    "gervikona",
-                    "mynd.jpg",
-                    "net@fa.ng");
-            Reply Joseph = new Reply(
-                    content,
-                    user,
-                    new ArrayList<Voter>(),
-                    new ArrayList<Reply>(),
-                    sub
-            );
-            userRepository.save(user);
-            replyRepository.save(Joseph);
         };
     }
 }

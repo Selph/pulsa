@@ -12,13 +12,8 @@ import java.util.List;
 public class SubConfig {
 
     @Bean
-    CommandLineRunner commandLineSubRunner(SubRepository subRepository) {
+    CommandLineRunner commandLineSubRunner() {
         return args -> {
-            Sub graenmeti = new Sub("Grænmeti");
-            graenmeti.setImage("https://img.freepik.com/free-photo/healthy-vegetables-wooden-table_1150-38014.jpg");
-            Sub malning = new Sub("Málning Þornar");
-            malning.setImage("https://i0.wp.com/www.goingconcern.com/wp-content/uploads/2019/02/Paint-drying.jpg");
-            subRepository.saveAll(List.of(graenmeti, malning));
         };
     }
 }
