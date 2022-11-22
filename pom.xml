@@ -14,9 +14,6 @@
     <name>hugbo verkefni</name>
     <description>hugbo verkefni</description>
     <packaging>war</packaging>
-    <properties>
-        <java.version>18</java.version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>org.commonmark</groupId>
