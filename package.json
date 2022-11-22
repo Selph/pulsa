@@ -113,7 +113,7 @@
   "scripts": {
     "build:postcss": "NODE_ENV=production postcss src/main/resources/static/css/style.tailwind.css -o target/classes/static/css/tailwind.css",
     "watch:postcss": "NODE_ENV=development postcss src/main/resources/static/css/style.tailwind.css -o target/classes/static/css/tailwind.css -w",
-  "deploy": "yarn run build:postcss; ./mvnw package; $JAVA_HOME/bin/java -jar target/hugboverkefni-0.0.1-SNAPSHOT.jar"
+  "deploy": "yarn build:postcss; ./mvnw package; $JAVA_HOME/bin/java -jar target/hugboverkefni-0.0.1-SNAPSHOT.jar"
   },
   "repository": {
     "type": "git",
