@@ -112,7 +112,8 @@
                 Your browser does not support the audio element.
             </audio>
         </div>
-        <button th:unless="${userpage}" class="w-20 mt-6 ml-auto mr-auto btn reply mb-8" th:id="@{button} + @{/r/} + ${postReply.replyId}" th:value="${postReply.replyId}">Reply</button>
+        <button th:unless="${userpage}" class="w-20 mt-6 ml-auto mr-auto btn reply mb-2" th:id="@{button} + @{/r/} + ${postReply.replyId}" th:value="${postReply.replyId}">Reply</button>
+		<p class="m-auto"th:if="${emptyReplyReply} == ${postReply.replyId}">Reply cannot be empty</p>
         <form th:unless="${userpage}" class="hidden flex flex-col w-1/2 ml-auto mr-auto justify-start" action="#" th:id="@{form} + @{/r/} + ${postReply.replyId}"
               enctype="multipart/form-data"
               method="post" th:action="@{/p/} + ${post.sub.slug} + @{/} + ${post.postId} + @{/} + ${postReply.replyId}">

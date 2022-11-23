@@ -76,6 +76,10 @@ public class SubController {
 
     @RequestMapping(value = "/newSub", method = RequestMethod.POST)
     public String newSubPOST(String name, @RequestParam("image") MultipartFile image, Model model) {
+        if(name.isEmpty()) {
+            model.addAttribute("emptyName", true);
+            return "subIndex";
+        }
         Sub newSub = new Sub(name);
         if (subService.getSubBySlug(newSub.getSlug()) != null) return "subNameDuplicate";
         String imgUrl = "";
