@@ -29,5 +29,6 @@
     </div>
     <p class="text-center w-48 btn ml-auto mr-auto"><a th:href="@{'/p/' + ${sub.slug} + '/newPost'}">Create New Post</a></p>
     <div th:replace="fragments/posts :: posts(sub = true, form = false)"></div>
+    <div layout:fragment="oscillatorCode" th:include="fragments/oscilloscope"></div>
 </div>
 </html>
