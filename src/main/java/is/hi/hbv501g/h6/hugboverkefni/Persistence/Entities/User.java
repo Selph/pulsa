@@ -47,10 +47,9 @@ public class User {
     @Column(unique = true)
     private String email;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Sub> subs = new ArrayList<Sub>();
-
-
+    
     @OneToMany
     private List<Post> posts = new ArrayList<Post>();
 
