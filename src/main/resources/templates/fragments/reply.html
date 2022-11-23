@@ -123,12 +123,12 @@
                 name="text"></textarea>
 
             <div class="flex flex-row mt-8 mb-8 justify-center">
-                <label class="btn w-36 mr-3" for="image">Image file</label>
+                <label class="btn w-36 mr-3" th:for="@{'image/' + ${postReply.replyId}}">Image file</label>
                 <input
                         accept="image/*"
                         class="hidden"
                         field="*{image}"
-                        id="image"
+                        th:id="@{'image/' + ${postReply.replyId}}"
                         name="image"
                         type="file">
 
@@ -141,13 +141,13 @@
                         type="text"
                         value="recording">
 
-                <label class="btn w-36 ml-3 mr-3" for="audio">Audio file</label>
+                <label class="btn w-36 ml-3 mr-3" th:for="@{'audio/' + ${postReply.replyId}}">Audio file</label>
                 <input class="btn w-36 ml-3" th:attr="onclick=|recordAudio(this, 'r/${postReply.replyId}')|"  type="button" value="Record">
                 <input
                         accept="audio/*"
                         capture
                         class="hidden"
-                        id="audio"
+                        th:id="@{'audio/' + ${postReply.replyId}}"
                         name="audio"
                         onchange="play(this)"
                         type="file"
