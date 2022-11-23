@@ -9,7 +9,7 @@
         <div th:replace="fragments/accountHeader :: accountHeader(userName = ${userName})"></div>
         <span class="w-full block p-0.5 h1 bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400 mt-6"></span>
         <div class="flex flex-row justify-between mt-8">
-            <div class="w-1/4 flex flex-col justify-evenly">
+            <div class="w-1/4 flex flex-col h-72" style="margin-top: 42px;margin-left: auto;">
                 <button class="btn bio" th:id="@{button}">User Bio</button>
                 <button class="btn posts mt-4" th:id="@{button}" th:text="'Posts by ' + ${userName}"></button>
                 <button class="btn replies mt-4" th:id="@{button}" th:text="'Replies by ' + ${userName}"/>
