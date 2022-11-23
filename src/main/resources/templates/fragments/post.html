@@ -129,9 +129,9 @@
         </audio>
     </div>
     <canvas th:unless="${post.content.audio == '' && post.content.recording == ''}" class="osc" th:id="@{${post.postId}}"></canvas>
-    <div class="flex flex-col" th:if="${form}">
+    <div class="flex flex-col mt-4" th:if="${form}">
         <button class="w-20 ml-auto mr-auto btn post mb-2" th:id="@{button} + @{/p/} + ${post.postId}" th:value="${post.postId}">Reply</button>
-		<p class="m-auto"th:if="${emptyPostReply}">Reply cannot be empty</p>
+		<p class="m-auto mt-4 font-jetbrains text-red-400"th:if="${emptyPostReply}">Reply must have content!</p>
         <form class="hidden flex flex-col w-1/2 ml-auto mr-auto justify-start mt-6" th:id="@{form} + @{/p/} + ${post.postId}" action="#" enctype="multipart/form-data" method="post"
               th:action="@{/p/} + ${post.sub.slug} + '/' + ${post.postId}">
             <textarea

@@ -10,6 +10,7 @@
             <div class="flex flex-row m-auto justify-content-evenly mr-4">
                 <label class="mr-3" for="name">Sub Pulsa Name</label>
                 <input class="text-white text-center bg-black border-2 border-white" field="*{name}" id="name" name="name" placeholder="Name" type="text">
+                <p class="text-red-400 ml-4" th:if="${emptyName}">Sub Pulsa must have a name!</p>
             </div>
             <div class="flex flex-row justify-center mr-5">
                 <p class="mt-3 mr-3">Image</p>
@@ -25,7 +26,6 @@
             </div>
             <input class="btn m-auto" type="submit" value="Create new sub pulsa">
         </form>
-			<p class="ml-20" th:if="${emptyName}">Name cannot be empty</p>
     </div>
     <div class="flex flex-auto flex-col justify-center m-auto">
         <ul class="">
