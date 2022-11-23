@@ -151,14 +151,14 @@
                 <input
                         field="*{recording}"
                         hidden
-                        id="recording"
+                        th:id="@{'p/' + ${post.postId}}"
                         name="recording"
                         onchange="test(this)"
                         type="text"
                         value="recording">
 
                 <label class="btn w-36 ml-3 mr-3" for="audio">Audio file</label>
-                <input class="btn w-36 ml-3" onclick="recordAudio(this, 'recording')" type="button" value="Record">
+                <input class="btn w-36 ml-3" th:attr="onclick=|recordAudio(this, 'p/${post.postId}')|" type="button" value="Record">
                 <input
                         accept="audio/*"
                         capture
@@ -169,7 +169,7 @@
                         type="file"
                         value="*{audio}">
             </div>
-            <audio controls id="player"></audio>
+            <audio controls th:id="@{'player/p/' + ${post.postId}}"></audio>
             <input class="btn w-36 ml-auto mr-auto mt-6" type="submit" value="Submit reply">
         </form>
     </div>

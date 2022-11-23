@@ -15,7 +15,7 @@
                         }
 
                         mediaRecorder.onstop = async (e) => {
-                            let audioPlayer = document.getElementById('player');
+                            let audioPlayer = document.getElementById('player/' + reply);
 
 
                             const blob = new Blob(chunks, {type: "audio/ogg"});
