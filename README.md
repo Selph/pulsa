@@ -83,7 +83,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Pulsa][product-screenshot]](https://pulsa-production.up.railway.app/)
 
 Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `Selph`, `pulsa`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `Pulsa`, `project_description`
 
@@ -94,13 +94,11 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 ### Built With
 
 * [![Spring][Spring.io]][Spring-url]
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
+* [![Thymeleaf][Thymeleaf.org]][thymeleaf-url]
+* [![Tailwindcss][Tailwindcss.com]][Tailwindcss-url]
+* [![Railway][Railway.app]][Railway-url]
+* [![Maven][Maven.apache.org]][Maven.apache-url]
+* [![Postgres][Postgres.org]][Postgres-url]
 * [![JQuery][JQuery.com]][JQuery-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -232,20 +230,14 @@ Project Link: [https://github.com/Selph/pulsa](https://github.com/Selph/pulsa)
 [product-screenshot]: images/screenshot.png
 [Spring.io]: https://img.shields.io/badge/Spring-FFFFFF?style=for-the-badge&logo=spring&logoColor=6DB33F
 [Spring-url]: https://spring.io/
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-[Svelte-url]: https://svelte.dev/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-[Laravel-url]: https://laravel.com
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com
+[Thymeleaf.org]: https://img.shields.io/badge/Thymeleaf-FFF?style=for-the-badge&logo=thymeleaf&logoColor=005F0F
+[Thymeleaf-url]: https://thymeleaf.org/
+[Railway.app]: https://img.shields.io/badge/Railway-0B0D0E?style=for-the-badge&logo=railway&logoColor=FFF
+[Railway-url]: https://railway.app/
+[Tailwindcss.com]: https://img.shields.io/badge/Tailwindcss-FFF?style=for-the-badge&logo=tailwindcss&logoColor=06B6D4
+[Tailwindcss-url]: https://tailwindcss.com/
+[Maven.apache.org]: https://img.shields.io/badge/Maven-fff?style=for-the-badge&logo=apachemaven&logoColor=C71A36
+[Maven.apache-url]: https://maven.apache.org/
+[Postgres.org]: https://img.shields.io/badge/Postgresql-fff?style=for-the-badge&logo=postgresql&logoColor=4169E1
+[Postgres-url]: https://www.postgresql.org/
 
