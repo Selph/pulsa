@@ -42,7 +42,7 @@
     <a href="https://github.com/Selph/pulsa"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Selph/pulsa">View Demo</a>
+    <a href="https://pulsa-production.up.railway.app/">View Demo</a>
     ·
     <a href="https://github.com/Selph/pulsa/issues">Report Bug</a>
     ·
