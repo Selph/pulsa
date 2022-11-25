@@ -1,5 +1,7 @@
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
+
 <a name="readme-top"></a>
+
 <!--
 *** Thanks for checking out the Best-README-Template. If you have a suggestion
 *** that would make this better, please fork the repo and create a pull request
@@ -7,8 +9,6 @@
 *** Don't forget to give the project a star!
 *** Thanks again! Now go create something AMAZING! :D
 -->
-
-
 
 <!-- PROJECT SHIELDS -->
 <!--
@@ -18,14 +18,13 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
-
-
 
 <!-- PROJECT LOGO -->
 <br />
@@ -37,7 +36,7 @@
 <h3 align="center">Pulsa</h3>
 
   <p align="center">
-    project_description
+    Pulsa is a message board with support for voice communication.
     <br />
     <a href="https://github.com/Selph/pulsa"><strong>Explore the docs »</strong></a>
     <br />
@@ -49,8 +48,6 @@
     <a href="https://github.com/Selph/pulsa/issues">Request Feature</a>
   </p>
 </div>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -78,9 +75,8 @@
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 [![Pulsa][product-screenshot]](https://pulsa-production.up.railway.app/)
@@ -89,23 +85,20 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 ### Built With
 
-* [![Spring][Spring.io]][Spring-url]
-* [![Thymeleaf][Thymeleaf.org]][thymeleaf-url]
-* [![Tailwindcss][Tailwindcss.com]][Tailwindcss-url]
-* [![Railway][Railway.app]][Railway-url]
-* [![Maven][Maven.apache.org]][Maven.apache-url]
-* [![Postgres][Postgres.org]][Postgres-url]
-* [![JQuery][JQuery.com]][JQuery-url]
+- [![Spring][spring.io]][spring-url]
+- [![Thymeleaf][thymeleaf.org]][thymeleaf-url]
+- [![Tailwindcss][tailwindcss.com]][tailwindcss-url]
+- [![Railway][railway.app]][railway-url]
+- [![Maven][maven.apache.org]][maven.apache-url]
+- [![Postgres][postgres.org]][postgres-url]
+- [![JQuery][jquery.com]][jquery-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 This is an example of how you may give instructions on setting up your project locally.
@@ -113,33 +106,32 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
+Java version 18 is required. In addition, some dependencies need to be fetched with `npm`.
+
+- npm
   ```sh
   npm install npm@latest -g
   ```
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
    git clone https://github.com/Selph/pulsa.git
    ```
-3. Install NPM packages
+2. Install NPM packages
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+3. Build and run the project
+   ```sh
+   npm run deploy
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- USAGE EXAMPLES -->
+
 ## Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
@@ -148,23 +140,18 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- ROADMAP -->
+
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [ ] Mobile app
 
 See the [open issues](https://github.com/Selph/pulsa/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- CONTRIBUTING -->
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -180,18 +167,8 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
 <!-- CONTACT -->
+
 ## Contact
 
 Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
@@ -200,21 +177,19 @@ Project Link: [https://github.com/Selph/pulsa](https://github.com/Selph/pulsa)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- ACKNOWLEDGMENTS -->
+
 ## Acknowledgments
 
-* []()
-* []()
-* []()
+- []()
+- []()
+- []()
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/Selph/pulsa.svg?style=for-the-badge
 [contributors-url]: https://github.com/Selph/pulsa/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/Selph/pulsa.svg?style=for-the-badge
@@ -228,18 +203,17 @@ Project Link: [https://github.com/Selph/pulsa](https://github.com/Selph/pulsa)
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
 [product-screenshot]: images/screenshot.png
-[Spring.io]: https://img.shields.io/badge/Spring-FFFFFF?style=for-the-badge&logo=spring&logoColor=6DB33F
-[Spring-url]: https://spring.io/
-[Thymeleaf.org]: https://img.shields.io/badge/Thymeleaf-FFF?style=for-the-badge&logo=thymeleaf&logoColor=005F0F
-[Thymeleaf-url]: https://thymeleaf.org/
-[Railway.app]: https://img.shields.io/badge/Railway-0B0D0E?style=for-the-badge&logo=railway&logoColor=FFF
-[Railway-url]: https://railway.app/
-[Tailwindcss.com]: https://img.shields.io/badge/Tailwindcss-FFF?style=for-the-badge&logo=tailwindcss&logoColor=06B6D4
-[Tailwindcss-url]: https://tailwindcss.com/
-[Maven.apache.org]: https://img.shields.io/badge/Maven-fff?style=for-the-badge&logo=apachemaven&logoColor=C71A36
-[Maven.apache-url]: https://maven.apache.org/
-[Postgres.org]: https://img.shields.io/badge/Postgresql-fff?style=for-the-badge&logo=postgresql&logoColor=4169E1
-[Postgres-url]: https://www.postgresql.org/
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com
-
+[spring.io]: https://img.shields.io/badge/Spring-FFFFFF?style=for-the-badge&logo=spring&logoColor=6DB33F
+[spring-url]: https://spring.io/
+[thymeleaf.org]: https://img.shields.io/badge/Thymeleaf-FFF?style=for-the-badge&logo=thymeleaf&logoColor=005F0F
+[thymeleaf-url]: https://thymeleaf.org/
+[railway.app]: https://img.shields.io/badge/Railway-0B0D0E?style=for-the-badge&logo=railway&logoColor=FFF
+[railway-url]: https://railway.app/
+[tailwindcss.com]: https://img.shields.io/badge/Tailwindcss-FFF?style=for-the-badge&logo=tailwindcss&logoColor=06B6D4
+[tailwindcss-url]: https://tailwindcss.com/
+[maven.apache.org]: https://img.shields.io/badge/Maven-fff?style=for-the-badge&logo=apachemaven&logoColor=C71A36
+[maven.apache-url]: https://maven.apache.org/
+[postgres.org]: https://img.shields.io/badge/Postgresql-fff?style=for-the-badge&logo=postgresql&logoColor=4169E1
+[postgres-url]: https://www.postgresql.org/
+[jquery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
+[jquery-url]: https://jquery.com
