@@ -240,4 +240,6 @@ Project Link: [https://github.com/Selph/pulsa](https://github.com/Selph/pulsa)
 [Maven.apache-url]: https://maven.apache.org/
 [Postgres.org]: https://img.shields.io/badge/Postgresql-fff?style=for-the-badge&logo=postgresql&logoColor=4169E1
 [Postgres-url]: https://www.postgresql.org/
+[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
+[JQuery-url]: https://jquery.com
 
