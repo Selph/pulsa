@@ -38,7 +38,7 @@
   <p align="center">
     Pulsa is a message board with support for voice communication.
     <br />
-    <a href="https://github.com/Selph/pulsa/docs/index.html"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/Selph/pulsa/doc/index.html"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://pulsa-production.up.railway.app/">View Demo</a>
